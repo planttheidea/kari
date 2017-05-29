@@ -1,0 +1,76 @@
+{
+  "author": "tony.quetano@planttheidea.com",
+  "ava": {
+    "babel": "inherit",
+    "concurrency": 5,
+    "failFast": true,
+    "files": [
+      "test/**/*.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "source": [
+      "src/**/*.js"
+    ],
+    "verbose": true
+  },
+  "bugs": {
+    "url": "https://github.com/planttheidea/kari/issues"
+  },
+  "description": "Modular curryable utilities for modern JS",
+  "homepage": "https://github.com/planttheidea/kari#readme",
+  "keywords": [
+    "curry",
+    "functional",
+    "fp"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "kari",
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.5.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-rapid7": "^2.9.0",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-loader": "^1.7.1",
+    "html-webpack-plugin": "^2.28.0",
+    "in-publish": "^2.0.0",
+    "lodash": "^4.17.4",
+    "nyc": "^10.3.2",
+    "optimize-js-plugin": "^0.0.4",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "rimraf": "^2.6.1",
+    "sinon": "^2.3.2",
+    "webpack": "^2.6.1",
+    "webpack-dashboard": "^0.4.0",
+    "webpack-dev-server": "^2.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/planttheidea/kari.git"
+  },
+  "scripts": {
+    "build": "NODE_ENV=development webpack --progress --colors --config=webpack/webpack.config.js",
+    "build:minified": "NODE_ENV=production webpack --progress --colors --config=webpack/webpack.config.minified.js",
+    "clean": "rimraf *.js && rimraf dist",
+    "dev": "NODE_ENV=development webpack-dev-server --progress --colors --config=webpack/webpack.config.dev.js",
+    "lint": "NODE_ENV=test eslint src",
+    "lint:fix": "NODE_ENV=test eslint src --fix",
+    "prepublish": "in-publish && npm run prepublish:compile || echo ''",
+    "prepublish:compile": "npm run lint && npm run test:coverage && npm run clean && npm run transpile && npm run build && npm run build:minified",
+    "start": "npm run dev",
+    "test": "NODE_PATH=. NODE_ENV=test ava --no-cache",
+    "test:coverage": "nyc npm test",
+    "test:watch": "NODE_PATH=. NODE_ENV=test ava --watch",
+    "transpile": "babel src --out-dir ."
+  },
+  "version": "1.0.0"
+}
