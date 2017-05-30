@@ -132,6 +132,12 @@ console.log(doIt(1, k.__, 3)(2));
 console.log(doIt(k.__, k.__, 3)(1, 2));
 console.log(doIt(k.__)(k.__)(k.__)(1)(k.__, 3)(2));
 
+const divide = k.curry((a, b) => {
+  return a / b;
+});
+
+console.log(divide(k.__, 4)(2));
+
 
 
 

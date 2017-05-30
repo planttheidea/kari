@@ -147,7 +147,7 @@ const divide = (a, b) => {
 
 const curriedDivide = k.curry(divide);
 
-console.log(curriedDivide(k.__, 4)(2))); // 2
+console.log(curriedDivide(k.__, 4)(2))); // 0.5 (2 / 4)
 ```
 
 #### every
