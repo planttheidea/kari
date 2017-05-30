@@ -81,479 +81,479 @@ There are some really killer libraries out there, namely `ramda` and `lodash/fp`
 
 #### append
 
-  > append(newItems: (any|Array<any>), array: Array<any>): Array<any>
+`append(newItems: (any|Array<any>), array: Array<any>): Array<any>`
 
-  Adds the new item(s) to the end of `array`.
+Adds the new item(s) to the end of `array`.
 
-  ```javascript
-  const appended = k.append('baz')(['foo', 'bar']);
+```javascript
+const appended = k.append('baz')(['foo', 'bar']);
 
-  console.log(appended); // ['foo', 'bar', 'baz']
-  ```
+console.log(appended); // ['foo', 'bar', 'baz']
+```
 
 #### compose
 
-  > compose(...fns: Array<function>): function
+`compose(...fns: Array<function>): function`
 
-  Composes the functions passed from right to left into a single function stream.
+Composes the functions passed from right to left into a single function stream.
 
-  ```javascript
-  const add = (a, b) => {
-    return a + b;
-  };
+```javascript
+const add = (a, b) => {
+  return a + b;
+};
 
-  const square = (c) => {
-    return c ** 2;
-  };
+const square = (c) => {
+  return c ** 2;
+};
 
-  const composed = k.compose(square, add);
+const composed = k.compose(square, add);
 
-  console.log(composed(1, 2)); // 9
-  ```
+console.log(composed(1, 2)); // 9
+```
 
 #### curry
 
-  > curry(fn: function, arity: number = fn.length): function
+`curry(fn: function, arity: number = fn.length): function`
 
-  Makes any method curriable based on the arity passed or determined based on function definition.
+Makes any method curriable based on the arity passed or determined based on function definition.
 
-  ```javascript
-  const add = (a, b) => {
-    return a + b;
-  };
+```javascript
+const add = (a, b) => {
+  return a + b;
+};
 
-  const curried = k.curry(add);
+const curried = k.curry(add);
 
-  console.log(curried(1)(2))); // 3
-  ```
+console.log(curried(1)(2))); // 3
+```
 
-  The curried method also accepts any combination of arguments until arity is reached.
+The curried method also accepts any combination of arguments until arity is reached.
 
-  ```javascript
-  const add = (a, b, c) => {
-    return a + b + c;
-  };
+```javascript
+const add = (a, b, c) => {
+  return a + b + c;
+};
 
-  const curried = k.curry(add);
+const curried = k.curry(add);
 
-  console.log(curried(1)(2)(3)); // 9
-  console.log(curried(1, 2)(3)); // 9
-  console.log(curried(1)(2, 3)); // 9
-  console.log(curried(1, 2, 3)); // 9
-  ```
+console.log(curried(1)(2)(3)); // 9
+console.log(curried(1, 2)(3)); // 9
+console.log(curried(1)(2, 3)); // 9
+console.log(curried(1, 2, 3)); // 9
+```
 
 #### every
 
-  > every(fn: function, collection: (Array<any>|Object)): boolean
+`every(fn: function, collection: (Array<any>|Object)): boolean`
 
-  Does every iteration of `collection` return truthy when applied via `fn`.
+Does every iteration of `collection` return truthy when applied via `fn`.
 
-  ```javascript
-  const isPositive = (value, keyOrIndex, collection) => {
-    return value > 0;
-  };
+```javascript
+const isPositive = (value, keyOrIndex, collection) => {
+  return value > 0;
+};
 
-  const arrayResult = k.every(isPositive)([1, 2, 3]);
+const arrayResult = k.every(isPositive)([1, 2, 3]);
 
-  console.log(arrayResult); // true
+console.log(arrayResult); // true
 
-  const objectResult = k.every(isPositive)({
-    one: 1,
-    two: 2,
-    three: 3
-  });
+const objectResult = k.every(isPositive)({
+  one: 1,
+  two: 2,
+  three: 3
+});
 
-  console.log(objectResult); // true
-  ```
+console.log(objectResult); // true
+```
 
 #### filter
 
-  > filter(fn: function, collection: (Array<any>|Object)): (Array<any>|Object)
+`filter(fn: function, collection: (Array<any>|Object)): (Array<any>|Object)`
 
-  Filter down the `collection` passed based on returning truthy from `fn`.
+Filter down the `collection` passed based on returning truthy from `fn`.
 
-  ```javascript
-  const isEven = (value, keyOrIndex, collection) => {
-    return value % 2 === 0;
-  };
+```javascript
+const isEven = (value, keyOrIndex, collection) => {
+  return value % 2 === 0;
+};
 
-  const arrayResult = k.filter(isEven)([1, 2, 3]);
+const arrayResult = k.filter(isEven)([1, 2, 3]);
 
-  console.log(arrayResult); // [2]
+console.log(arrayResult); // [2]
 
-  const objectResult = k.filter(isEven)({
-    zero: 0,
-    one: 1,
-    two: 2
-  });
+const objectResult = k.filter(isEven)({
+  zero: 0,
+  one: 1,
+  two: 2
+});
 
-  console.log(objectResult); // {zero: 0, two: 2}
-  ```
+console.log(objectResult); // {zero: 0, two: 2}
+```
 
 #### find
 
-  > find(fn: function, collection: (Array<any>|Object)): any
+`find(fn: function, collection: (Array<any>|Object)): any`
 
-  Find the first item in `collection` that matches `fn`.
+Find the first item in `collection` that matches `fn`.
 
-  ```javascript
-  const isPositive = (value, keyOrIndex, collection) => {
-    return value > 1;
-  };
+```javascript
+const isPositive = (value, keyOrIndex, collection) => {
+  return value > 1;
+};
 
-  const arrayResult = k.find(isPositive)([1, 2, 3]);
+const arrayResult = k.find(isPositive)([1, 2, 3]);
 
-  console.log(arrayResult); // 2
+console.log(arrayResult); // 2
 
-  const objectResult = k.find(isPositive)({
-    zero: 0,
-    one: 1,
-    two: 2
-  });
+const objectResult = k.find(isPositive)({
+  zero: 0,
+  one: 1,
+  two: 2
+});
 
-  console.log(objectResult); // 2
-  ```
+console.log(objectResult); // 2
+```
 
 #### findIndex
 
-  > find(fn: function, collection: (Array<any>|Object)): any
+`findIndex(fn: function, collection: (Array<any>|Object)): any`
 
-  Find the first item in `collection` that matches `fn`.
+Find the first item in `collection` that matches `fn`.
 
-  ```javascript
-  const isPositive = (value, keyOrIndex, collection) => {
-    return value > 1;
-  };
+```javascript
+const isPositive = (value, keyOrIndex, collection) => {
+  return value > 1;
+};
 
-  const arrayResult = k.findIndex(isPositive)([1, 2, 3]);
+const arrayResult = k.findIndex(isPositive)([1, 2, 3]);
 
-  console.log(arrayResult); // 1
+console.log(arrayResult); // 1
 
-  const objectResult = k.findIndex(isPositive)({
-    zero: 0,
-    one: 1,
-    two: 2
-  });
+const objectResult = k.findIndex(isPositive)({
+  zero: 0,
+  one: 1,
+  two: 2
+});
 
-  console.log(objectResult); // 1
-  ```
+console.log(objectResult); // 1
+```
 
 #### forEach
 
-  > find(fn: function, collection: (Array<any>|Object)): any
+`forEach(fn: function, collection: (Array<any>|Object)): any`
 
-  Iterate over `collection` calling `fn`. Returns `collection` for chainability.
+Iterate over `collection` calling `fn`. Returns `collection` for chainability.
 
-  ```javascript
-  const isPositive = (value, keyOrIndex, collection) => {
-    console.log({
-      collection,
-      keyOrIndex,
-      value
-    });
-  };
-
-  const arrayResult = k.forEach(isPositive)([1, 2, 3]);
-
-  console.log(arrayResult); // [1, 2, 3]
-
-  const objectResult = k.forEach(isPositive)({
-    zero: 0,
-    one: 1,
-    two: 2
+```javascript
+const isPositive = (value, keyOrIndex, collection) => {
+  console.log({
+    collection,
+    keyOrIndex,
+    value
   });
+};
 
-  console.log(objectResult); // {zero: 0, one: 1, two: 2}
-  ```
+const arrayResult = k.forEach(isPositive)([1, 2, 3]);
+
+console.log(arrayResult); // [1, 2, 3]
+
+const objectResult = k.forEach(isPositive)({
+  zero: 0,
+  one: 1,
+  two: 2
+});
+
+console.log(objectResult); // {zero: 0, one: 1, two: 2}
+```
 
 #### get
 
-  > get(path: (Array<number|string>|number|string), collection: (Array<any>|Object)): any
+`get(path: (Array<number|string>|number|string), collection: (Array<any>|Object)): any`
 
-  Get the value stored in `collection` at the given `path`.
+Get the value stored in `collection` at the given `path`.
 
-  ```javascript
-  const object = {
-    some: [
-      {
-        deeply: {
-          nested: [
-            'value'
-          ]
-        }
+```javascript
+const object = {
+  some: [
+    {
+      deeply: {
+        nested: [
+          'value'
+        ]
       }
-    ]
-  };
+    }
+  ]
+};
 
-  const newObject = k.get('some[0].deeply.nested[0]')(object);
+const newObject = k.get('some[0].deeply.nested[0]')(object);
 
-  console.log(newObject); // value
-  ```
+console.log(newObject); // value
+```
 
 #### insert
 
-  > insert(index: number, newItems: (Array<any>|any), array: Array<any>): Array<any>
+`insert(index: number, newItems: (Array<any>|any), array: Array<any>): Array<any>`
 
-  Insert `newItems` into `array` at the provided `index`.
+Insert `newItems` into `array` at the provided `index`.
 
-  ```javascript
-  const newArray = k.insert(2)('x')([1, 2, 3]);
+```javascript
+const newArray = k.insert(2)('x')([1, 2, 3]);
 
-  console.log(newArray); // [1, 2, 'x', 3]
-  ```
+console.log(newArray); // [1, 2, 'x', 3]
+```
 
 #### map
 
-  > map(fn: function, collection: (Array<any>|Object)): (Array<any>|Object)
+`map(fn: function, collection: (Array<any>|Object)): (Array<any>|Object)`
 
-  Map the `collection` passed based on return values from `fn`.
+Map the `collection` passed based on return values from `fn`.
 
-  ```javascript
-  const squareAll = (value, keyOrIndex, collection) => {
-    return value ** 2;
-  };
+```javascript
+const squareAll = (value, keyOrIndex, collection) => {
+  return value ** 2;
+};
 
-  const arrayResult = k.map(squareAll)([1, 2, 3]);
+const arrayResult = k.map(squareAll)([1, 2, 3]);
 
-  console.log(arrayResult); // [1, 4, 9]
+console.log(arrayResult); // [1, 4, 9]
 
-  const objectResult = k.map(squareAll)({
-    one: 1,
-    two: 2,
-    three: 3
-  });
+const objectResult = k.map(squareAll)({
+  one: 1,
+  two: 2,
+  three: 3
+});
 
-  console.log(objectResult); // {one: 1, two: 4, three: 9}
-  ```
+console.log(objectResult); // {one: 1, two: 4, three: 9}
+```
 
 #### omit
 
-  > omit(keys: Array<number|string>, collection: (Array<any>|Object)): (Array<any>|Object)
+`omit(keys: Array<number|string>, collection: (Array<any>|Object)): (Array<any>|Object)`
 
-  Create a new object with the same values as `collection` but with the `keys` removed.
+Create a new object with the same values as `collection` but with the `keys` removed.
 
-  ```javascript
-  const arrayResult = k.omit([1])(['foo', 'bar', 'baz']);
+```javascript
+const arrayResult = k.omit([1])(['foo', 'bar', 'baz']);
 
-  console.log(arrayResult); // ['foo', 'baz']
+console.log(arrayResult); // ['foo', 'baz']
 
-  const objectResult = k.omit(['foo', 'baz'])({foo: 0, bar: 1, baz: 2});
+const objectResult = k.omit(['foo', 'baz'])({foo: 0, bar: 1, baz: 2});
 
-  console.log(objectResult); // {bar: 1}
-  ```
+console.log(objectResult); // {bar: 1}
+```
 
 #### partial
 
-  > partial(fn: function, ...partialArgs: Array<any>): function(...restOfArgs): any
+`partial(fn: function, ...partialArgs: Array<any>): function(...restOfArgs): any`
 
-  Create a partial function that will call `fn` with both `partialArgs` and `restOfArgs`.
+Create a partial function that will call `fn` with both `partialArgs` and `restOfArgs`.
 
-  ```javascript
-  const add = (a, b, c) => {
-    return a + b;
-  };
+```javascript
+const add = (a, b, c) => {
+  return a + b;
+};
 
-  const partialFn = k.partial(add, 1, 2);
+const partialFn = k.partial(add, 1, 2);
 
-  console.log(partialFn(3)); // g
-  ```
+console.log(partialFn(3)); // g
+```
 
 #### partition
 
-  > partition(fn: function, collection: (Array<any>|Object)): (Array<Array<any>>|Object)
+`partition(fn: function, collection: (Array<any>|Object)): (Array<Array<any>>|Object)`
 
-  Create a collection of collections, split into falsy and truthy collections, based on iterations of `collection` calling `fn`. In the case of arrays, the first collection is truthy, and the second is falsy.
+Create a collection of collections, split into falsy and truthy collections, based on iterations of `collection` calling `fn`. In the case of arrays, the first collection is truthy, and the second is falsy.
 
-  ```javascript
-  const isEven = (value, keyOrIndex, collection) => {
-    return value % 2 === 0;
-  };
+```javascript
+const isEven = (value, keyOrIndex, collection) => {
+  return value % 2 === 0;
+};
 
-  const arrayResult = k.partition(isEven)([0, 1, 2, 3]);
+const arrayResult = k.partition(isEven)([0, 1, 2, 3]);
 
-  console.log(arrayResult); // [[0, 2], [1, 3]]
+console.log(arrayResult); // [[0, 2], [1, 3]]
 
-  const objectResult = k.partition(isEven)({
-    zero: 0,
-    one: 1,
-    two: 2,
-    three: 3
-  });
+const objectResult = k.partition(isEven)({
+  zero: 0,
+  one: 1,
+  two: 2,
+  three: 3
+});
 
-  console.log(objectResult); // {truthy: {zero: 0, two: 2}, falsy: {one: 1, three: 3}}
-  ```
+console.log(objectResult); // {truthy: {zero: 0, two: 2}, falsy: {one: 1, three: 3}}
+```
 
 #### pick
 
-  > pick(keys: Array<number|string>, collection: (Array<any>|Object)): (Array<any>|Object)
+`pick(keys: Array<number|string>, collection: (Array<any>|Object)): (Array<any>|Object)`
 
-  Create a new object with the same values as `collection` but only with the `keys` passed.
+Create a new object with the same values as `collection` but only with the `keys` passed.
 
-  ```javascript
-  const arrayResult = k.pick([1])(['foo', 'bar', 'baz']);
+```javascript
+const arrayResult = k.pick([1])(['foo', 'bar', 'baz']);
 
-  console.log(arrayResult); // ['bar']
+console.log(arrayResult); // ['bar']
 
-  const objectResult = k.pick(['foo', 'baz'])({foo: 0, bar: 1, baz: 2});
+const objectResult = k.pick(['foo', 'baz'])({foo: 0, bar: 1, baz: 2});
 
-  console.log(objectResult); // {foo: 0, baz: 2}
-  ```
+console.log(objectResult); // {foo: 0, baz: 2}
+```
 
 #### pipe
 
-  > pipe(...fns: Array<function>): function
+`pipe(...fns: Array<function>): function`
 
-  Composes the functions passed from left to right into a single function stream. The only difference between this method and `compose` is the order of operations for the `fns` passed.
+Composes the functions passed from left to right into a single function stream. The only difference between this method and `compose` is the order of operations for the `fns` passed.
 
-  ```javascript
-  const add = (a, b) => {
-    return a + b;
-  };
+```javascript
+const add = (a, b) => {
+  return a + b;
+};
 
-  const square = (c) => {
-    return c ** 2;
-  };
+const square = (c) => {
+  return c ** 2;
+};
 
-  const piped = k.pipe(add, square);
+const piped = k.pipe(add, square);
 
-  console.log(piped(1, 2)); // 9
-  ```
+console.log(piped(1, 2)); // 9
+```
 
 #### pluck
 
-  > pluck(key: string, array: Array<Object>): Array<any>
+`pluck(key: string, array: Array<Object>): Array<any>`
 
-  Plucks the values at `key` inside of each object in `array` and builds a new array from them.
+Plucks the values at `key` inside of each object in `array` and builds a new array from them.
 
-  ```javascript
-  const values = k.pluck('foo')([{foo: 'foo'}, {bar: 'bar'}, {foo: 'baz'}]);
+```javascript
+const values = k.pluck('foo')([{foo: 'foo'}, {bar: 'bar'}, {foo: 'baz'}]);
 
-  console.log(values); // ['foo', 'baz']
-  ```
+console.log(values); // ['foo', 'baz']
+```
 
 #### prepend
 
-  > prepend(newItems: (any|Array<any>), array: Array<any>): Array<any>
+`prepend(newItems: (any|Array<any>), array: Array<any>): Array<any>`
 
-  Adds the new item(s) to the beginning of `array`.
+Adds the new item(s) to the beginning of `array`.
 
-  ```javascript
-  const prepended = k.prepend('baz')(['foo', 'bar']);
+```javascript
+const prepended = k.prepend('baz')(['foo', 'bar']);
 
-  console.log(prepended); // ['baz', 'foo', 'bar']
-  ```
+console.log(prepended); // ['baz', 'foo', 'bar']
+```
 
 #### reduce
 
-  > reduce(fn: function, collection: (Array<any>|Object), initialValue: ?any): (Array<any>|Object)
+`reduce(fn: function, collection: (Array<any>|Object), initialValue: ?any): (Array<any>|Object)`
 
-  Applies `fn` to calculate a new value based on each iteration, starting with `initialValue`. If no `initialValue` is provided, the first value in `collection` is used.
+Applies `fn` to calculate a new value based on each iteration, starting with `initialValue`. If no `initialValue` is provided, the first value in `collection` is used.
 
-  ```javascript
-  const sum = (accumulator, value, keyOrIndex, collection) => {
-    return accumulator + value;
-  };
+```javascript
+const sum = (accumulator, value, keyOrIndex, collection) => {
+  return accumulator + value;
+};
 
-  const arrayResult = k.reduce(sum)([1, 2, 3])(0);
+const arrayResult = k.reduce(sum)([1, 2, 3])(0);
 
-  console.log(arrayResult); // 6
+console.log(arrayResult); // 6
 
-  const objectResult = k.reduce(sum)({one: 1, two: 2, three: 3})(0);
+const objectResult = k.reduce(sum)({one: 1, two: 2, three: 3})(0);
 
-  console.log(objectResult); // 6
-  ```
+console.log(objectResult); // 6
+```
 
 #### reduceRight
 
-  > reduceRight(fn: function, collection: (Array<any>|Object), initialValue: ?any): (Array<any>|Object)
+`reduceRight(fn: function, collection: (Array<any>|Object), initialValue: ?any): (Array<any>|Object)`
 
-  Applies `fn` to calculate a new value based on each iteration, starting with `initialValue` from the end of `collection` and working to the front. If no `initialValue` is provided, the last value in `collection` is used.
+Applies `fn` to calculate a new value based on each iteration, starting with `initialValue` from the end of `collection` and working to the front. If no `initialValue` is provided, the last value in `collection` is used.
 
-  ```javascript
-  const difference = (accumulator, value, keyOrIndex, collection) => {
-    return accumulator - value;
-  };
+```javascript
+const difference = (accumulator, value, keyOrIndex, collection) => {
+  return accumulator - value;
+};
 
-  const arrayResult = k.reduce(difference)([1, 2, 3])(6);
+const arrayResult = k.reduce(difference)([1, 2, 3])(6);
 
-  console.log(arrayResult); // 0
+console.log(arrayResult); // 0
 
-  const objectResult = k.reduce(difference)({one: 1, two: 2, three: 3})(6);
+const objectResult = k.reduce(difference)({one: 1, two: 2, three: 3})(6);
 
-  console.log(objectResult); // 0
-  ```
+console.log(objectResult); // 0
+```
 
 #### rest
 
-  > rest(size: number, array: Array<any>): Array<any>
+`rest(size: number, array: Array<any>): Array<any>`
 
-  Takes the final *n* number of items from `array`, where *n* is `size`.
+Takes the final *n* number of items from `array`, where *n* is `size`.
 
-  ```javascript
-  const lastThree = k.rest(3)([1, 2, 3, 4, 5, 6]);
+```javascript
+const lastThree = k.rest(3)([1, 2, 3, 4, 5, 6]);
 
-  console.log(lastThree); // [4, 5, 6]
-  ```
+console.log(lastThree); // [4, 5, 6]
+```
 
 #### set
 
-  > set(path: (Array<number|string>|number|string), value: any, collection: (Array<any>|Object)): (Array<any>|Object)
+`set(path: (Array<number|string>|number|string), value: any, collection: (Array<any>|Object)): (Array<any>|Object)`
 
-  Set the `value` in `collection` at the given `path`.
+Set the `value` in `collection` at the given `path`.
 
-  ```javascript
-  const object = {
-    some: [
-      {
-        deeply: {
-          nested: [
-            'value'
-          ]
-        }
+```javascript
+const object = {
+  some: [
+    {
+      deeply: {
+        nested: [
+          'value'
+        ]
       }
-    ]
-  };
+    }
+  ]
+};
 
-  const newObject = k.set('some[0].deeply.nested[0]')('thing')(object);
+const newObject = k.set('some[0].deeply.nested[0]')('thing')(object);
 
-  console.log(newObject); // {some: [{deeply: {nested: ['thing']}}]}
-  ```
+console.log(newObject); // {some: [{deeply: {nested: ['thing']}}]}
+```
 
 #### some
 
-  > some(fn: function, collection: (Array<any>|Object)): boolean
+`some(fn: function, collection: (Array<any>|Object)): boolean`
 
-  Do any of the iterations of `collection` return truthy when applied via `fn`.
+Do any of the iterations of `collection` return truthy when applied via `fn`.
 
-  ```javascript
-  const isPositive = (value, keyOrIndex, collection) => {
-    return value > 0;
-  };
+```javascript
+const isPositive = (value, keyOrIndex, collection) => {
+  return value > 0;
+};
 
-  const arrayResult = k.some(isPositive)([-1, 0, 1]);
+const arrayResult = k.some(isPositive)([-1, 0, 1]);
 
-  console.log(arrayResult); // true
+console.log(arrayResult); // true
 
-  const objectResult = k.some(isPositive)({
-    negativeOne: -1,
-    zero: 0,
-    one: 1
-  });
+const objectResult = k.some(isPositive)({
+  negativeOne: -1,
+  zero: 0,
+  one: 1
+});
 
-  console.log(objectResult); // true
-  ```
+console.log(objectResult); // true
+```
 
 #### take
 
-  > take(size: number, array: Array<any>): Array<any>
+`take(size: number, array: Array<any>): Array<any>`
 
-  Takes the first *n* number of items from `array`, where *n* is `size`.
+Takes the first *n* number of items from `array`, where *n* is `size`.
 
-  ```javascript
-  const firstThree = k.take(3)([1, 2, 3, 4, 5, 6]);
+```javascript
+const firstThree = k.take(3)([1, 2, 3, 4, 5, 6]);
 
-  console.log(firstThree); // [1, 2, 3]
-  ```
+console.log(firstThree); // [1, 2, 3]
+```
 
 ### Development
 
