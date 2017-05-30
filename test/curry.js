@@ -3,7 +3,11 @@ import test from 'ava';
 import _ from 'lodash';
 
 // src
-import curry from 'src/curry';
+import curry, {
+  __,
+  getArgsToPass,
+  getAreArgsFilled
+} from 'src/curry';
 
 test('if curry creates a method that will curry each of the arguments in the method arity', (t) => {
   const method = (a, b, c, d, e) => {
@@ -90,4 +94,36 @@ test('if curry allows for defaults via a custom arity not based on the function 
   }, 0);
 
   t.is(result, expectedResult);
+});
+
+test('if getArgsToPass determines the complete args to pass', (t) => {
+  const originalArgs = [1, __, 3];
+  const futureArgs = [2, 4];
+
+  const result = getArgsToPass(originalArgs, [...futureArgs]);
+  const expectedResult = originalArgs.map((arg) => {
+    return arg !== __ ? arg : futureArgs.shift();
+  });
+
+  t.deepEqual(result, expectedResult);
+});
+
+test('if getAreArgsFilled returns false if args length is less than arity', (t) => {
+  const args = [1, 2];
+  const arity = 3;
+
+  t.false(getAreArgsFilled(args, arity));
+});
+
+test('if getAreArgsFilled returns false if args has a placeholder in it', (t) => {
+  const args = [1, __, 2];
+  const arity = 3;
+
+  t.false(getAreArgsFilled(args, arity));
+});
+test('if getAreArgsFilled returns true if arity is reached and no placeholders exist', (t) => {
+  const args = [1, 2, 3];
+  const arity = 3;
+
+  t.true(getAreArgsFilled(args, arity));
 });

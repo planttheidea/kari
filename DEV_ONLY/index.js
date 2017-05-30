@@ -5,44 +5,44 @@ import {
   render
 } from 'react-dom';
 
-import kari from '../src';
+import k from '../src';
 
-console.log(kari);
+console.log(k);
 
 const abc = (a, b, c) => {
   return [a, b, c];
 };
 
-const curried = kari.curry(abc);
+const curried = k.curry(abc);
 
-console.log(curried(1)(2)(3));
-console.log(curried(1, 2)(3));
-console.log(curried(1)(2, 3));
-console.log(curried(1, 2, 3));
+console.log('all', curried(1)(2)(3));
+console.log('last', curried(1, 2)(3));
+console.log('first', curried(1)(2, 3));
+console.log('none', curried(1, 2, 3));
 
-const curriedForEach = kari.forEach((item, index, items) => {
+const curriedForEach = k.forEach((item, index, items) => {
   console.log(item, index, items);
 }, [1, 2, 3]);
 
 console.log(curriedForEach);
 
-const reduced = kari.reduce((sum, num) => {
+const reduced = k.reduce((sum, num) => {
   return sum + num;
 }, [1, 2, 3, 4, 5], 0);
 
 console.log(reduced);
 
-const partitioned = kari.partition((item) => {
+const partitioned = k.partition((item) => {
   return item % 2 === 0;
 }, [1, 2, 3, 4, 5, 6]);
 
 console.log(partitioned);
 
-console.log(kari.take(5, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
-console.log(kari.take(5)([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+console.log(k.take(5, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+console.log(k.take(5)([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
 
-console.log(kari.rest(5, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
-console.log(kari.rest(5)([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+console.log(k.rest(5, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+console.log(k.rest(5)([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
 
 const add = (a, b) => {
   return a + b
@@ -52,13 +52,13 @@ const square = (c) => {
   return c ** 2
 };
 
-const composeAddSquare = kari.compose(square, add);
-const pipeAddSquare = kari.pipe(add, square);
+const composeAddSquare = k.compose(square, add);
+const pipeAddSquare = k.pipe(add, square);
 
 console.log(composeAddSquare(1, 2));
 console.log(pipeAddSquare(1, 2));
 
-const prepend = kari.prepend('x');
+const prepend = k.prepend('x');
 
 console.log(prepend([1, 2, 3]));
 
@@ -73,11 +73,11 @@ const object = {
 
 console.group('object');
 
-console.log(kari.get('shallow', object));
-console.log(kari.get('nested.very.deeply')(object));
+console.log(k.get('shallow', object));
+console.log(k.get('nested.very.deeply')(object));
 
-console.log(kari.set('shallow', 'bar', object));
-console.log(kari.set('nested.very.deeply', 'baz', object));
+console.log(k.set('shallow', 'bar', object));
+console.log(k.set('nested.very.deeply', 'baz', object));
 
 console.groupEnd();
 
@@ -95,17 +95,17 @@ const array = [
 
 console.group('array');
 
-console.log(kari.get(0)(array));
-console.log(kari.get('0.some.0.deeply.nested')(array));
-console.log(kari.get('[0]some[0]deeply.nested')(array));
-console.log(kari.get([0, 'some', 0, 'deeply', 'nested'])(array));
-console.log(kari.get([0, 'some', 2, 'deeply', 'nested'])(array));
+console.log(k.get(0)(array));
+console.log(k.get('0.some.0.deeply.nested')(array));
+console.log(k.get('[0]some[0]deeply.nested')(array));
+console.log(k.get([0, 'some', 0, 'deeply', 'nested'])(array));
+console.log(k.get([0, 'some', 2, 'deeply', 'nested'])(array));
 
-console.log(kari.set(0)('foo')(array));
-console.log(kari.set('0.some.0.deeply.nested')('thing')(array));
-console.log(kari.set('[0]some[0]deeply.nested')('thing')(array));
-console.log(kari.set([0, 'some', 0, 'deeply', 'nested'])('thing')(array));
-console.log(kari.set([0, 'some', 2, 'deeply', 'nested'])('thing')(array));
+console.log(k.set(0)('foo')(array));
+console.log(k.set('0.some.0.deeply.nested')('thing')(array));
+console.log(k.set('[0]some[0]deeply.nested')('thing')(array));
+console.log(k.set([0, 'some', 0, 'deeply', 'nested'])('thing')(array));
+console.log(k.set([0, 'some', 2, 'deeply', 'nested'])('thing')(array));
 
 console.groupEnd();
 
@@ -115,11 +115,22 @@ const obj = {
   baz: 'baz'
 };
 
-kari.forEach(console.log.bind(console), obj);
+k.forEach(console.log.bind(console), obj);
 
-console.log(kari.filter((value) => {
+console.log(k.filter((value) => {
   return value === 'foo';
 }, obj));
+
+const addThreeNumbers = (a, b, c) => {
+  return a + b + c;
+};
+
+const doIt = k.curry(addThreeNumbers);
+
+console.log(doIt(k.__, 2, k.__)(1)(3));
+console.log(doIt(1, k.__, 3)(2));
+console.log(doIt(k.__, k.__, 3)(1, 2));
+console.log(doIt(k.__)(k.__)(k.__)(1)(k.__, 3)(2));
 
 
 

@@ -1,7 +1,9 @@
 // methods
 import append from './append';
 import compose from './compose';
-import curry from './curry';
+import curry, {
+  __
+} from './curry';
 import every from './every';
 import filter from './filter';
 import find from './find';
@@ -24,6 +26,7 @@ import set from './set';
 import some from './some';
 import take from './take';
 
+export {__};
 export {append};
 export {compose};
 export {curry};
@@ -50,6 +53,7 @@ export {some};
 export {take};
 
 export default {
+  __,
   append,
   compose,
   curry,

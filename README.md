@@ -127,19 +127,27 @@ const curried = k.curry(add);
 console.log(curried(1)(2))); // 3
 ```
 
-The curried method also accepts any combination of arguments until arity is reached.
+The curried method accepts any combination of arguments until arity is reached, and placeholders can also be used with the alias `__`.
 
 ```javascript
 const add = (a, b, c) => {
   return a + b + c;
 };
 
-const curried = k.curry(add);
+const curriedAdd = k.curry(add);
 
-console.log(curried(1)(2)(3)); // 9
-console.log(curried(1, 2)(3)); // 9
-console.log(curried(1)(2, 3)); // 9
-console.log(curried(1, 2, 3)); // 9
+console.log(curriedAdd(1)(2)(3)); // 9
+console.log(curriedAdd(1, 2)(3)); // 9
+console.log(curriedAdd(1)(2, 3)); // 9
+console.log(curriedAdd(1, 2, 3)); // 9
+
+const divide = (a, b) => {
+  return a / b;
+};
+
+const curriedDivide = k.curry(divide);
+
+console.log(curriedDivide(k.__, 4)(2))); // 2
 ```
 
 #### every
