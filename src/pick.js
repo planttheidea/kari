@@ -9,6 +9,22 @@ import {
   isObject
 } from './_utils/is';
 
+function pickArray(keys, array) {
+  return filter((ignored, index) => {
+    return ~keys.indexOf(index);
+  }, array);
+}
+
+function pickObject(keys, object) {
+  return reduce((newObject, key) => {
+    if (object.hasOwnProperty(key)) {
+      newObject[key] = object[key];
+    }
+
+    return newObject;
+  }, keys, {});
+}
+
 /**
  * @function pick
  *
@@ -20,21 +36,13 @@ import {
  * @returns {Array<*>|Object} the object with specific keys picked
  */
 export default curry(function pick(keys, items) {
-  if (isArray(items)) {
-    return filter((ignored, index) => {
-      return ~keys.indexOf(index);
-    }, items);
-  }
-
   if (isObject(items)) {
-    return reduce((newObject, key) => {
-      if (items.hasOwnProperty(key)) {
-        newObject[key] = items[key];
-      }
-
-      return newObject;
-    }, keys, {});
+    return pickObject(keys, items);
   }
 
-  return items;
+  if (isArray(items)) {
+    return pickArray(keys, items);
+  }
+
+  return {};
 });

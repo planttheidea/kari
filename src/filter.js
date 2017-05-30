@@ -67,5 +67,5 @@ export default curry((fn, items) => {
     return filterObject(fn, items);
   }
 
-  return items;
+  return fn(items, 0, [items]) ? [items] : [];
 });

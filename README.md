@@ -250,7 +250,7 @@ console.log(objectResult); // 1
 
 `forEach(fn: function, collection: (Array<any>|Object)): any`
 
-Iterate over `collection` calling `fn`. Returns `collection` for chainability.
+Iterate over `collection` calling `fn`. Returns `collection` for composability.
 
 ```javascript
 const isPositive = (value, keyOrIndex, collection) => {

@@ -71,9 +71,12 @@ test('if partition does the same for objects as it does for arrays', (t) => {
 });
 
 test('if partition returns the items passed if not an object or array', (t) => {
-  const items = 'foo';
+  const items = 1;
+  const isEven = (number) => {
+    return number % 2 === 0;
+  };
 
-  const result = partition(() => {}, items);
+  const result = partition(isEven, items);
 
-  t.is(result, items);
+  t.deepEqual(result, [[], [items]]);
 });

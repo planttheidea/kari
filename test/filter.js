@@ -50,12 +50,22 @@ test('if filter does the same thing for objects as arrays', (t) => {
   });
 });
 
-test('if filter returns the items passed if not an object or array', (t) => {
+test('if filter returns the items passed as an array if not an object or array and returns truthy', (t) => {
   const items = 'foo';
-  const method = sinon.spy();
+  const method = sinon.stub().returns(true);
 
   const result = filter(method, items);
 
-  t.true(method.notCalled);
-  t.is(result, items);
+  t.true(method.calledOnce);
+  t.deepEqual(result, [items]);
+});
+
+test('if filter returns an empty array if not an object or array and returns falsy', (t) => {
+  const items = 'foo';
+  const method = sinon.stub().returns(false);
+
+  const result = filter(method, items);
+
+  t.true(method.calledOnce);
+  t.deepEqual(result, []);
 });

@@ -55,12 +55,17 @@ test('if map does the same thing for objects as arrays', (t) => {
   });
 });
 
-test('if map returns the items passed if not an object or array', (t) => {
+test('if map returns the items passed mapped as an array if not an object or array', (t) => {
   const items = 'foo';
-  const method = sinon.spy();
+  const method = (item, index) => {
+    return {
+      [index]: item
+    };
+  };
 
   const result = map(method, items);
 
-  t.true(method.notCalled);
-  t.is(result, items);
+  t.deepEqual(result, [
+    {0: items}
+  ]);
 });

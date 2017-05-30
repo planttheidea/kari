@@ -71,5 +71,5 @@ export default curry((fn, items) => {
     return forEachObject(fn, items);
   }
 
-  return items;
+  return forEachArray(fn, [items]);
 });

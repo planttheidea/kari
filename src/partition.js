@@ -80,5 +80,5 @@ export default curry(function partition(fn, items) {
     return partitionObject(fn, items);
   }
 
-  return items;
+  return partitionArray(fn, [items]);
 });

@@ -72,11 +72,11 @@ test('if pick only applies the keys that exist in the original object', (t) => {
   });
 });
 
-test('if pick returns the original object if it is not an object or array', (t) => {
+test('if pick returns an empty object if it is not an object or array', (t) => {
   const items = 'foo';
   const keys = ['foo', 'baz'];
 
   const result = pick(keys, items);
 
-  t.is(result, items);
+  t.deepEqual(result, {});
 });

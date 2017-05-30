@@ -63,5 +63,5 @@ export default curry((fn, items) => {
     return mapObject(fn, items);
   }
 
-  return items;
+  return mapArray(fn, [items]);
 });
