@@ -72,5 +72,5 @@
     "test:watch": "NODE_PATH=. NODE_ENV=test ava --watch",
     "transpile": "babel src --out-dir ."
   },
-  "version": "1.0.0"
+  "version": "0.1.0"
 }
