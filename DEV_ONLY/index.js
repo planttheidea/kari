@@ -138,6 +138,13 @@ const divide = k.curry((a, b) => {
 
 console.log(divide(k.__, 4)(2));
 
+console.log(k.modulo(-17, 5));
+console.log(k.modulo(17, 5));
+console.log(k.modulo(17, -5));
+console.log(k.modulo(17, 0));
+console.log(k.modulo(17.2, 5));
+console.log(k.modulo(17, 5.3));
+
 
 
 
