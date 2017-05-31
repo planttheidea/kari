@@ -9,10 +9,12 @@ A tiny, modular, functional library to make all your collections curriable.
   * [Specific module](#sopecific-module)
 * [Difference with other functional libraries](#difference-with-other-functional-libraries)
 * [API](#api)
+  * [ascend](#ascend)
   * [add](#add)
   * [append](#append)
   * [compose](#compose)
   * [curry](#curry)
+  * [descend](#descend)
   * [divide](#divide)
   * [every](#every)
   * [filter](#filter)
@@ -37,6 +39,9 @@ A tiny, modular, functional library to make all your collections curriable.
   * [rest](#rest)
   * [set](#set)
   * [some](#some)
+  * [sort](#sort)
+  * [sortBy](#sortBy)
+  * [sortWith](#sortWith)
   * [subtract](#subtract)
   * [take](#take)
 * [Development](#development)
@@ -109,6 +114,24 @@ const appended = k.append('baz')(['foo', 'bar']);
 console.log(appended); // ['foo', 'bar', 'baz']
 ```
 
+#### ascend
+
+`ascend(fn: function, first: any, second: any): number`
+
+Get the value needed for ascending sort order. This is most commonly used in partial form in combination with a sort method.
+
+```javascript
+const sortByNameAscending = k.ascend(k.get('name'));
+
+const sortedNames = sortByNameAscending([
+  {name: 'Tony'},
+  {name: 'Bill'},
+  {name: 'Dave'}
+]);
+
+console.log(sortedNames); // ['Bill', 'Dave', 'Tony']
+```
+
 #### compose
 
 `compose(...fns: Array<function>): function`
@@ -166,6 +189,24 @@ const divide = (a, b) => {
 const curriedDivide = k.curry(divide);
 
 console.log(curriedDivide(k.__, 4)(2))); // 0.5 (2 / 4)
+```
+
+#### descend
+
+`descend(fn: function, first: any, second: any): number`
+
+Get the value needed for descending sort order. This is most commonly used in partial form in combination with a sort method.
+
+```javascript
+const sortByNameAscending = k.descend(k.get('name'));
+
+const sortedNames = sortByNameDescending([
+  {name: 'Dave'},
+  {name: 'Bill'},
+  {name: 'Tony'}
+]);
+
+console.log(sortedNames); // ['Tony', 'Dave', 'Bill']
 ```
 
 #### divide
@@ -622,6 +663,69 @@ const objectResult = k.some(isPositive)({
 });
 
 console.log(objectResult); // true
+```
+
+#### sort
+
+`sort(fn: function, array: Array<any>): Array<any>`
+
+Return a new array with the values sorted by the comparator.
+
+```javascript
+const comparator = (a, b) => {
+  return a > b;
+};
+
+const sorted = k.sort(comparator)([4, 1, 3, 5, 0, 2]);
+
+console.log(sorted); // [0, 1, 2, 3, 4, 5]
+```
+
+#### sortBy
+
+`sortBy(fn: function, array: Array<any>): Array<any>`
+
+Return a new array with the values sorted by the values returned from the getter function passed.
+
+```javascript
+const items = [
+  {value: 'foo'},
+  {value: 'bar'},
+  {value: 'baz'}
+]
+
+const sorted = k.sortBy(k.get('value'))(items);
+
+console.log(sorted); // [{value: 'bar', value: 'baz', value: 'foo'}]
+```
+
+#### sortWith
+
+`sortWith(fns: Array<function>, array: Array<any>): Array<any>`
+
+Return a new array with the values sorted by each of the comparators passed in order.
+
+```javascript
+const workers = [
+  {name: 'Bill', salary: 40000},
+  {name: 'Alex', salary: 40000},
+  {name: 'Suzy', salary: 50000}
+];
+
+// sort by salary descending first, then sort by name ascending second
+const payroll = k.sortWith([
+  k.descend(k.get('salary')),
+  k.ascend(k.get('name'))
+])(workers);
+
+console.log(payroll);
+/*
+[
+  {name: 'Suzy', salary: 50000},
+  {name: 'Alex', salary: 40000},
+  {name: 'Bill', salary: 40000}
+]
+*/
 ```
 
 #### subtract
