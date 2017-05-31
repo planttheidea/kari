@@ -9,9 +9,11 @@ A tiny, modular, functional library to make all your collections curriable.
   * [Specific module](#sopecific-module)
 * [Difference with other functional libraries](#difference-with-other-functional-libraries)
 * [API](#api)
+  * [add](#add)
   * [append](#append)
   * [compose](#compose)
   * [curry](#curry)
+  * [divide](#divide)
   * [every](#every)
   * [filter](#filter)
   * [find](#find)
@@ -20,6 +22,8 @@ A tiny, modular, functional library to make all your collections curriable.
   * [get](#get)
   * [insert](#insert)
   * [map](#map)
+  * [modulo](#modulo)
+  * [multiply](#multiply)
   * [omit](#omit)
   * [partial](#partial)
   * [partition](#partition)
@@ -29,9 +33,11 @@ A tiny, modular, functional library to make all your collections curriable.
   * [prepend](#prepend)
   * [reduce](#reduce)
   * [reduceRight](#reduceRight)
+  * [remainder](#remainder)
   * [rest](#rest)
   * [set](#set)
   * [some](#some)
+  * [subtract](#subtract)
   * [take](#take)
 * [Development](#development)
 
@@ -78,6 +84,18 @@ console.log(state);
 There are some really killer libraries out there, namely `ramda` and `lodash/fp`, and both were used as inspiration when building this library. The goal with `kari` is to keep the footprint as small as possible while providing a fast and fairly comprehensive collection of utility methods. `kari` is still quite young, and we are looking to make the API more comprehensive, so PRs are welcome!
 
 ### API
+
+#### add
+
+`add(first: number, second: number): number`
+
+Adds two values together.
+
+```javascript
+const sum = k.add(2)(4);
+
+console.log(sum); // 6
+```
 
 #### append
 
@@ -148,6 +166,18 @@ const divide = (a, b) => {
 const curriedDivide = k.curry(divide);
 
 console.log(curriedDivide(k.__, 4)(2))); // 0.5 (2 / 4)
+```
+
+#### divide
+
+`divide(numerator: number, denominator: number): number`
+
+Divides the numerator and the denominator.
+
+```javascript
+const division = k.divide(26)(2);
+
+console.log(division); // 13
 ```
 
 #### every
@@ -334,6 +364,37 @@ const objectResult = k.map(squareAll)({
 console.log(objectResult); // {one: 1, two: 4, three: 9}
 ```
 
+#### modulo
+
+`modulo(numerator: number, modulus: number): number`
+
+Gets the mathematical mod of the numerator and the modulus. Note that this operates differently than the javascript `%` operator in the following ways:
+* Integer arguments are required (decimals will return `NaN`)
+* The `modulus` must be positive (`0` or negative numbers will return `NaN`)
+
+If you are looking for the traditional behavior of the `%` operator, see [remainder](#remainder).
+
+```javascript
+console.log(k.modulo(-17, 5)); // 3
+console.log(k.modulo(17, 5)); // 2
+console.log(k.modulo(17, -5)); // NaN
+console.log(k.modulo(17, 0)); // NaN
+console.log(k.modulo(17.2, 5)); // NaN
+console.log(k.modulo(17, 5.3)); // NaN
+```
+
+#### multiply
+
+`multiply(first: number, second: number): number`
+
+Multiplies two values together.
+
+```javascript
+const product = k.multiply(2)(4);
+
+console.log(product); // 8
+```
+
 #### omit
 
 `omit(keys: Array<number|string>, collection: (Array<any>|Object)): (Array<any>|Object)`
@@ -491,6 +552,18 @@ const objectResult = k.reduce(difference)({one: 1, two: 2, three: 3})(6);
 console.log(objectResult); // 0
 ```
 
+#### remainder
+
+`remainder(numerator: number, denominator: number): number`
+
+Gets the remainder of dividing the `numerator` and the `denominator`. This is the traditional behavior of the `%` operator.
+
+```javascript
+console.log(k.remainder(17)(3)) // 2
+console.log(k.remainder(-17)(3)) // -2
+console.log(k.remainder(17)(-3)) // 2
+```
+
 #### rest
 
 `rest(size: number, array: Array<any>): Array<any>`
@@ -549,6 +622,18 @@ const objectResult = k.some(isPositive)({
 });
 
 console.log(objectResult); // true
+```
+
+#### subtract
+
+`subtract(first: number, second: number): number`
+
+Subtracts the second value from the first.
+
+```javascript
+const difference = k.subtract(10)(4);
+
+console.log(difference); // 6
 ```
 
 #### take

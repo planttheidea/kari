@@ -29,6 +29,32 @@ var isNumber = exports.isNumber = function isNumber(object) {
 };
 
 /**
+ * @function isInteger
+ *
+ * @description
+ * test if the item an integer
+ *
+ * @param {*} object the object to test
+ * @returns {boolean} is the item an integer
+ */
+var isInteger = exports.isInteger = function isInteger(object) {
+  return isNumber(object) && ~~object === object;
+};
+
+/**
+ * @function isPositiveInteger
+ *
+ * @description
+ * is the object passed a positive integer
+ *
+ * @param {number} object the object to test
+ * @returns {boolean} is the object passed a positive integer
+ */
+var isPositiveInteger = exports.isPositiveInteger = function isPositiveInteger(object) {
+  return isInteger(object) && object > 0;
+};
+
+/**
  * @function isObject
  *
  * @description

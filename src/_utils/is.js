@@ -23,6 +23,32 @@ export const isNumber = (object) => {
 };
 
 /**
+ * @function isInteger
+ *
+ * @description
+ * test if the item an integer
+ *
+ * @param {*} object the object to test
+ * @returns {boolean} is the item an integer
+ */
+export const isInteger = (object) => {
+  return isNumber(object) && ~~object === object;
+};
+
+/**
+ * @function isPositiveInteger
+ *
+ * @description
+ * is the object passed a positive integer
+ *
+ * @param {number} object the object to test
+ * @returns {boolean} is the object passed a positive integer
+ */
+export const isPositiveInteger = (object) => {
+  return isInteger(object) && object > 0;
+};
+
+/**
  * @function isObject
  *
  * @description
