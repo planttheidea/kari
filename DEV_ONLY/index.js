@@ -145,6 +145,31 @@ console.log(k.modulo(17, 0));
 console.log(k.modulo(17.2, 5));
 console.log(k.modulo(17, 5.3));
 
+console.log(k.sort((a, b) => {
+  return a > b;
+})([4, 1, 2, 8, 4]));
+
+const sortByFoo = k.sortBy(k.get('foo'));
+
+console.log(sortByFoo([
+  {foo: 'foo'},
+  {foo: 'bar'},
+  {foo: 'baz'}
+]));
+
+const workers = [
+  {name: 'Bill', salary: 40000},
+  {name: 'Suzy', salary: 40000},
+  {name: 'Alex', salary: 50000}
+];
+
+const sortBySalaryThenName = k.sortWith([
+  k.descend(k.get('salary')),
+  k.ascend(k.get('name'))
+]);
+
+console.log(sortBySalaryThenName(workers));
+
 
 
 

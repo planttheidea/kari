@@ -1,10 +1,12 @@
 // methods
 import add from './add';
 import append from './append';
+import ascend from './ascend';
 import compose from './compose';
 import curry, {
   __
 } from './curry';
+import descend from './descend';
 import divide from './divide';
 import every from './every';
 import filter from './filter';
@@ -29,14 +31,19 @@ import remainder from './remainder';
 import rest from './rest';
 import set from './set';
 import some from './some';
+import sort from './sort';
+import sortBy from './sortBy';
+import sortWith from './sortWith';
 import subtract from './subtract';
 import take from './take';
 
 export {__};
 export {add};
 export {append};
+export {ascend};
 export {compose};
 export {curry};
+export {descend};
 export {divide};
 export {every};
 export {filter};
@@ -61,6 +68,9 @@ export {remainder};
 export {rest};
 export {set};
 export {some};
+export {sort};
+export {sortBy};
+export {sortWith};
 export {subtract};
 export {take};
 
@@ -68,8 +78,10 @@ export default {
   __,
   add,
   append,
+  ascend,
   compose,
   curry,
+  descend,
   divide,
   every,
   filter,
@@ -94,6 +106,9 @@ export default {
   rest,
   set,
   some,
+  sort,
+  sortBy,
+  sortWith,
   subtract,
   take
 };
