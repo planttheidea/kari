@@ -143,7 +143,7 @@ console.log(k.modulo(17, 5));
 console.log(k.modulo(17, -5));
 console.log(k.modulo(17, 0));
 console.log(k.modulo(17.2, 5));
-console.log(k.modulo(17, 5.3));
+console.log(k.modulo(17, 5.3, 'foo'));
 
 console.log(k.sort((a, b) => {
   return a > b;

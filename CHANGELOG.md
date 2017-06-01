@@ -1,5 +1,8 @@
 # kari CHANGELOG
 
+### 0.3.1
+* Fix issue where applying extra arguments to curried function would re-curry it
+
 ### 0.3.0
 * Add sort methods:
   * [ascend](README.md#ascend)
