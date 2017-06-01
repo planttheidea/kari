@@ -13,162 +13,172 @@ const abc = (a, b, c) => {
   return [a, b, c];
 };
 
-const curried = k.curry(abc);
+// const curried = k.curry(abc);
 
-console.log('all', curried(1)(2)(3));
-console.log('last', curried(1, 2)(3));
-console.log('first', curried(1)(2, 3));
-console.log('none', curried(1, 2, 3));
-
-const curriedForEach = k.forEach((item, index, items) => {
-  console.log(item, index, items);
-}, [1, 2, 3]);
-
-console.log(curriedForEach);
-
-const reduced = k.reduce((sum, num) => {
-  return sum + num;
-}, [1, 2, 3, 4, 5], 0);
-
-console.log(reduced);
-
-const partitioned = k.partition((item) => {
-  return item % 2 === 0;
-}, [1, 2, 3, 4, 5, 6]);
-
-console.log(partitioned);
-
-console.log(k.take(5, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
-console.log(k.take(5)([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
-
-console.log(k.rest(5, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
-console.log(k.rest(5)([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
-
-const add = (a, b) => {
-  return a + b
-};
-
-const square = (c) => {
-  return c ** 2
-};
-
-const composeAddSquare = k.compose(square, add);
-const pipeAddSquare = k.pipe(add, square);
-
-console.log(composeAddSquare(1, 2));
-console.log(pipeAddSquare(1, 2));
-
-const prepend = k.prepend('x');
-
-console.log(prepend([1, 2, 3]));
-
-const object = {
-  shallow: 'foo',
-  nested: {
-    very: {
-      deeply: 'bar'
-    }
-  }
-};
-
-console.group('object');
-
-console.log(k.get('shallow', object));
-console.log(k.get('nested.very.deeply')(object));
-
-console.log(k.set('shallow', 'bar', object));
-console.log(k.set('nested.very.deeply', 'baz', object));
-
-console.groupEnd();
-
-const array = [
-  {
-    some: [
-      {
-        deeply: {
-          nested: 'value'
-        }
-      }
-    ]
-  }
-];
-
-console.group('array');
-
-console.log(k.get(0)(array));
-console.log(k.get('0.some.0.deeply.nested')(array));
-console.log(k.get('[0]some[0]deeply.nested')(array));
-console.log(k.get([0, 'some', 0, 'deeply', 'nested'])(array));
-console.log(k.get([0, 'some', 2, 'deeply', 'nested'])(array));
-
-console.log(k.set(0)('foo')(array));
-console.log(k.set('0.some.0.deeply.nested')('thing')(array));
-console.log(k.set('[0]some[0]deeply.nested')('thing')(array));
-console.log(k.set([0, 'some', 0, 'deeply', 'nested'])('thing')(array));
-console.log(k.set([0, 'some', 2, 'deeply', 'nested'])('thing')(array));
-
-console.groupEnd();
-
-const obj = {
-  foo: 'foo',
-  bar: 'bar',
-  baz: 'baz'
-};
-
-k.forEach(console.log.bind(console), obj);
-
-console.log(k.filter((value) => {
-  return value === 'foo';
-}, obj));
-
-const addThreeNumbers = (a, b, c) => {
-  return a + b + c;
-};
-
-const doIt = k.curry(addThreeNumbers);
-
-console.log(doIt(k.__, 2, k.__)(1)(3));
-console.log(doIt(1, k.__, 3)(2));
-console.log(doIt(k.__, k.__, 3)(1, 2));
-console.log(doIt(k.__)(k.__)(k.__)(1)(k.__, 3)(2));
-
-const divide = k.curry((a, b) => {
-  return a / b;
-});
-
-console.log(divide(k.__, 4)(2));
-
-console.log(k.modulo(-17, 5));
-console.log(k.modulo(17, 5));
-console.log(k.modulo(17, -5));
-console.log(k.modulo(17, 0));
-console.log(k.modulo(17.2, 5));
+// console.log('okay', curried(1)(2)(3));
+// console.log('last', curried(1, 2)(3));
+// console.log('first', curried(1)(2, 3));
+// console.log('none', curried(1, 2, 3));
+//
+// const curriedForEach = k.forEach((item, index, items) => {
+//   console.log(item, index, items);
+// }, [1, 2, 3]);
+//
+// console.log(curriedForEach);
+//
+// const reduced = k.reduce((sum, num) => {
+//   return sum + num;
+// }, [1, 2, 3, 4, 5], 0);
+//
+// console.log(reduced);
+//
+// const partitioned = k.partition((item) => {
+//   return item % 2 === 0;
+// }, [1, 2, 3, 4, 5, 6]);
+//
+// console.log(partitioned);
+//
+// console.log(k.take(5, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+// console.log(k.take(5)([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+//
+// console.log(k.rest(5, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+// console.log(k.rest(5)([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+//
+// const add = (a, b) => {
+//   return a + b
+// };
+//
+// const square = (c) => {
+//   return c ** 2
+// };
+//
+// const composeAddSquare = k.compose(square, add);
+// const pipeAddSquare = k.pipe(add, square);
+//
+// console.log(composeAddSquare(1, 2));
+// console.log(pipeAddSquare(1, 2));
+//
+// const prepend = k.prepend('x');
+//
+// console.log(prepend([1, 2, 3]));
+//
+// const object = {
+//   shallow: 'foo',
+//   nested: {
+//     very: {
+//       deeply: 'bar'
+//     }
+//   }
+// };
+//
+// console.group('object');
+//
+// console.log(k.get('shallow', object));
+// console.log(k.get('nested.very.deeply')(object));
+//
+// console.log(k.set('shallow', 'bar', object));
+// console.log(k.set('nested.very.deeply', 'baz', object));
+//
+// console.groupEnd();
+//
+// const array = [
+//   {
+//     some: [
+//       {
+//         deeply: {
+//           nested: 'value'
+//         }
+//       }
+//     ]
+//   }
+// ];
+//
+// console.group('array');
+//
+// console.log(k.get(0)(array));
+// console.log(k.get('0.some.0.deeply.nested')(array));
+// console.log(k.get('[0]some[0]deeply.nested')(array));
+// console.log(k.get([0, 'some', 0, 'deeply', 'nested'])(array));
+// console.log(k.get([0, 'some', 2, 'deeply', 'nested'])(array));
+//
+// console.log(k.set(0)('foo')(array));
+// console.log(k.set('0.some.0.deeply.nested')('thing')(array));
+// console.log(k.set('[0]some[0]deeply.nested')('thing')(array));
+// console.log(k.set([0, 'some', 0, 'deeply', 'nested'])('thing')(array));
+// console.log(k.set([0, 'some', 2, 'deeply', 'nested'])('thing')(array));
+//
+// console.groupEnd();
+//
+// const obj = {
+//   foo: 'foo',
+//   bar: 'bar',
+//   baz: 'baz'
+// };
+//
+// k.forEach(console.log.bind(console), obj);
+//
+// console.log(k.filter((value) => {
+//   return value === 'foo';
+// }, obj));
+//
+// const addThreeNumbers = (a, b, c) => {
+//   return a + b + c;
+// };
+//
+// const doIt = k.curry(addThreeNumbers);
+//
+// console.log(doIt(k.__, 2, k.__)(1)(3));
+// console.log(doIt(1, k.__, 3)(2));
+// console.log(doIt(k.__, k.__, 3)(1, 2));
+// console.log(doIt(k.__)(k.__)(k.__)(1)(k.__, 3)(2));
+//
+// const divide = k.curry((a, b) => {
+//   return a / b;
+// });
+//
+// console.log(divide(k.__, 4)(2));
+//
+// console.log(k.modulo(-17, 5));
+// console.log(k.modulo(17, 5));
+// console.log(k.modulo(17, -5));
+// console.log(k.modulo(17, 0));
+// console.log(k.modulo(17.2, 5));
 console.log(k.modulo(17, 5.3));
+console.log(k.modulo(17, 5.3, 'foo'));
+//
+// console.log(k.sort((a, b) => {
+//   return a > b;
+// })([4, 1, 2, 8, 4]));
+//
+// const sortByFoo = k.sortBy(k.get('foo'));
+//
+// console.log(sortByFoo([
+//   {foo: 'foo'},
+//   {foo: 'bar'},
+//   {foo: 'baz'}
+// ]));
+//
+// const workers = [
+//   {name: 'Bill', salary: 40000},
+//   {name: 'Suzy', salary: 40000},
+//   {name: 'Alex', salary: 50000}
+// ];
+//
+// const sortBySalaryThenName = k.sortWith([
+//   k.descend(k.get('salary')),
+//   k.ascend(k.get('name'))
+// ]);
+//
+// console.log(sortBySalaryThenName(workers));
+//
+const fn = function() {
+  return this;
+};
+const object = {};
 
-console.log(k.sort((a, b) => {
-  return a > b;
-})([4, 1, 2, 8, 4]));
+const bound = k.bind(fn)(object);
 
-const sortByFoo = k.sortBy(k.get('foo'));
-
-console.log(sortByFoo([
-  {foo: 'foo'},
-  {foo: 'bar'},
-  {foo: 'baz'}
-]));
-
-const workers = [
-  {name: 'Bill', salary: 40000},
-  {name: 'Suzy', salary: 40000},
-  {name: 'Alex', salary: 50000}
-];
-
-const sortBySalaryThenName = k.sortWith([
-  k.descend(k.get('salary')),
-  k.ascend(k.get('name'))
-]);
-
-console.log(sortBySalaryThenName(workers));
+console.log(bound() === object);
 
 
 

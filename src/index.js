@@ -1,7 +1,9 @@
 // methods
 import add from './add';
 import append from './append';
+import apply from './apply';
 import ascend from './ascend';
+import bind from './bind';
 import compose from './compose';
 import curry, {
   __
@@ -14,10 +16,12 @@ import find from './find';
 import findIndex from './findIndex';
 import forEach from './forEach';
 import get from './get';
+import identity from './identity';
 import insert from './insert';
 import map from './map';
 import modulo from './modulo';
 import multiply from './multiply';
+import nAry from './nAry';
 import omit from './omit';
 import partial from './partial';
 import partition from './partition';
@@ -36,11 +40,15 @@ import sortBy from './sortBy';
 import sortWith from './sortWith';
 import subtract from './subtract';
 import take from './take';
+import tap from './tap';
+import tryCatch from './tryCatch';
 
 export {__};
 export {add};
 export {append};
+export {apply};
 export {ascend};
+export {bind};
 export {compose};
 export {curry};
 export {descend};
@@ -51,10 +59,12 @@ export {find};
 export {findIndex};
 export {forEach};
 export {get};
+export {identity};
 export {insert};
 export {map};
 export {modulo};
 export {multiply};
+export {nAry};
 export {omit};
 export {partial};
 export {partition};
@@ -73,12 +83,16 @@ export {sortBy};
 export {sortWith};
 export {subtract};
 export {take};
+export {tap};
+export {tryCatch};
 
 export default {
   __,
   add,
   append,
   ascend,
+  apply,
+  bind,
   compose,
   curry,
   descend,
@@ -89,10 +103,12 @@ export default {
   findIndex,
   forEach,
   get,
+  identity,
   insert,
   map,
   modulo,
   multiply,
+  nAry,
   omit,
   partial,
   partition,
@@ -110,5 +126,7 @@ export default {
   sortBy,
   sortWith,
   subtract,
-  take
+  take,
+  tap,
+  tryCatch
 };
