@@ -34,7 +34,7 @@ export const getArgsToPass = (originalArgs, nextArgs) => {
  * @returns {boolean} are all of the args filled
  */
 export const getAreArgsFilled = (args, arity) => {
-  if (args.length !== arity) {
+  if (args.length < arity) {
     return false;
   }
 
