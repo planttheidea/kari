@@ -193,6 +193,80 @@ console.log(bound() === object);
 
 
 
+const obj = {
+  foo: 'foo',
+  bar: 'bar',
+  baz: 'baz'
+};
+
+k.forEach(console.log.bind(console), obj);
+
+console.log(k.filter((value) => {
+  return value === 'foo';
+}, obj));
+
+const addThreeNumbers = (a, b, c) => {
+  return a + b + c;
+};
+
+const doIt = k.curry(addThreeNumbers);
+
+console.log(doIt(k.__, 2, k.__)(1)(3));
+console.log(doIt(1, k.__, 3)(2));
+console.log(doIt(k.__, k.__, 3)(1, 2));
+console.log(doIt(k.__)(k.__)(k.__)(1)(k.__, 3)(2));
+
+const divide = k.curry((a, b) => {
+  return a / b;
+});
+
+console.log(divide(k.__, 4)(2));
+
+console.log(k.modulo(-17, 5));
+console.log(k.modulo(17, 5));
+console.log(k.modulo(17, -5));
+console.log(k.modulo(17, 0));
+console.log(k.modulo(17.2, 5));
+console.log(k.modulo(17, 5.3, 'foo'));
+
+console.log(k.sort((a, b) => {
+  return a > b;
+})([4, 1, 2, 8, 4]));
+
+const sortByFoo = k.sortBy(k.get('foo'));
+
+console.log(sortByFoo([
+  {foo: 'foo'},
+  {foo: 'bar'},
+  {foo: 'baz'}
+]));
+
+const workers = [
+  {name: 'Bill', salary: 40000},
+  {name: 'Suzy', salary: 40000},
+  {name: 'Alex', salary: 50000}
+];
+
+const sortBySalaryThenName = k.sortWith([
+  k.descend(k.get('salary')),
+  k.ascend(k.get('name'))
+]);
+
+console.log(sortBySalaryThenName(workers));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class App extends PureComponent {
   render() {
     return (
