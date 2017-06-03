@@ -2,10 +2,8 @@
 import curry from './curry';
 
 // utils
-import {
-  isArray,
-  isObject
-} from './_utils/is';
+import isArray from './_utils/isArray';
+import isObject from './_utils/isObject';
 
 /**
  * @function forEachArray

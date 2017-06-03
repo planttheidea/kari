@@ -4,7 +4,7 @@ import test from 'ava';
 // src
 import partition from 'src/partition';
 
-test('if partition will split the array based on truthy / falsy returns from the method (curried)', (t) => {
+test('if partition will split the array based on truthy / falsy returns from the method', (t) => {
   const items = [1, 2, 3, 4, 5, 6, 7, 8];
   const createMethod = (comparator) => {
     return (num) => {
@@ -13,25 +13,6 @@ test('if partition will split the array based on truthy / falsy returns from the
   };
 
   const result = partition(createMethod(0))(items);
-
-  const truthyResults = items.filter(createMethod(0));
-  const falsyResults = items.filter(createMethod(1));
-
-  t.deepEqual(result, [
-    truthyResults,
-    falsyResults
-  ]);
-});
-
-test('if partition will split the array based on truthy / falsy returns from the method (full arity)', (t) => {
-  const items = [1, 2, 3, 4, 5, 6, 7, 8];
-  const createMethod = (comparator) => {
-    return (num) => {
-      return num % 2 === comparator;
-    };
-  };
-
-  const result = partition(createMethod(0), items);
 
   const truthyResults = items.filter(createMethod(0));
   const falsyResults = items.filter(createMethod(1));

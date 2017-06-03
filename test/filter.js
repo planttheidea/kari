@@ -5,26 +5,13 @@ import sinon from 'sinon';
 // src
 import filter from 'src/filter';
 
-test('if filter will filter the values resulting from the function to a new array (curried)', (t) => {
+test('if filter will filter the values resulting from the function to a new array', (t) => {
   const items = [1, 2, 3, 4, 5];
   const method = (item) => {
     return item % 2 === 0;
   };
 
   const result = filter(method)(items);
-  const expectedResult = items.filter(method);
-
-  t.not(result, items);
-  t.deepEqual(result, expectedResult);
-});
-
-test('if filter will filter the values resulting from the function to a new array (full arity)', (t) => {
-  const items = [1, 2, 3, 4, 5];
-  const method = (item) => {
-    return item % 2 === 0;
-  };
-
-  const result = filter(method, items);
   const expectedResult = items.filter(method);
 
   t.not(result, items);

@@ -4,23 +4,11 @@ import test from 'ava';
 // src
 import modulo from 'src/modulo';
 
-test('if modulo will get the modulo of the first number divided by the second number passed (curried)', (t) => {
+test('if modulo will get the modulo of the first number divided by the second number passed', (t) => {
   const first = 10;
   const second = 4;
 
   const result = modulo(first)(second);
-
-  const jsMod = first % second;
-  const expectedResult = ~~(jsMod >= 0 ? jsMod : jsMod + second);
-
-  t.is(result, expectedResult);
-});
-
-test('if modulo will get the modulo of the first number divided by the second number passed (full arity)', (t) => {
-  const first = 10;
-  const second = 4;
-
-  const result = modulo(first, second);
 
   const jsMod = first % second;
   const expectedResult = ~~(jsMod >= 0 ? jsMod : jsMod + second);

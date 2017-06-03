@@ -24,7 +24,7 @@ const getCompleteArgs = (args, arity) => {
 };
 
 /**
- * @function nAry
+ * @function arity
  *
  * @description
  * create a function that will pass the arity of args requested to fn
@@ -33,7 +33,7 @@ const getCompleteArgs = (args, arity) => {
  * @param {function} fn the fn to define the arity of
  * @returns {function(...Array<*>): *} the function that will apply the arity of args requested to fn
  */
-export default curry(function nAry(arity, fn) {
+export default curry(function arity(arity, fn) {
   return (...args) => {
     return fn.apply(this, getCompleteArgs(args, arity));
   };

@@ -1,6 +1,9 @@
+// utils
+import isFunction from './_utils/isFunction';
+
 const PLACEHOLDER = '__KARI_PARAMETER_PLACEHOLDER__';
 
-export const __ = typeof Symbol === 'function' ? Symbol(PLACEHOLDER) : PLACEHOLDER;
+export const __ = isFunction(Symbol) ? Symbol(PLACEHOLDER) : PLACEHOLDER;
 
 /**
  * @function getArgsToPass

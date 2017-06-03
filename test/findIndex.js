@@ -4,7 +4,7 @@ import test from 'ava';
 // src
 import findIndex from 'src/findIndex';
 
-test('if findIndex will find the index of the item in the array that matches (curried)', (t) => {
+test('if findIndex will find the index of the item in the array that matches', (t) => {
   const items = [
     {
       foo: 'foo'
@@ -19,25 +19,6 @@ test('if findIndex will find the index of the item in the array that matches (cu
   };
 
   const result = findIndex(method)(items);
-
-  t.is(result, 1);
-});
-
-test('if findIndex will find the index of the item in the array that matches (full arity)', (t) => {
-  const items = [
-    {
-      foo: 'foo'
-    }, {
-      foo: 'bar'
-    }, {
-      foo: 'baz'
-    }
-  ];
-  const method = (item) => {
-    return item.foo === 'bar';
-  };
-
-  const result = findIndex(method, items);
 
   t.is(result, 1);
 });

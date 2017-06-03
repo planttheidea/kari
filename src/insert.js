@@ -2,9 +2,7 @@
 import curry from './curry';
 
 // utils
-import {
-  isArray
-} from './_utils/is';
+import isArray from './_utils/isArray';
 
 /**
  * @function insert

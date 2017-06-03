@@ -2,12 +2,8 @@
 import curry from './curry';
 
 // utils
-import {
-  isEmpty
-} from './_utils/is';
-import {
-  getPath
-} from './_utils/object';
+import getPath from './_utils/getPath';
+import isEmpty from './_utils/isEmpty';
 
 /**
  * @function get
