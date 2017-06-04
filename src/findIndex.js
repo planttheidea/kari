@@ -2,9 +2,7 @@
 import curry from './curry';
 
 // utils
-import {
-  getKey
-} from './_utils/object';
+import getKey from './_utils/getKey';
 
 /**
  * @function findIndex

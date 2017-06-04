@@ -4,7 +4,7 @@ import test from 'ava';
 // src
 import find from 'src/find';
 
-test('if find will find the item in the array that matches (curried)', (t) => {
+test('if find will find the item in the array that matches', (t) => {
   const items = [
     {
       foo: 'foo'
@@ -19,25 +19,6 @@ test('if find will find the item in the array that matches (curried)', (t) => {
   };
 
   const result = find(method)(items);
-
-  t.is(result, items[1]);
-});
-
-test('if find will find the item in the array that matches (full arity)', (t) => {
-  const items = [
-    {
-      foo: 'foo'
-    }, {
-      foo: 'bar'
-    }, {
-      foo: 'baz'
-    }
-  ];
-  const method = (item) => {
-    return item.foo === 'bar';
-  };
-
-  const result = find(method, items);
 
   t.is(result, items[1]);
 });

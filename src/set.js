@@ -2,15 +2,11 @@
 import curry from './curry';
 
 // utils
-import {
-  isArray,
-  isNumber,
-  isObject,
-  isEmpty
-} from './_utils/is';
-import {
-  getPath
-} from './_utils/object';
+import getPath from './_utils/getPath';
+import isArray from './_utils/isArray';
+import isEmpty from './_utils/isEmpty';
+import isNumber from './_utils/isNumber';
+import isObject from './_utils/isObject';
 
 /**
  * @function set

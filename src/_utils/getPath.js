@@ -1,26 +1,10 @@
 // utils
-import {
-  isArray,
-  isNumber,
-  isString
-} from './is';
+import getKey from './getKey';
+import isArray from './isArray';
+import isNumber from './isNumber';
+import isString from './isString';
 
 const PERIOD = '.';
-
-/**
- * @function getKey
- *
- * @description
- * get the key as a number if parseable
- *
- * @param {string} key the key to try to parse
- * @returns {number|string} the parsed key
- */
-export const getKey = (key) => {
-  const intKey = +key;
-
-  return `${intKey}` === key ? intKey : key;
-};
 
 /**
  * @function getPath
@@ -31,7 +15,7 @@ export const getKey = (key) => {
  * @param {Array<number|string>|number|string} path the path to parse
  * @returns {Array<number|string>} the parsed path
  */
-export const getPath = (path) => {
+export default function getPath(path) {
   if (isArray(path)) {
     return path;
   }
@@ -57,4 +41,4 @@ export const getPath = (path) => {
       .split(PERIOD)
       .map(getKey);
   }
-};
+}

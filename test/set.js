@@ -4,7 +4,7 @@ import test from 'ava';
 // src
 import set from 'src/set';
 
-test('if set will set the shallow key to be the value passed (curried)', (t) => {
+test('if set will set the shallow key to be the value passed', (t) => {
   const value = 'foo';
 
   const key = 'shallow';
@@ -29,32 +29,7 @@ test('if set will set the shallow key to be the value passed (curried)', (t) => 
   });
 });
 
-test('if set will set the shallow key to be the value passed (full arity)', (t) => {
-  const value = 'foo';
-
-  const key = 'shallow';
-  const object = {
-    shallow: 'value',
-    deeply: [
-      {
-        nested: [
-          {
-            value: 'value'
-          }
-        ]
-      }
-    ]
-  };
-
-  const result = set(key, value, object);
-
-  t.deepEqual(result, {
-    ...object,
-    shallow: value
-  });
-});
-
-test('if set will set the deep key to be the value passed (curried)', (t) => {
+test('if set will set the deep key to be the value passed', (t) => {
   const value = 'foo';
 
   const key = 'deeply[0].nested[0].value';
@@ -72,38 +47,6 @@ test('if set will set the deep key to be the value passed (curried)', (t) => {
   };
 
   const result = set(key)(value)(object);
-
-  t.deepEqual(result, {
-    ...object,
-    deeply: [
-      {
-        nested: [
-          {
-            value
-          }
-        ]
-      }
-    ]
-  });
-});
-test('if set will set the deep key to be the value passed (full arity)', (t) => {
-  const value = 'foo';
-
-  const key = 'deeply[0].nested[0].value';
-  const object = {
-    shallow: 'value',
-    deeply: [
-      {
-        nested: [
-          {
-            value: 'value'
-          }
-        ]
-      }
-    ]
-  };
-
-  const result = set(key, value, object);
 
   t.deepEqual(result, {
     ...object,

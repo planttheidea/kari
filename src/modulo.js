@@ -2,10 +2,8 @@
 import curry from './curry';
 
 // utils
-import {
-  isInteger,
-  isPositiveInteger
-} from './_utils/is';
+import isInteger from './_utils/isInteger';
+import isPositiveInteger from './_utils/isPositiveInteger';
 
 /**
  * @function remainder

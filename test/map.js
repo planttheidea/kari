@@ -1,11 +1,10 @@
 // test
 import test from 'ava';
-import sinon from 'sinon';
 
 // src
 import map from 'src/map';
 
-test('if map will map the values resulting from the function to a new array (curried)', (t) => {
+test('if map will map the values resulting from the function to a new array', (t) => {
   const items = [1, 2, 3, 4, 5];
   const method = (item, index) => {
     return {
@@ -14,21 +13,6 @@ test('if map will map the values resulting from the function to a new array (cur
   };
 
   const result = map(method)(items);
-  const expectedResult = items.map(method);
-
-  t.not(result, items);
-  t.deepEqual(result, expectedResult);
-});
-
-test('if map will map the values resulting from the function to a new array (full arity)', (t) => {
-  const items = [1, 2, 3, 4, 5];
-  const method = (item, index) => {
-    return {
-      [index]: item
-    };
-  };
-
-  const result = map(method, items);
   const expectedResult = items.map(method);
 
   t.not(result, items);

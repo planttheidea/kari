@@ -1,5 +1,5 @@
 /**
- * @function omit
+ * @function partial
  *
  * @param {function} fn the function to make into a partial function
  * @param {...Array<*>} outerArgs arguments to partially assign before fn is executed

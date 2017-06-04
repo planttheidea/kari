@@ -6,22 +6,12 @@ import sinon from 'sinon';
 // src
 import forEach from 'src/forEach';
 
-test('if forEach will iterate over each item in the array and call the method (curried)', (t) => {
+test('if forEach will iterate over each item in the array and call the method', (t) => {
   const method = sinon.spy();
 
   const items = [1, 2, 3, 4, 5];
 
   forEach(method)(items);
-
-  t.is(method.callCount, items.length);
-});
-
-test('if forEach will iterate over each item in the array and call the method (full arity)', (t) => {
-  const method = sinon.spy();
-
-  const items = [1, 2, 3, 4, 5];
-
-  forEach(method, items);
 
   t.is(method.callCount, items.length);
 });

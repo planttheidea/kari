@@ -1,0 +1,14 @@
+export const ARRAY = [];
+export const BOOLEAN = false;
+export const DATE = new Date();
+export const DECIMAL = 123.456;
+export const EMPTY_STRING = '';
+export const FUNCTION = () => {};
+export const NAN = NaN;
+export const NEGATIVE_INTEGER = -123;
+export const NULL = null;
+export const OBJECT = {};
+export const POSITIVE_INTEGER = 123;
+export const STRING = 'foo';
+export const UNDEFINED = undefined;
+export const ZERO = 0;

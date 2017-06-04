@@ -4,10 +4,8 @@ import filter from './filter';
 import reduce from './reduce';
 
 // utils
-import {
-  isArray,
-  isObject
-} from './_utils/is';
+import isArray from './_utils/isArray';
+import isObject from './_utils/isObject';
 
 function pickArray(keys, array) {
   return filter((ignored, index) => {

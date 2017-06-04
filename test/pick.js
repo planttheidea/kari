@@ -4,7 +4,7 @@ import test from 'ava';
 // src
 import pick from 'src/pick';
 
-test('if pick will pick the indices out of the array (curried)', (t) => {
+test('if pick will pick the indices out of the array', (t) => {
   const items = [1, 2, 3, 4, 5, 6];
   const keys = [1, 4];
 
@@ -15,18 +15,7 @@ test('if pick will pick the indices out of the array (curried)', (t) => {
   }));
 });
 
-test('if pick will pick the indices out of the array (full arity)', (t) => {
-  const items = [1, 2, 3, 4, 5, 6];
-  const keys = [1, 4];
-
-  const result = pick(keys, items);
-
-  t.deepEqual(result, keys.map((index) => {
-    return items[index];
-  }));
-});
-
-test('if pick will pick the keys out of the object (curried)', (t) => {
+test('if pick will pick the keys out of the object', (t) => {
   const items = {
     foo: 'bar',
     bar: 'baz',
@@ -35,22 +24,6 @@ test('if pick will pick the keys out of the object (curried)', (t) => {
   const keys = ['foo', 'baz'];
 
   const result = pick(keys)(items);
-
-  t.deepEqual(result, {
-    foo: items.foo,
-    baz: items.baz
-  });
-});
-
-test('if pick will pick the keys out of the object (full arity)', (t) => {
-  const items = {
-    foo: 'bar',
-    bar: 'baz',
-    baz: 'foo'
-  };
-  const keys = ['foo', 'baz'];
-
-  const result = pick(keys, items);
 
   t.deepEqual(result, {
     foo: items.foo,

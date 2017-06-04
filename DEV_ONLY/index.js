@@ -15,7 +15,7 @@ const abc = (a, b, c) => {
 
 const curried = k.curry(abc);
 
-console.log('all', curried(1)(2)(3));
+console.log('okay', curried(1)(2)(3));
 console.log('last', curried(1, 2)(3));
 console.log('first', curried(1)(2, 3));
 console.log('none', curried(1, 2, 3));
@@ -143,8 +143,9 @@ console.log(k.modulo(17, 5));
 console.log(k.modulo(17, -5));
 console.log(k.modulo(17, 0));
 console.log(k.modulo(17.2, 5));
+console.log(k.modulo(17, 5.3));
 console.log(k.modulo(17, 5.3, 'foo'));
-
+//
 console.log(k.sort((a, b) => {
   return a > b;
 })([4, 1, 2, 8, 4]));
@@ -170,6 +171,66 @@ const sortBySalaryThenName = k.sortWith([
 
 console.log(sortBySalaryThenName(workers));
 
+const fn = function(foo) {
+  console.log(foo);
+
+  return this;
+};
+const objectToBind = {};
+
+const bound = k.bind(fn)(objectToBind, ['foo']);
+
+console.log(bound() === objectToBind);
+
+const allFive = (a, b, c, d, e) => {
+  return [a, b, c, d, e];
+};
+
+const onlyTwo = k.arity(2)(allFive);
+
+console.log(onlyTwo('a', 'b', 'c', 'd', 'e'));
+
+const curriedTest = k.curry((a, b, c, d, e) => {
+  return [a, b, c, d, e];
+});
+
+console.log(curriedTest(1, 2, 3, 4, 5));
+
+const uncurried = k.uncurry(5)(curriedTest);
+
+console.log(uncurried(1, 2, 3, 4, 5));
+
+console.log(k.endsWith('o')('foo'));
+console.log(k.endsWith('f')('foo'));
+console.log(k.startsWith('o')('foo'));
+console.log(k.startsWith('f')('foo'));
+
+console.log(k.is(null)(null));
+console.log(k.is(undefined)(undefined));
+console.log(k.is(NaN)(NaN));
+console.log(k.is(String)(''));
+console.log(k.is(Number)(10));
+
+console.log(k.equals({foo: 'bar'}, {foo: 'bar'}));
+
+const testExact = {foo: 'bar'};
+
+console.log(k.is(testExact, testExact));
+
+const log = k.tap(k.bind(console.log, console));
+
+const result = k.map(k.compose(square, log))([1, 2, 3]);
+
+const catchFn = (error, ...args) => {
+  return {
+    args,
+    error
+  };
+};
+
+const tryCatchResult = k.tryCatch(JSON.parse, catchFn)({foo: 'bar'});
+
+console.log(tryCatchResult);
 
 
 

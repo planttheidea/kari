@@ -9,7 +9,7 @@ const isEven = (number) => {
   return number % 2 === 0;
 };
 
-test('if every returns true if all items in the array match the method (curried)', (t) => {
+test('if every returns true if all items in the array match the method', (t) => {
   const items = [1, 2, 3, 4, 5];
 
   const result = every(_.isNumber)(items);
@@ -17,26 +17,10 @@ test('if every returns true if all items in the array match the method (curried)
   t.true(result);
 });
 
-test('if every returns true if all items in the array match the method (full arity)', (t) => {
-  const items = [1, 2, 3, 4, 5];
-
-  const result = every(_.isNumber, items);
-
-  t.true(result);
-});
-
-test('if every returns true if all items in the array match the method (curried)', (t) => {
+test('if every returns true if all items in the array match the method', (t) => {
   const items = [1, 2, 3, 4, 5];
 
   const result = every((isEven))(items);
-
-  t.false(result);
-});
-
-test('if every returns true if all items in the array match the method (full arity)', (t) => {
-  const items = [1, 2, 3, 4, 5];
-
-  const result = every(isEven, items);
 
   t.false(result);
 });
