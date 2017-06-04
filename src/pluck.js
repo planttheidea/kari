@@ -1,6 +1,6 @@
 // methods
 import curry from './curry';
-import reduce from './reduce';
+import forEach from './forEach';
 
 /**
  * @function pluck
@@ -13,11 +13,13 @@ import reduce from './reduce';
  * @returns {Array<*>} the values at key in the array of objects
  */
 export default curry(function pluck(key, items) {
-  return reduce((itemValues, item) => {
-    if (item.hasOwnProperty(key)) {
-      itemValues.push(item[key]);
-    }
+  let pluckedItems = [];
 
-    return itemValues;
-  }, items, []);
+  forEach((item) => {
+    if (item.hasOwnProperty(key)) {
+      pluckedItems.push(item[key]);
+    }
+  }, items);
+
+  return pluckedItems;
 });

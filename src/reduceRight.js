@@ -16,13 +16,12 @@ import forEach from './forEach';
 export default curry(function reduceRight(fn, items, initialValue) {
   const isInitialValueDefined = initialValue === void 0;
   const reversedItems = [...items].reverse();
-  const itemsToIterate = isInitialValueDefined ? reversedItems.slice(1) : reversedItems;
 
   let value = isInitialValueDefined ? reversedItems[0] : initialValue;
 
   forEach((item, index) => {
     value = fn(value, item, index, items);
-  }, itemsToIterate);
+  }, isInitialValueDefined ? reversedItems.slice(1) : reversedItems);
 
   return value;
 });

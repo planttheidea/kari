@@ -24,12 +24,11 @@ export default curry(function insert(key, newItems, items) {
     };
   }
 
-  const itemsToInsert = isArray(newItems) ? newItems : [newItems];
   const array = isArray(items) ? items : [items];
 
   return [
     ...array.slice(0, key),
-    ...itemsToInsert,
+    ...(isArray(newItems) ? newItems : [newItems]),
     ...array.slice(key)
   ];
 });

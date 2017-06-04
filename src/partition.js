@@ -70,13 +70,5 @@ function partitionObject(fn, object) {
  * @returns {Array<Array<*>>|Object} the partitioned items
  */
 export default curry(function partition(fn, items) {
-  if (isArray(items)) {
-    return partitionArray(fn, items);
-  }
-
-  if (isObject(items)) {
-    return partitionObject(fn, items);
-  }
-
-  return partitionArray(fn, [items]);
+  return isObject(items) ? partitionObject(fn, items) : partitionArray(fn, isArray(items) ? items : [items]);
 });

@@ -11,7 +11,7 @@ import curry from './curry';
 export default curry(function sortBy(fn, array) {
   let firstValue, secondValue;
 
-  return [...array].sort(function(first, second) {
+  return [...array].sort((first, second) => {
     firstValue = fn(first);
     secondValue = fn(second);
 

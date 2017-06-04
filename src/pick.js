@@ -7,12 +7,32 @@ import reduce from './reduce';
 import isArray from './_utils/isArray';
 import isObject from './_utils/isObject';
 
-function pickArray(keys, array) {
+/**
+ * @function pickArray
+ *
+ * @description
+ * pick the values from the given array based on the existence of the indices
+ *
+ * @param {Array<number>} indices the indices to match
+ * @param {Array<*>} array the array to pick from
+ * @returns {Array<*>} the array with the picked values
+ */
+function pickArray(indices, array) {
   return filter((ignored, index) => {
-    return ~keys.indexOf(index);
+    return ~indices.indexOf(index);
   }, array);
 }
 
+/**
+ * @function pickObject
+ *
+ * @description
+ * pick the values from the given object based on the existence of the keys
+ *
+ * @param {Array<number>} keys the keys to match
+ * @param {Array<*>} object the object to pick from
+ * @returns {Array<*>} the object with the picked values
+ */
 function pickObject(keys, object) {
   return reduce((newObject, key) => {
     if (object.hasOwnProperty(key)) {
@@ -34,6 +54,12 @@ function pickObject(keys, object) {
  * @returns {Array<*>|Object} the object with specific keys picked
  */
 export default curry(function pick(keys, items) {
+  const isItemsArray = isArray(items);
+
+  if (!isItemsArray && !isObject(items)) {
+    return {};
+  }
+
   if (isObject(items)) {
     return pickObject(keys, items);
   }
@@ -42,5 +68,5 @@ export default curry(function pick(keys, items) {
     return pickArray(keys, items);
   }
 
-  return {};
+  return isItemsArray ? pickArray(keys, items) : pickObject(keys, items);
 });
