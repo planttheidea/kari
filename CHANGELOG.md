@@ -1,5 +1,8 @@
 # kari CHANGELOG
 
+### 0.4.1
+* Make `insert` work with objects as well as arrays
+
 ### 0.4.0
 * Add function methods:
   * [always](README.md#always)
