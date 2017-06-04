@@ -23,6 +23,14 @@ export const getArgsToPass = (originalArgs, nextArgs) => {
     argsToPass[index] = nextArgs.length && originalArgs[index] === __ ? nextArgs.shift() : originalArgs[index];
   }
 
+  if (nextArgs.length) {
+    let nextArg;
+
+    while (nextArg = nextArgs.shift()) {
+      argsToPass[index++] = nextArg;
+    }
+  }
+
   return argsToPass;
 };
 
@@ -63,19 +71,15 @@ export const getAreArgsFilled = (args, arity) => {
  * @returns {function(*): *} the fn passed as a curriable method
  */
 export default function curry(fn, arity = fn.length) {
-  const curried = (...args) => {
+  const curried = function curried(...args) {
     if (getAreArgsFilled(args, arity)) {
-      return fn(...args);
+      return fn.apply(this, args);
     }
 
     return (...nextArgs) => {
-      return curried(...getArgsToPass(args, nextArgs), ...nextArgs);
+      return curried.apply(this, getArgsToPass(args, nextArgs));
     };
   };
-
-  Object.defineProperty(curried, 'name', {
-    value: fn.name
-  });
 
   return curried;
 }
