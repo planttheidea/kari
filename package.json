@@ -19,15 +19,6 @@
     "url": "https://github.com/planttheidea/kari/issues"
   },
   "description": "Modular curryable utilities for modern JS",
-  "homepage": "https://github.com/planttheidea/kari#readme",
-  "keywords": [
-    "curry",
-    "functional",
-    "fp"
-  ],
-  "license": "MIT",
-  "main": "index.js",
-  "name": "kari",
   "devDependencies": {
     "ava": "^0.19.1",
     "babel-cli": "^6.24.1",
@@ -36,6 +27,8 @@
     "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "benchmark": "^2.1.4",
+    "cli-table2": "^0.2.0",
     "eslint": "^3.19.0",
     "eslint-config-rapid7": "^2.9.0",
     "eslint-friendly-formatter": "^3.0.0",
@@ -45,6 +38,8 @@
     "lodash": "^4.17.4",
     "nyc": "^11.0.2",
     "optimize-js-plugin": "^0.0.4",
+    "ora": "^1.2.0",
+    "ramda": "^0.24.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "rimraf": "^2.6.1",
@@ -53,11 +48,21 @@
     "webpack-dashboard": "^0.4.0",
     "webpack-dev-server": "^2.4.5"
   },
+  "homepage": "https://github.com/planttheidea/kari#readme",
+  "keywords": [
+    "curry",
+    "functional",
+    "fp"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "kari",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/planttheidea/kari.git"
   },
   "scripts": {
+    "benchmark": "npm run transpile:benchmark && node benchmark/index.js && npm run clean",
     "build": "NODE_ENV=development webpack --progress --colors --config=webpack/webpack.config.js",
     "build:minified": "NODE_ENV=production webpack --progress --colors --config=webpack/webpack.config.minified.js",
     "clean": "rimraf *.js && rimraf _utils && rimraf dist",
@@ -71,7 +76,8 @@
     "test": "NODE_PATH=. NODE_ENV=test ava",
     "test:coverage": "nyc npm test",
     "test:watch": "NODE_PATH=. NODE_ENV=test ava --watch",
-    "transpile": "babel src --out-dir ."
+    "transpile": "babel src --out-dir .",
+    "transpile:benchmark": "babel src --out-dir lib"
   },
   "version": "0.4.3"
 }
