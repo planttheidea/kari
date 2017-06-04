@@ -16,6 +16,10 @@ import isNAN from './_utils/isNAN';
  * @returns {boolean} is the value an instance of the Constructor
  */
 export default curry(function is(Constructor, value) {
+  if (value === Constructor) {
+    return true;
+  }
+
   if (isFunction(Constructor)) {
     /* eslint-disable eqeqeq */
     return value != null && (
@@ -25,5 +29,5 @@ export default curry(function is(Constructor, value) {
     );
   }
 
-  return value === Constructor || isNAN(Constructor) && isNAN(value);
+  return isNAN(Constructor) && isNAN(value);
 });

@@ -1,5 +1,6 @@
 export const ARRAY = [];
 export const BOOLEAN = false;
+export const DATE = new Date();
 export const DECIMAL = 123.456;
 export const EMPTY_STRING = '';
 export const FUNCTION = () => {};

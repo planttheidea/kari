@@ -211,9 +211,11 @@ console.log(k.is(NaN)(NaN));
 console.log(k.is(String)(''));
 console.log(k.is(Number)(10));
 
-console.log(k.match(/([a-z]a)/g)('bananas'));
-console.log(k.match(/a/)('b'));
-console.log(k.match(/a/)(null));
+console.log(k.equals({foo: 'bar'}, {foo: 'bar'}));
+
+const testExact = {foo: 'bar'};
+
+console.log(k.is(testExact, testExact));
 
 
 
