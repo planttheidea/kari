@@ -1,5 +1,30 @@
 # kari CHANGELOG
 
+### 0.4.0
+* Add function methods:
+  * [always](README.md#always)
+  * [apply](README.md#apply)
+  * [arity](README.md#arity)
+  * [bind](README.md#bind)
+  * [identity](README.md#identity)
+  * [instanceOf](README.md#instanceof)
+  * [partialRight](README.md#partialright)
+  * [tap](README.md#tap)
+  * [tryCatch](README.md#trycatch)
+  * [uncurry](README.md#uncurry)
+* Add more math methods:
+  * [gt](README.md#gt)
+  * [gte](README.md#gte)
+  * [lt](README.md#lt)
+  * [lte](README.md#lte)
+* Add equality comparison methods:
+  * [equals](README.md#equals)
+  * [is](README.md#is)
+* Add more collection test methods:
+  * [endsWith](README.md#endswith)
+  * [includes](README.md#includes)
+  * [startsWith](README.md#startswith)
+
 ### 0.3.1
 * Fix issue where applying extra arguments to curried function would re-curry it
 
@@ -8,8 +33,8 @@
   * [ascend](README.md#ascend)
   * [descend](README.md#descend)
   * [sort](README.md#sort)
-  * [sortBy](README.md#sortBy)
-  * [sortWith](README.md#sortWith)
+  * [sortBy](README.md#sortby)
+  * [sortWith](README.md#sortwith)
 
 ### 0.2.0
 * Add math methods:
