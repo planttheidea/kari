@@ -566,7 +566,7 @@ console.log(k.includes(value)(string)); // true
 
 #### insert
 
-`insert(index: number, newItems: (Array<any>|any), array: Array<any>): Array<any>`
+`insert(index: number, newItems: (Array<any>|any), array: (Array<any>Object)): Array<any>`
 
 Insert `newItems` into `array` at the provided `index`.
 
@@ -574,6 +574,10 @@ Insert `newItems` into `array` at the provided `index`.
 const newArray = k.insert(2)('x')([1, 2, 3]);
 
 console.log(newArray); // [1, 2, 'x', 3]
+
+const newObject = k.insert('bar')('baz')({foo: 'bar'});
+
+console.log(newObject); // {foo: 'bar', bar: 'baz'}
 ```
 
 #### instanceOf
