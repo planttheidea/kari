@@ -30,11 +30,11 @@ test('if omit will omit the keys out of the object', (t) => {
   });
 });
 
-test('if omit will return the original object if not an array or object', (t) => {
+test('if omit will return the original object as an array if not an array or object', (t) => {
   const items = 'foo';
   const keys = ['toString'];
 
   const result = omit(keys, items);
 
-  t.is(result, items);
+  t.deepEqual(result, [items]);
 });

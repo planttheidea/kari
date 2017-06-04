@@ -1,5 +1,6 @@
 .idea
 .nyc_output
 coverage
+lib
 dist
 node_modules

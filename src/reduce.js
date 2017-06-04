@@ -15,13 +15,12 @@ import forEach from './forEach';
  */
 export default curry(function reduce(fn, items, initialValue) {
   const isInitialValueDefined = initialValue === void 0;
-  const itemsToIterate = isInitialValueDefined ? items.slice(1) : items;
 
   let value = isInitialValueDefined ? items[0] : initialValue;
 
   forEach((item, index) => {
     value = fn(value, item, index, items);
-  }, itemsToIterate);
+  }, isInitialValueDefined ? items.slice(1) : items);
 
   return value;
 });

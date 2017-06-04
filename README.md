@@ -566,9 +566,9 @@ console.log(k.includes(value)(string)); // true
 
 #### insert
 
-`insert(index: number, newItems: (Array<any>|any), array: (Array<any>Object)): Array<any>`
+`insert(index: number, newItems: (Array<any>|any), collection: (Array<any>Object)): Array<any>`
 
-Insert `newItems` into `array` at the provided `index`.
+Insert `newItems` into `collection` at the provided `index`.
 
 ```javascript
 const newArray = k.insert(2)('x')([1, 2, 3]);

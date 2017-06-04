@@ -1,7 +1,6 @@
 // methods
 import curry from './curry';
 import filter from './filter';
-import reduce from './reduce';
 
 // utils
 import isArray from './_utils/isArray';
@@ -18,21 +17,7 @@ import isObject from './_utils/isObject';
  * @returns {Array<*>|Object} the original object with the keys passed omitted
  */
 export default curry(function omit(keys, object) {
-  if (isArray(object)) {
-    return filter((ignored, index) => {
-      return !~keys.indexOf(index);
-    }, object);
-  }
-
-  if (isObject(object)) {
-    return reduce((newObject, key) => {
-      if (!~keys.indexOf(key)) {
-        newObject[key] = object[key];
-      }
-
-      return newObject;
-    }, Object.keys(object), {});
-  }
-
-  return object;
+  return filter((ignored, index) => {
+    return !~keys.indexOf(index);
+  }, isArray(object) || isObject(object) ? object : [object]);
 });

@@ -101,10 +101,12 @@ test('if getArgsToPass determines the complete args to pass', (t) => {
   const futureArgs = [2, 4];
 
   const result = getArgsToPass(originalArgs, [...futureArgs]);
-  const expectedResult = originalArgs.map((arg) => {
-    return arg !== __ ? arg : futureArgs.shift();
-  });
-
+  const expectedResult = originalArgs
+    .map((arg) => {
+      return arg !== __ ? arg : futureArgs.shift();
+    })
+    .concat(futureArgs);
+    
   t.deepEqual(result, expectedResult);
 });
 

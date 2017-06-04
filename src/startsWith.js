@@ -9,9 +9,5 @@ import curry from './curry';
  * @returns {boolean} does valueToTest starts with startingValue
  */
 export default curry(function startsWith(startingValue, valueToTest) {
-  if (!valueToTest.length) {
-    return false;
-  }
-
-  return valueToTest[0] === startingValue;
+  return !!valueToTest.length && valueToTest.indexOf(startingValue) === 0;
 });

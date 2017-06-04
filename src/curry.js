@@ -23,7 +23,7 @@ export const getArgsToPass = (originalArgs, nextArgs) => {
     argsToPass[index] = nextArgs.length && originalArgs[index] === __ ? nextArgs.shift() : originalArgs[index];
   }
 
-  return argsToPass;
+  return argsToPass.concat(nextArgs);
 };
 
 /**
@@ -63,19 +63,9 @@ export const getAreArgsFilled = (args, arity) => {
  * @returns {function(*): *} the fn passed as a curriable method
  */
 export default function curry(fn, arity = fn.length) {
-  const curried = (...args) => {
-    if (getAreArgsFilled(args, arity)) {
-      return fn(...args);
-    }
-
-    return (...nextArgs) => {
-      return curried(...getArgsToPass(args, nextArgs), ...nextArgs);
+  return function curried(...args) {
+    return getAreArgsFilled(args, arity) ? fn.apply(this, args) : (...nextArgs) => {
+      return curried.apply(this, getArgsToPass(args, nextArgs));
     };
   };
-
-  Object.defineProperty(curried, 'name', {
-    value: fn.name
-  });
-
-  return curried;
 }

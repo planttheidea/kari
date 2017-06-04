@@ -51,7 +51,7 @@ test('if partition does the same for objects as it does for arrays', (t) => {
   });
 });
 
-test('if partition returns the items passed if not an object or array', (t) => {
+test('if partition returns partition called on the item as the only value in the array if not an object or array', (t) => {
   const items = 1;
   const isEven = (number) => {
     return number % 2 === 0;
