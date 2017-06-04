@@ -25,6 +25,7 @@ import gte from './gte';
 import identity from './identity';
 import includes from './includes';
 import insert from './insert';
+import instanceOf from './instanceOf';
 import is from './is';
 import lt from './lt';
 import lte from './lte';
@@ -80,6 +81,7 @@ export {gte};
 export {identity};
 export {includes};
 export {insert};
+export {instanceOf};
 export {is};
 export {lt};
 export {lte};
@@ -136,6 +138,7 @@ export default {
   identity,
   includes,
   insert,
+  instanceOf,
   is,
   lt,
   lte,

@@ -9,41 +9,60 @@ A tiny, modular, functional library to make all your collections curriable.
   * [Specific module](#sopecific-module)
 * [Difference with other functional libraries](#difference-with-other-functional-libraries)
 * [API](#api)
-  * [ascend](#ascend)
   * [add](#add)
+  * [always](#always)
   * [append](#append)
+  * [apply](#apply)
+  * [arity](#arity)
+  * [ascend](#ascend)
+  * [bind](#bind)
   * [compose](#compose)
   * [curry](#curry)
   * [descend](#descend)
   * [divide](#divide)
+  * [endsWith](#endswith)
+  * [equals](#equals)
   * [every](#every)
   * [filter](#filter)
   * [find](#find)
-  * [findIndex](#findIndex)
-  * [forEach](#forEach)
+  * [findIndex](#findindex)
+  * [forEach](#foreach)
   * [get](#get)
+  * [gt](#gt)
+  * [gte](#gte)
+  * [identity](#identity)
+  * [includes](#includes)
   * [insert](#insert)
+  * [instanceOf](#instanceof)
+  * [is](#is)
+  * [lt](#lt)
+  * [lte](#lte)
   * [map](#map)
   * [modulo](#modulo)
   * [multiply](#multiply)
   * [omit](#omit)
   * [partial](#partial)
+  * [partialRight](#partialRight)
   * [partition](#partition)
   * [pick](#pick)
   * [pipe](#pipe)
   * [pluck](#pluck)
   * [prepend](#prepend)
   * [reduce](#reduce)
-  * [reduceRight](#reduceRight)
+  * [reduceRight](#reduceright)
   * [remainder](#remainder)
   * [rest](#rest)
   * [set](#set)
   * [some](#some)
   * [sort](#sort)
-  * [sortBy](#sortBy)
-  * [sortWith](#sortWith)
+  * [sortBy](#sortby)
+  * [sortWith](#sortwith)
+  * [startsWith](#startswith)
   * [subtract](#subtract)
+  * [tap](#tap)
   * [take](#take)
+  * [tryCatch](#trycatch)
+  * [uncurry](#uncurry)
 * [Development](#development)
 
 ### Installation
@@ -102,6 +121,18 @@ const sum = k.add(2)(4);
 console.log(sum); // 6
 ```
 
+#### always
+
+`always(value: any): function`
+
+Creates a method that will always return the value passed to it.
+
+```javascript
+const alwaysFalse = k.always(false);
+
+console.log(alwaysFalse()); // false
+```
+
 #### append
 
 `append(newItems: (any|Array<any>), array: Array<any>): Array<any>`
@@ -112,6 +143,42 @@ Adds the new item(s) to the end of `array`.
 const appended = k.append('baz')(['foo', 'bar']);
 
 console.log(appended); // ['foo', 'bar', 'baz']
+```
+
+#### apply
+
+`apply(fn: function, args: Array<any>): any`
+
+Applies `fn` with the provided `args` passed. Allows for easy conversion of a variadic function to a fixed-arity function. Note that this differs from `Function.prototype.apply` in that context is not passed, so if context is important it should be bound prior.
+
+```javascript
+const method = (...args) => {
+  return args.reduce((sum, value) => {
+    return sum + value;
+  }, 0);
+};
+
+const result = k.apply(method)([1, 2, 3]);
+
+console.log(result); // 6
+```
+
+#### arity
+
+`arity(size: number, fn: function): function`
+
+Creates a method with a fixed arity of `size`.
+
+```javascript
+const method = (a, b, c) => {
+  return [a, b, c];
+};
+
+console.log(method(1, 2, 3)); // [1, 2, 3]
+
+const onlyTwo = k.arity(2)(method);
+
+console.log(onlyTwo(1, 2, 3)); // [1, 2, undefined]
 ```
 
 #### ascend
@@ -130,6 +197,31 @@ const sortedNames = sortByNameAscending([
 ]);
 
 console.log(sortedNames); // ['Bill', 'Dave', 'Tony']
+```
+
+#### bind
+
+`bind(fn: function, object: any, ...args: Array<any>): function`
+
+Binds the `object` passed to `fn` for context purposes. If additional `args` are passed, they are bound as parameters to the function as well. Please note that additional args cannot be separately curried, they must be passed when the `object` is passed.
+
+```javascript
+const object = {foo: 'bar'};
+
+function foo(...args) {
+  return {
+    args,
+    context: this
+  };
+}
+
+const bound = k.bind(foo)(object);
+
+console.log(bound()); // {args: [], context: {foo: 'bar'}}
+
+const boundWithArgs = k.bind(foo)(object, 'baz');
+
+console.log(boundWithArgs()); // {args: ['baz'], context: {foo: 'bar'}}
 ```
 
 #### compose
@@ -219,6 +311,37 @@ Divides the numerator and the denominator.
 const division = k.divide(26)(2);
 
 console.log(division); // 13
+```
+
+#### endsWith
+
+`endsWith(endingValue: any, objectToTest: (Array<any>|string)): boolean`
+
+Determines if `objectToTest` ends with `endingValue`, either as the last character(s) in the string or as the last item in the array using strict equality.
+
+```javascript
+const endsWithAb = k.endsWith('ab');
+
+console.log(endsWithAb('moab')); // true
+
+const object = {};
+const endsWithObject = k.endsWith(object);
+
+console.log(endsWithObject(['foo', 'bar', object])); // true
+```
+
+#### equals
+
+`equals(firstValue: any, secondValue: any): boolean`
+
+Performs a value-equality comparison between `firstValue` and `secondValue`. If you wish to perform strict equality comparsion, see [is](#is).
+
+```javascript
+const object1 = {foo: 'bar'};
+const object2 = {foo: 'bar'};
+
+console.log(object1 === object2); // false
+console.log(k.equals(object1, object2)); // true
 ```
 
 #### every
@@ -369,6 +492,78 @@ const newObject = k.get('some[0].deeply.nested[0]')(object);
 console.log(newObject); // value
 ```
 
+#### gt
+
+`gt(greaterValue: (number|string), lesserValue: (number|string)): boolean`
+
+Determines if `greaterValue` is greater than `lesserValue` based on the `>` operator.
+
+```javascript
+console.log(k.gt(10, 5)); // true
+console.log(k.gt(10, 15)); // false
+console.log(k.gt(10, 10)); // false
+
+console.log(k.gt('foo', 'bar')); // true
+console.log(k.gt('bar', 'foo')); // false
+console.log(k.gt('foo', 'foo')); // false
+```
+
+#### gte
+
+`gte(greaterOrEqualValue: (number|string), lesserOrEqualValue: (number|string)): boolean`
+
+Determines if `greaterOrEqualValue` is greater than or equal to `lesserOrEqualValue` based on the `>=` operator.
+
+```javascript
+console.log(k.gte(10, 5)); // true
+console.log(k.gte(10, 15)); // false
+console.log(k.gte(10, 10)); // true
+
+console.log(k.gte('foo', 'bar')); // true
+console.log(k.gte('bar', 'foo')); // false
+console.log(k.gte('foo', 'foo')); // true
+```
+
+#### identity
+
+`identity(value: any): any`
+
+Method that returns the first parameter passed to it. This is useful when composing functions in error situations, such as with [tryCatch](#trycatch).
+
+```javascript
+const value = {foo: 'bar'};
+
+const result = k.tryCatch(JSON.parse, k.identity)(value);
+
+console.log(result); // Error
+```
+
+#### includes
+
+`includes(value: any, object: (Array<any>|Object|string)): boolean`
+
+Determines if `value` is contained within `object` based on strict equality.
+
+```javascript
+const value = 'bar';
+
+const array = ['foo', 'bar', 'baz'];
+
+console.log(k.includes(value)(array)); // true
+
+const object = {
+  foo: 'foo',
+  bar: 'bar',
+  baz: 'baz'
+};
+
+console.log(k.includes(value)(object)); // true
+
+const string = 'foo-bar-baz';
+
+console.log(k.includes(value)(string)); // true
+```
+
 #### insert
 
 `insert(index: number, newItems: (Array<any>|any), array: Array<any>): Array<any>`
@@ -379,6 +574,67 @@ Insert `newItems` into `array` at the provided `index`.
 const newArray = k.insert(2)('x')([1, 2, 3]);
 
 console.log(newArray); // [1, 2, 'x', 3]
+```
+
+#### instanceOf
+
+`instanceOf(Constructor: function, value: any): boolean`
+
+Tests if `value` is an instance of `Constructor` using `instanceof`.
+
+```javascript
+class Foo {}
+
+const object = new Foo();
+
+console.log(k.instanceOf(Foo)(object)); // true
+console.log(k.instanceOf(Object)(object)); // true
+console.log(k.instanceOf(String)(object)); // false
+```
+
+#### is
+
+`is(value: any, valueOrConstructor: any): boolean`
+
+Compares `value` to `valueOrConstructor` to determine if they are either strictly equal or if `value` is an instance of `valueOrConstructor`. If you wish to do a value equality comparison instead of strict equality, see [equals](#equals). Please note that this does not check up the inheritance chain, so if you wish to check ancestry see [instanceOf](#instanceof).
+
+```javascript
+console.log(k.is(String)('foo')); // true
+console.log(k.is(String)(new String('foo'))); // true
+console.log(k.is(Number)(123)); // true
+console.log(k.is(Object)({})); // true
+```
+
+#### lt
+
+`lt(lesserValue: (number|string), greaterValue: (number|string)): boolean`
+
+Determines if `lesserValue` is less than `greaterValue` based on the `>` operator.
+
+```javascript
+console.log(k.lt(10, 15)); // true
+console.log(k.lt(10, 5)); // false
+console.log(k.lt(10, 10)); // false
+
+console.log(k.lt('bar', 'foo')); // true
+console.log(k.lt('foo', 'bar')); // false
+console.log(k.lt('foo', 'foo')); // false
+```
+
+#### lte
+
+`lte(lesserOrEqualValue: (number|string), greaterOrEqualValue: (number|string)): boolean`
+
+Determines if `lesserOrEqualValue` is less than or equal to `greaterOrEqualValue` based on the `>=` operator.
+
+```javascript
+console.log(k.lte(10, 15)); // true
+console.log(k.lte(10, 5)); // false
+console.log(k.lte(10, 10)); // true
+
+console.log(k.lte('bar', 'foo')); // true
+console.log(k.lte('foo', 'bar')); // false
+console.log(k.lte('foo', 'foo')); // true
 ```
 
 #### map
@@ -460,12 +716,28 @@ Create a partial function that will call `fn` with both `partialArgs` and `restO
 
 ```javascript
 const add = (a, b, c) => {
-  return a + b;
+  return [a, b, c];
 };
 
 const partialFn = k.partial(add, 1, 2);
 
-console.log(partialFn(3)); // g
+console.log(partialFn(3)); // [1, 2, 3]
+```
+
+#### partialRight
+
+`partialRight(fn: function, ...partialArgs: Array<any>): function(...restOfArgs): any`
+
+Create a partial function that will call `fn` with both `partialArgs` and `restOfArgs`, but in the order of `restOfArgs` first.
+
+```javascript
+const add = (a, b, c) => {
+  return [a, b, c];
+};
+
+const partialFn = k.partialRight(add, 1, 2);
+
+console.log(partialFn(3)); // [3, 1, 2]
 ```
 
 #### partition
@@ -728,6 +1000,23 @@ console.log(payroll);
 */
 ```
 
+#### startsWith
+
+`startsWith(startingValue: any, objectToTest: (Array<any>|string)): boolean`
+
+Determines if `objectToTest` ends with `startingValue`, either as the first character(s) in the string or as the first item in the array using strict equality.
+
+```javascript
+const startsWithAb = k.startsWith('ab');
+
+console.log(startsWithAb('abstract')); // true
+
+const object = {};
+const startsWithObject = k.startsWith(object);
+
+console.log(startsWithObject([object, 'foo', 'bar'])); // true
+```
+
 #### subtract
 
 `subtract(first: number, second: number): number`
@@ -740,6 +1029,27 @@ const difference = k.subtract(10)(4);
 console.log(difference); // 6
 ```
 
+#### tap
+
+`tap(fn: function): function(...Array<any>): any`
+
+Creates a method that will execute `fn` with the arguments passed and then return the first argument as [identity](#identity) does.
+
+```javascript
+const log = k.tap(k.bind(console.log, console));
+const square = (value) => {
+  return value ** 2;
+};
+const logThenSquare = k.compose(square, log);
+
+const result = k.map(logThenSquare)([1, 2, 3]);
+// 1 0 [1, 2, 3]
+// 2 1 [1, 2, 3]
+// 3 2 [1, 2, 3]
+
+console.log(result); // [1, 4, 9]
+```
+
 #### take
 
 `take(size: number, array: Array<any>): Array<any>`
@@ -750,6 +1060,41 @@ Takes the first *n* number of items from `array`, where *n* is `size`.
 const firstThree = k.take(3)([1, 2, 3, 4, 5, 6]);
 
 console.log(firstThree); // [1, 2, 3]
+```
+
+#### tryCatch
+
+`tryCatch(tryFn: function, catchFn: function)`
+
+Attempts to execute `tryFn` with the arguments passed, and if it fails then executes `catchFn` with the error and the arguments passed.
+
+```javascript
+const catchFn = (error, ...args) => {
+  return {
+    args,
+    error
+  };
+};
+
+const attemptParse = k.tryCatch(JSON.parse, catchFn);
+
+console.log(attemptParse('{"foo":"bar"}')); // {foo: 'bar'}
+console.log(attemptParse({foo: 'bar'})); // {args: {foo: 'bar'}, error: SyntaxError: Unexpected token o in JSON at position 1 at parse (<anonymous>)}
+```
+
+#### uncurry
+
+`uncurry(arity: number, fn: function): function`
+
+Takes a curried function and creates a method that accepts the parameter length of `arity` as a standard function.
+
+```javascript
+const curried = (a) => (b) => (c) => (d) => [a, b, c, d];
+
+const uncurried = k.uncurry(4)(curried);
+
+console.log(uncurried(1)(2)(3)(4)); // throws error that result of first call is not a function
+console.log(uncurried(1, 2, 3, 4)); // [1, 2, 3, 4]
 ```
 
 ### Development

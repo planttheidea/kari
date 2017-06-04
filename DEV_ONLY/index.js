@@ -217,6 +217,21 @@ const testExact = {foo: 'bar'};
 
 console.log(k.is(testExact, testExact));
 
+const log = k.tap(k.bind(console.log, console));
+
+const result = k.map(k.compose(square, log))([1, 2, 3]);
+
+const catchFn = (error, ...args) => {
+  return {
+    args,
+    error
+  };
+};
+
+const tryCatchResult = k.tryCatch(JSON.parse, catchFn)({foo: 'bar'});
+
+console.log(tryCatchResult);
+
 
 
 

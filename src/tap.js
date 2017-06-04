@@ -1,6 +1,3 @@
-// methods
-import curry from './curry';
-
 /**
  * @function tap
  *
@@ -8,11 +5,12 @@ import curry from './curry';
  * execute fn on value before returning value as an identity method would
  *
  * @param {function} fn the function to call value on
- * @param {*} the value to call fn with
- * @param {*} the value passed
+ * @returns {function(...Array<*>): *} the method that will handle the tap call with args
  */
-export default curry(function tap(fn, value) {
-  fn(value);
+export default function tap(fn) {
+  return (...args) => {
+    fn(...args);
 
-  return value;
-});
+    return args[0];
+  };
+}
