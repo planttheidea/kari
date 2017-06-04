@@ -20,10 +20,10 @@ export const getArgsToPass = (originalArgs, nextArgs) => {
       index = -1;
 
   while (++index < originalArgs.length) {
-    argsToPass[index] = nextArgs.length && originalArgs[index] === __ ? nextArgs.shift() : originalArgs[index];
+    argsToPass[index] = originalArgs[index] === __ && nextArgs.length ? nextArgs.shift() : originalArgs[index];
   }
 
-  return argsToPass.concat(nextArgs);
+  return nextArgs.length ? argsToPass.concat(nextArgs) : argsToPass;
 };
 
 /**
