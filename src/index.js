@@ -1,3 +1,6 @@
+// placeholder
+import __ from './__';
+
 // methods
 import add from './add';
 import always from './always';
@@ -7,9 +10,7 @@ import arity from './arity';
 import ascend from './ascend';
 import bind from './bind';
 import compose from './compose';
-import curry, {
-  __
-} from './curry';
+import curry from './curry';
 import descend from './descend';
 import divide from './divide';
 import endsWith from './endsWith';

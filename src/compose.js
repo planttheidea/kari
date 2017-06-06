@@ -5,8 +5,8 @@
  * @returns {function(...Array<*>): *} the composed methods as a single method
  */
 export default function compose(...fns) {
-  return fns.reduce((f, g) => {
-    return (...args) => {
+  return fns.reduce(function(f, g) {
+    return function(...args) {
       return f(g(...args));
     };
   });

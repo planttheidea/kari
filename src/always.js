@@ -11,7 +11,7 @@ import curry from './curry';
  * @returns {function(): *} the method that will always return value
  */
 export default curry(function always(value) {
-  return () => {
+  return function() {
     return value;
   };
 });

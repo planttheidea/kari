@@ -15,7 +15,7 @@ import isFunction from './_utils/isFunction';
  * @returns {number} the division of second from first
  */
 export default curry(function uncurry(arity, fn) {
-  return (...args) => {
+  return function(...args) {
     let index = 0,
         value = fn(args[index]);
 

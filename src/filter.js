@@ -20,7 +20,7 @@ import isObject from './_utils/isObject';
 function filterArray(fn, array) {
   let filteredItems = [];
 
-  forEachArray((item, index) => {
+  forEachArray(function(item, index) {
     if (fn(item, index, array)) {
       filteredItems.push(item);
     }
@@ -42,7 +42,7 @@ function filterArray(fn, array) {
 function filterObject(fn, object) {
   let filteredObject = {};
 
-  forEachObject((item, key) => {
+  forEachObject(function(item, key) {
     if (fn(item, key, object)) {
       filteredObject[key] = item;
     }
@@ -61,6 +61,9 @@ function filterObject(fn, object) {
  * @param {Array<*>|Object} items the array of items to filter
  * @returns {Array<*>|Object} the filtered items
  */
-export default curry((fn, items) => {
+// export default curry2(function filter(fn, items) {
+  // return isObject(items) ? filterObject(fn, items) : filterArray(fn, isArray(items) ? items : [items]);
+// });
+export default curry(function filter(fn, items) {
   return isObject(items) ? filterObject(fn, items) : filterArray(fn, isArray(items) ? items : [items]);
 });

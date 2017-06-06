@@ -9,7 +9,7 @@ import curry from './curry';
  * @returns {Array<*>} the sorted array
  */
 export default curry(function sortBy(fns, array) {
-  return [...array].sort((first, second) => {
+  return [...array].sort(function(first, second) {
     let result = 0,
         index = -1;
 

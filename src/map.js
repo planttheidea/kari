@@ -16,13 +16,13 @@ import isObject from './_utils/isObject';
  * @param {Array<*>|Object} items the array of items to map
  * @returns {Array<*>|Object} the mapped items
  */
-export default curry((fn, items) => {
+export default curry(function map(fn, items) {
   const isItemsObject = isObject(items);
   const itemsToMap = isArray(items) || isItemsObject ? items : [items];
 
   let mappedItems = isItemsObject ? {} : [];
 
-  forEach((item, key) => {
+  forEach(function(item, key) {
     mappedItems[key] = fn(item, key, items);
   }, itemsToMap);
 

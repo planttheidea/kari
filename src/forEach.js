@@ -17,6 +17,6 @@ import isObject from './_utils/isObject';
  * @param {Array<*>|Object} items the items to iterate over
  * @returns {Array<*>|Object} the items passed
  */
-export default curry((fn, items) => {
+export default curry(function forEach(fn, items) {
   return isObject(items) ? forEachObject(fn, items) : forEachArray(fn, isArray(items) ? items : [items]);
 });

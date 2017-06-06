@@ -19,7 +19,7 @@ import isObject from './_utils/isObject';
 function partitionArray(fn, array) {
   let result;
 
-  const reducedPartitions = reduce((partitions, item, index) => {
+  const reducedPartitions = reduce(function(partitions, item, index) {
     result = fn(item, index, array);
 
     (result ? partitions.truthy : partitions.falsy).push(item);
@@ -46,7 +46,7 @@ function partitionArray(fn, array) {
 function partitionObject(fn, object) {
   let result;
 
-  return reduce((partitions, item, key) => {
+  return reduce(function(partitions, item, key) {
     result = fn(item, key, object);
 
     (result ? partitions.truthy : partitions.falsy)[key] = item;

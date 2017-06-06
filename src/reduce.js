@@ -18,7 +18,7 @@ export default curry(function reduce(fn, items, initialValue) {
 
   let value = isInitialValueDefined ? items[0] : initialValue;
 
-  forEach((item, index) => {
+  forEach(function(item, index) {
     value = fn(value, item, index, items);
   }, isInitialValueDefined ? items.slice(1) : items);
 
