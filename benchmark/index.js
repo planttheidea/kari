@@ -58,16 +58,28 @@ const onComplete = () => {
   showResults(orderedBenchmarkResults);
 };
 
-const runFilterArray = () => {
-  const suite = new Benchmark.Suite('Filter array');
-
-  const array = (new Array(100))
+const getArrayWithRandomValues = () => {
+  return (new Array(100))
     .fill(1)
     .map((ignored, index) => {
       return ~~(Math.random() * index);
     });
+};
 
-  const fn = (value, index) => {
+const getObjectWithRandomValues = () => {
+  return getArrayWithRandomValues().reduce((object, value, index) => {
+    object[`data-for-${index}`] = value;
+
+    return object;
+  }, {});
+};
+
+const runFilterArray = () => {
+  const suite = new Benchmark.Suite('Filter array');
+
+  const array = getArrayWithRandomValues();
+
+  const fn = (value) => {
     return value % 6 === 0;
   };
 
@@ -101,4 +113,124 @@ const runFilterArray = () => {
   });
 };
 
-runFilterArray();
+const runFilterObject = () => {
+  const suite = new Benchmark.Suite('Filter objbect');
+
+  const object = getObjectWithRandomValues();
+
+  const fn = (value) => {
+    return value % 6 === 0;
+  };
+
+  return new Promise((resolve) => {
+    suite
+      .add('lodash', () => {
+        _.filter(fn)(object);
+      })
+      .add('ramda', () => {
+        R.filter(fn)(object);
+      })
+      .add('kari', () => {
+        k.filter(fn)(object);
+      })
+      .on('start', () => {
+        console.log('');
+        console.log('Starting cycles for filtering an object...');
+
+        results = [];
+
+        spinner.start();
+      })
+      .on('cycle', onCycle)
+      .on('complete', () => {
+        onComplete();
+        resolve();
+      })
+      .run({
+        async: true
+      });
+  });
+};
+
+const runMapArray = () => {
+  const suite = new Benchmark.Suite('Map array');
+
+  const array = getArrayWithRandomValues();
+
+  const fn = (value) => {
+    return (value * 2) + 10;
+  };
+
+  return new Promise((resolve) => {
+    suite
+      .add('lodash', () => {
+        _.map(fn)(array);
+      })
+      .add('ramda', () => {
+        R.map(fn)(array);
+      })
+      .add('kari', () => {
+        k.map(fn)(array);
+      })
+      .on('start', () => {
+        console.log('');
+        console.log('Starting cycles for mapping an array...');
+
+        results = [];
+
+        spinner.start();
+      })
+      .on('cycle', onCycle)
+      .on('complete', () => {
+        onComplete();
+        resolve();
+      })
+      .run({
+        async: true
+      });
+  });
+};
+
+const runMapObject = () => {
+  const suite = new Benchmark.Suite('Map object');
+
+  const object = getObjectWithRandomValues();
+
+  const fn = (value) => {
+    return (value * 2) + 10;
+  };
+
+  return new Promise((resolve) => {
+    suite
+      .add('lodash', () => {
+        _.map(fn)(object);
+      })
+      .add('ramda', () => {
+        R.map(fn)(object);
+      })
+      .add('kari', () => {
+        k.map(fn)(object);
+      })
+      .on('start', () => {
+        console.log('');
+        console.log('Starting cycles for mapping an object...');
+
+        results = [];
+
+        spinner.start();
+      })
+      .on('cycle', onCycle)
+      .on('complete', () => {
+        onComplete();
+        resolve();
+      })
+      .run({
+        async: true
+      });
+  });
+};
+
+runFilterArray()
+  .then(runFilterObject)
+  .then(runMapArray)
+  .then(runMapObject);
