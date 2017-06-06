@@ -15,7 +15,7 @@ import forEach from './forEach';
 export default curry(function pluck(key, items) {
   let pluckedItems = [];
 
-  forEach((item) => {
+  forEach(function(item) {
     if (item.hasOwnProperty(key)) {
       pluckedItems.push(item[key]);
     }

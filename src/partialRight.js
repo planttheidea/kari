@@ -6,7 +6,7 @@
  * @returns {function(...Array<*>): *} the partial function that will apply fn
  */
 export default function partialRight(fn, ...outerArgs) {
-  return (...innerArgs) => {
+  return function(...innerArgs) {
     return fn(...innerArgs, ...outerArgs);
   };
 }

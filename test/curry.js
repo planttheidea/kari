@@ -4,10 +4,11 @@ import _ from 'lodash';
 
 // src
 import curry, {
-  __,
   getArgsToPass,
   getAreArgsFilled
 } from 'src/curry';
+import __ from 'src/__';
+
 
 test('if curry creates a method that will curry each of the arguments in the method arity', (t) => {
   const method = (a, b, c, d, e) => {
@@ -106,7 +107,7 @@ test('if getArgsToPass determines the complete args to pass', (t) => {
       return arg !== __ ? arg : futureArgs.shift();
     })
     .concat(futureArgs);
-    
+
   t.deepEqual(result, expectedResult);
 });
 

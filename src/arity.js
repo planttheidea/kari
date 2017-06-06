@@ -12,7 +12,7 @@ import curry from './curry';
  * @param {number} arity the number of arguments to return in the array
  * @returns {Array<*>} the complete list of args
  */
-const getCompleteArgs = (args, arity) => {
+export function getCompleteArgs(args, arity) {
   let index = -1,
       completeArgs = [];
 
@@ -21,7 +21,7 @@ const getCompleteArgs = (args, arity) => {
   }
 
   return completeArgs;
-};
+}
 
 /**
  * @function arity
@@ -34,7 +34,7 @@ const getCompleteArgs = (args, arity) => {
  * @returns {function(...Array<*>): *} the function that will apply the arity of args requested to fn
  */
 export default curry(function arity(arity, fn) {
-  return (...args) => {
+  return function(...args) {
     return fn.apply(this, getCompleteArgs(args, arity));
   };
 });

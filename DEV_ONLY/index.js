@@ -10,13 +10,20 @@ import R from 'ramda';
 
 console.log(k);
 
-const array = (new Array(10000000)).fill(1).map((ignored, index) => {
-  return ~~(Math.random() * index);
-});
+// const array = (new Array(10000000)).fill(1).map((ignored, index) => {
+//   return ~~(Math.random() * index);
+// });
 
-const kFiltered = k.filter((ignored, index) => {
+const array = [1, 2, 3, 4, 5, 6, 7];
+const filterFn = (ignored, index) => {
   return index % 7 === 0;
-})(array);
+};
+
+console.log(k.filter(filterFn)(array));
+console.log(k.filter(filterFn, array));
+
+console.log(k.gte(10)(5));
+console.log(k.gte(10, 5));
 
 // const abc = (a, b, c) => {
 //   return [a, b, c];
@@ -130,13 +137,13 @@ const kFiltered = k.filter((ignored, index) => {
 //   return value === 'foo';
 // }, obj));
 
-const addThreeNumbers = (a, b, c) => {
-  return a + b + c;
-};
-
-const doIt = k.curry(addThreeNumbers);
-
-console.log(doIt(k.__, 2, k.__)(1)(3));
+// const addThreeNumbers = (a, b, c) => {
+//   return a + b + c;
+// };
+//
+// const doIt = k.curry(addThreeNumbers);
+//
+// console.log(doIt(k.__, 2, k.__)(1)(3));
 // console.log(doIt(1, k.__, 3)(2));
 // console.log(doIt(k.__, k.__, 3)(1, 2));
 // console.log(doIt(k.__)(k.__)(k.__)(1)(k.__, 3)(2));

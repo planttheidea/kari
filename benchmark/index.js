@@ -61,14 +61,14 @@ const onComplete = () => {
 const runFilterArray = () => {
   const suite = new Benchmark.Suite('Filter array');
 
-  const array = (new Array(1000))
+  const array = (new Array(100))
     .fill(1)
     .map((ignored, index) => {
       return ~~(Math.random() * index);
     });
 
   const fn = (value, index) => {
-    return value % 6 === 0 || index % 3 === 0;
+    return value % 6 === 0;
   };
 
   return new Promise((resolve) => {

@@ -15,7 +15,7 @@ import some from './some';
  * @returns {boolean} does object contain value
  */
 export default curry(function includes(value, object) {
-  return object.indexOf ? !!~object.indexOf(value) : some((valueToCompare) => {
+  return object.indexOf ? !!~object.indexOf(value) : some(function(valueToCompare) {
     return valueToCompare === value;
   }, object);
 });

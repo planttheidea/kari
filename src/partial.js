@@ -6,7 +6,7 @@
  * @returns {function(...Array<*>): *} the partial function that will apply fn
  */
 export default function partial(fn, ...outerArgs) {
-  return (...innerArgs) => {
+  return function(...innerArgs) {
     return fn(...outerArgs, ...innerArgs);
   };
 }

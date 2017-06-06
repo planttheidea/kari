@@ -19,7 +19,7 @@ export default curry(function reduceRight(fn, items, initialValue) {
 
   let value = isInitialValueDefined ? reversedItems[0] : initialValue;
 
-  forEach((item, index) => {
+  forEach(function(item, index) {
     value = fn(value, item, index, items);
   }, isInitialValueDefined ? reversedItems.slice(1) : reversedItems);
 

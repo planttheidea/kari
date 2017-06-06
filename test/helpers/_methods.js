@@ -5,6 +5,7 @@ const FILES_OR_DIRECTORIES_TO_SKIP = [
   // files
   'allTestsExist.js',
   'index.js',
+  '__.js',
 
   // directories
   'helpers',

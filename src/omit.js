@@ -17,7 +17,7 @@ import isObject from './_utils/isObject';
  * @returns {Array<*>|Object} the original object with the keys passed omitted
  */
 export default curry(function omit(keys, object) {
-  return filter((ignored, index) => {
+  return filter(function(ignored, index) {
     return !~keys.indexOf(index);
   }, isArray(object) || isObject(object) ? object : [object]);
 });
