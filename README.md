@@ -109,7 +109,9 @@ console.log(state);
 
 ### Difference with other functional libraries
 
-There are some really killer libraries out there, namely `ramda` and `lodash/fp`, and both were used as inspiration when building this library. The goal with `kari` is to keep the footprint as small as possible while providing a fast and fairly comprehensive collection of utility methods. `kari` is still quite young, and we are looking to make the API more comprehensive, so PRs are welcome!
+There are some really killer libraries out there, namely `ramda` and `lodash/fp`, and both were used as inspiration when building this library. The goal with `kari` is to keep the footprint very small while providing a fast and comprehensive collection of utility methods. Each method can be imported as a standalone module (`import set from 'kari/set';`), or as a named import (`import {set} from 'kari';`) if you use tree shaking.
+
+`kari` is still quite young, and we are looking to make the API more comprehensive, so PRs are welcome!
 
 ### API
 
