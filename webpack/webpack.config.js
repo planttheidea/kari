@@ -7,8 +7,6 @@ const webpack = require('webpack');
 const ROOT = path.join(__dirname, '..');
 
 module.exports = {
-  cache: false,
-
   devtool: '#source-map',
 
   entry: [

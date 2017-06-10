@@ -1,5 +1,16 @@
 # kari CHANGELOG
 
+### 0.5.1
+* Make `has` and `omit` work with nested paths
+
+### 0.5.0
+* Add methods:
+  * [findKey](#findkey)
+  * [has](#has)
+  * [merge](#merge)
+  * [mergeDeep](#mergedeep)
+* Greatly improve the performance of `filter`, `map`, and `reduce` (which are used for a number of other methods)
+
 ### 0.4.1
 * Make `insert` work with objects as well as arrays
 
