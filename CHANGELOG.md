@@ -1,5 +1,8 @@
 # kari CHANGELOG
 
+### 0.5.2
+* Fix issue with `omit` not respecting original indices when multiple keys from the same nested array are declared
+
 ### 0.5.1
 * Make `has` and `omit` work with nested paths
 
