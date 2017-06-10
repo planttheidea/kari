@@ -1,6 +1,11 @@
 // methods
 import curry from './curry';
-import forEach from './forEach';
+
+// utils
+import coalesceToArray from './_utils/coalesceToArray';
+import isObject from './_utils/isObject';
+import reduceArray from './_utils/reduceArray';
+import reduceObject from './_utils/reduceObject';
 
 /**
  * @function reduce
@@ -13,14 +18,7 @@ import forEach from './forEach';
  * @param {*} initialValue the initial value to start the reduction from
  * @returns {*} the reduced value
  */
-export default curry(function reduce(fn, items, initialValue) {
-  const isInitialValueDefined = initialValue === void 0;
-
-  let value = isInitialValueDefined ? items[0] : initialValue;
-
-  forEach(function(item, index) {
-    value = fn(value, item, index, items);
-  }, isInitialValueDefined ? items.slice(1) : items);
-
-  return value;
+export default curry(function reduce(fn, initialValue, items) {
+  return isObject(items) ? reduceObject(fn, items, initialValue, Object.keys(items)) :
+    reduceArray(fn, coalesceToArray(items), initialValue);
 });

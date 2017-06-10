@@ -3,7 +3,7 @@ import curry from './curry';
 import filter from './filter';
 
 // utils
-import isArray from './_utils/isArray';
+import coalesceToArray from './_utils/coalesceToArray';
 import isObject from './_utils/isObject';
 
 /**
@@ -19,5 +19,5 @@ import isObject from './_utils/isObject';
 export default curry(function omit(keys, object) {
   return filter(function(ignored, index) {
     return !~keys.indexOf(index);
-  }, isArray(object) || isObject(object) ? object : [object]);
+  }, isObject(object) ? object : coalesceToArray(object));
 });

@@ -1,8 +1,9 @@
 // methods
 import curry from './curry';
+import some from './some';
 
 // utils
-import some from './some';
+import isFunction from './_utils/isFunction';
 
 /**
  * @function includes
@@ -15,7 +16,7 @@ import some from './some';
  * @returns {boolean} does object contain value
  */
 export default curry(function includes(value, object) {
-  return object.indexOf ? !!~object.indexOf(value) : some(function(valueToCompare) {
+  return isFunction(object.indexOf) ? !!~object.indexOf(value) : some(function(valueToCompare) {
     return valueToCompare === value;
   }, object);
 });

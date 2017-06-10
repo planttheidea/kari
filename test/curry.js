@@ -9,7 +9,6 @@ import curry, {
 } from 'src/curry';
 import __ from 'src/__';
 
-
 test('if curry creates a method that will curry each of the arguments in the method arity', (t) => {
   const method = (a, b, c, d, e) => {
     return [a, b, c, d, e];
@@ -97,7 +96,19 @@ test('if curry allows for defaults via a custom arity not based on the function 
   t.is(result, expectedResult);
 });
 
-test('if getArgsToPass determines the complete args to pass', (t) => {
+test('if getArgsToPass determines the complete args to pass when there are no remaining args after the placeholder', (t) => {
+  const originalArgs = [1, __, 3];
+  const futureArgs = [2];
+
+  const result = getArgsToPass(originalArgs, [...futureArgs]);
+  const expectedResult = originalArgs.map((arg) => {
+    return arg !== __ ? arg : futureArgs.shift();
+  });
+
+  t.deepEqual(result, expectedResult);
+});
+
+test('if getArgsToPass determines the complete args to pass when there are remaining args after the placeholder', (t) => {
   const originalArgs = [1, __, 3];
   const futureArgs = [2, 4];
 

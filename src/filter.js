@@ -2,9 +2,7 @@
 import curry from './curry';
 
 // utils
-import forEachArray from './_utils/forEachArray';
-import forEachObject from './_utils/forEachObject';
-import isArray from './_utils/isArray';
+import coalesceToArray from './_utils/coalesceToArray';
 import isObject from './_utils/isObject';
 
 /**
@@ -18,13 +16,14 @@ import isObject from './_utils/isObject';
  * @returns {Array<*>} the filtered items
  */
 function filterArray(fn, array) {
-  let filteredItems = [];
+  let filteredItems = [],
+      index = -1;
 
-  forEachArray(function(item, index) {
-    if (fn(item, index, array)) {
-      filteredItems.push(item);
+  while (++index < array.length) {
+    if (fn(array[index], index, array)) {
+      filteredItems[filteredItems.length] = array[index];
     }
-  }, array);
+  }
 
   return filteredItems;
 }
@@ -40,13 +39,19 @@ function filterArray(fn, array) {
  * @returns {Object} the filtered items
  */
 function filterObject(fn, object) {
-  let filteredObject = {};
+  const keys = Object.keys(object);
 
-  forEachObject(function(item, key) {
-    if (fn(item, key, object)) {
-      filteredObject[key] = item;
+  let filteredObject = {},
+      index = -1,
+      key;
+
+  while (++index < keys.length) {
+    key = keys[index];
+
+    if (fn(object[key], key, object)) {
+      filteredObject[key] = object[key];
     }
-  }, object);
+  }
 
   return filteredObject;
 }
@@ -65,5 +70,5 @@ function filterObject(fn, object) {
   // return isObject(items) ? filterObject(fn, items) : filterArray(fn, isArray(items) ? items : [items]);
 // });
 export default curry(function filter(fn, items) {
-  return isObject(items) ? filterObject(fn, items) : filterArray(fn, isArray(items) ? items : [items]);
+  return isObject(items) ? filterObject(fn, items) : filterArray(fn, coalesceToArray(items));
 });

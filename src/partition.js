@@ -3,8 +3,23 @@ import curry from './curry';
 import reduce from './reduce';
 
 // utils
-import isArray from './_utils/isArray';
+import coalesceToArray from './_utils/coalesceToArray';
 import isObject from './_utils/isObject';
+
+/**
+ * @function getCorrectPartition
+ *
+ * @description
+ * based on the result being truthy or not, return the correct
+ * partition (either truthy or falsy)
+ *
+ * @param {{falsy: (Array<*>|Object), truthy: (Array<*>|Object)}} partitions the truthy and falsy partitions
+ * @param {*} result the result to determine the partition
+ * @returns {Array<*>|Object} either the truthy or falsy partition
+ */
+function getCorrectPartition(partitions, result) {
+  return result ? partitions.truthy : partitions.falsy;
+}
 
 /**
  * @function partitionArray
@@ -17,18 +32,14 @@ import isObject from './_utils/isObject';
  * @returns {Array<Array<*>>} the partitioned items
  */
 function partitionArray(fn, array) {
-  let result;
-
   const reducedPartitions = reduce(function(partitions, item, index) {
-    result = fn(item, index, array);
-
-    (result ? partitions.truthy : partitions.falsy).push(item);
+    getCorrectPartition(partitions, fn(item, index, array)).push(item);
 
     return partitions;
-  }, array, {
+  }, {
     falsy: [],
     truthy: []
-  });
+  }, array);
 
   return [reducedPartitions.truthy, reducedPartitions.falsy];
 }
@@ -44,18 +55,14 @@ function partitionArray(fn, array) {
  * @returns {Object} the partitioned items
  */
 function partitionObject(fn, object) {
-  let result;
-
   return reduce(function(partitions, item, key) {
-    result = fn(item, key, object);
-
-    (result ? partitions.truthy : partitions.falsy)[key] = item;
+    getCorrectPartition(partitions, fn(item, key, object))[key] = item;
 
     return partitions;
-  }, object, {
+  }, {
     falsy: {},
     truthy: {}
-  });
+  }, object);
 }
 
 /**
@@ -70,5 +77,5 @@ function partitionObject(fn, object) {
  * @returns {Array<Array<*>>|Object} the partitioned items
  */
 export default curry(function partition(fn, items) {
-  return isObject(items) ? partitionObject(fn, items) : partitionArray(fn, isArray(items) ? items : [items]);
+  return isObject(items) ? partitionObject(fn, items) : partitionArray(fn, coalesceToArray(items));
 });

@@ -19,10 +19,12 @@ import every from './every';
 import filter from './filter';
 import find from './find';
 import findIndex from './findIndex';
+import findKey from './findKey';
 import forEach from './forEach';
 import get from './get';
 import gt from './gt';
 import gte from './gte';
+import has from './has';
 import identity from './identity';
 import includes from './includes';
 import insert from './insert';
@@ -31,6 +33,8 @@ import is from './is';
 import lt from './lt';
 import lte from './lte';
 import map from './map';
+import merge from './merge';
+import mergeDeep from './mergeDeep';
 import modulo from './modulo';
 import multiply from './multiply';
 import omit from './omit';
@@ -75,10 +79,12 @@ export {every};
 export {filter};
 export {find};
 export {findIndex};
+export {findKey};
 export {forEach};
 export {get};
 export {gt};
 export {gte};
+export {has};
 export {identity};
 export {includes};
 export {insert};
@@ -87,6 +93,8 @@ export {is};
 export {lt};
 export {lte};
 export {map};
+export {merge};
+export {mergeDeep};
 export {modulo};
 export {multiply};
 export {omit};
@@ -132,10 +140,12 @@ export default {
   filter,
   find,
   findIndex,
+  findKey,
   forEach,
   get,
   gt,
   gte,
+  has,
   identity,
   includes,
   insert,
@@ -144,6 +154,8 @@ export default {
   lt,
   lte,
   map,
+  merge,
+  mergeDeep,
   modulo,
   multiply,
   omit,
