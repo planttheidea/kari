@@ -2,7 +2,10 @@
 import curry from './curry';
 
 // utils
-import getKey from './_utils/getKey';
+import coalesceToArray from './_utils/coalesceToArray';
+import findInArray from './_utils/findInArray';
+import findInObject from './_utils/findInObject';
+import isObject from './_utils/isObject';
 
 /**
  * @function findIndex
@@ -15,18 +18,6 @@ import getKey from './_utils/getKey';
  * @returns {number} the index of the item that matches, or -1
  */
 export default curry(function findIndex(fn, items) {
-  const keys = Object.keys(items);
-
-  let index = -1,
-      key;
-
-  while (++index < keys.length) {
-    key = keys[index];
-
-    if (fn(items[key], key, items)) {
-      return getKey(key);
-    }
-  }
-
-  return -1;
+  return isObject(items) ? findInObject(fn, items, Object.keys(items), true) :
+    findInArray(fn, coalesceToArray(items), true);
 });

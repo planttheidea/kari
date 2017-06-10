@@ -1,32 +1,93 @@
 // test
 import test from 'ava';
+import sinon from 'sinon';
 
 // src
 import reduceRight from 'src/reduceRight';
+import * as array from 'src/_utils/reduceArray';
+import * as object from 'src/_utils/reduceObject';
 
-test('if reduceRight will perform a reduction based on the items and initialValue passed', (t) => {
-  const diff = (total, num) => {
-    return total - num;
-  };
-
-  const items = [1, 2, 3, 4, 5];
+test('if reduceRight will call reduceArray if the items are an array', (t) => {
+  const items = [];
+  const method = () => {};
   const initialValue = 0;
 
-  const result = reduceRight(diff)(items)(initialValue);
-  const expectedResult = items.reduceRight(diff, initialValue);
+  const reduceArrayStub = sinon.stub(array, 'default');
+  const reduceObjectStub = sinon.stub(object, 'default');
 
-  t.is(result, expectedResult);
+  reduceRight(method, initialValue, items);
+
+  t.true(reduceArrayStub.calledOnce);
+
+  const args = reduceArrayStub.firstCall.args;
+
+  t.is(args.length, 3);
+
+  t.deepEqual(args, [
+    method,
+    [...items].reverse(),
+    initialValue
+  ]);
+
+  t.true(reduceObjectStub.notCalled);
+
+  reduceArrayStub.restore();
+  reduceObjectStub.restore();
 });
 
-test('if reduceRight will perform a reduction based on the items passed and asdiffe initialValue is the first item when not given', (t) => {
-  const diff = (total, num) => {
-    return total - num;
-  };
+test('if reduceRight will call reduceObject if the items are an object', (t) => {
+  const items = {};
+  const method = () => {};
+  const initialValue = 0;
 
-  const items = [1, 2, 3, 4, 5];
+  const reduceArrayStub = sinon.stub(array, 'default');
+  const reduceObjectStub = sinon.stub(object, 'default');
 
-  const result = reduceRight(diff, items, undefined);
-  const expectedResult = items.reduceRight(diff);
+  reduceRight(method, initialValue, items);
 
-  t.is(result, expectedResult);
+  t.true(reduceArrayStub.notCalled);
+
+  t.true(reduceObjectStub.calledOnce);
+
+  const args = reduceObjectStub.firstCall.args;
+
+  t.is(args.length, 4);
+
+  t.deepEqual(args, [
+    method,
+    items,
+    initialValue,
+    Object.keys(items).reverse()
+  ]);
+
+  reduceArrayStub.restore();
+  reduceObjectStub.restore();
+});
+
+test('if reduceRight will call reduceArray if the items are neither an array nor object', (t) => {
+  const items = 'foo';
+  const method = () => {};
+  const initialValue = 0;
+
+  const reduceArrayStub = sinon.stub(array, 'default');
+  const reduceObjectStub = sinon.stub(object, 'default');
+
+  reduceRight(method, initialValue, items);
+
+  t.true(reduceArrayStub.calledOnce);
+
+  const args = reduceArrayStub.firstCall.args;
+
+  t.is(args.length, 3);
+
+  t.deepEqual(args, [
+    method,
+    [items],
+    initialValue
+  ]);
+
+  t.true(reduceObjectStub.notCalled);
+
+  reduceArrayStub.restore();
+  reduceObjectStub.restore();
 });

@@ -1,6 +1,12 @@
 // methods
 import curry from './curry';
 
+// utils
+import coalesceToArray from './_utils/coalesceToArray';
+import findInArray from './_utils/findInArray';
+import findInObject from './_utils/findInObject';
+import isObject from './_utils/isObject';
+
 /**
  * @function find
  *
@@ -12,16 +18,6 @@ import curry from './curry';
  * @returns {*} the item that matches, or undefined
  */
 export default curry(function find(fn, items) {
-  const keys = Object.keys(items);
-
-  let index = -1,
-      key;
-
-  while (++index < keys.length) {
-    key = keys[index];
-
-    if (fn(items[key], key, items)) {
-      return items[key];
-    }
-  }
+  return isObject(items) ? findInObject(fn, items, Object.keys(items), false) :
+    findInArray(fn, coalesceToArray(items), false);
 });

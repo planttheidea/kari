@@ -2,7 +2,7 @@
 import curry from './curry';
 
 /**
- * @function ascend
+ * @function descend
  *
  * @description
  * create a comparator function that will ascending sort by the values returned from calling fn
@@ -12,7 +12,7 @@ import curry from './curry';
  * @param {*} second the second value to call
  * @returns {number} the result of comparing the first and second values
  */
-export default curry(function ascend(fn, first, second) {
+export default curry(function descend(fn, first, second) {
   const firstValue = fn(first);
   const secondValue = fn(second);
 

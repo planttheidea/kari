@@ -32,3 +32,12 @@ test('if uncurry will return a method that will remove currying on the original 
     uncurried(first)(second)(third)(fourth);
   });
 });
+
+test('if uncurry will return the value before the arity completes if the value returned from the call is not a function', (t) => {
+  const arity = 4;
+  const value = 'foo';
+
+  const result = uncurry(arity)(_.identity)(value);
+
+  t.is(result, value);
+});

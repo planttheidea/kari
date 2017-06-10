@@ -26,10 +26,12 @@ A tiny, modular, functional library to make all your collections curriable.
   * [filter](#filter)
   * [find](#find)
   * [findIndex](#findindex)
+  * [findKey](#findkey)
   * [forEach](#foreach)
   * [get](#get)
   * [gt](#gt)
   * [gte](#gte)
+  * [has](#has)
   * [identity](#identity)
   * [includes](#includes)
   * [insert](#insert)
@@ -38,11 +40,13 @@ A tiny, modular, functional library to make all your collections curriable.
   * [lt](#lt)
   * [lte](#lte)
   * [map](#map)
+  * [merge](#merge)
+  * [mergeDeep](#mergedeep)
   * [modulo](#modulo)
   * [multiply](#multiply)
   * [omit](#omit)
   * [partial](#partial)
-  * [partialRight](#partialRight)
+  * [partialRight](#partialright)
   * [partition](#partition)
   * [pick](#pick)
   * [pipe](#pipe)
@@ -105,7 +109,9 @@ console.log(state);
 
 ### Difference with other functional libraries
 
-There are some really killer libraries out there, namely `ramda` and `lodash/fp`, and both were used as inspiration when building this library. The goal with `kari` is to keep the footprint as small as possible while providing a fast and fairly comprehensive collection of utility methods. `kari` is still quite young, and we are looking to make the API more comprehensive, so PRs are welcome!
+There are some really killer libraries out there, namely `ramda` and `lodash/fp`, and both were used as inspiration when building this library. The goal with `kari` is to keep the footprint very small while providing a fast and comprehensive collection of utility methods. Each method can be imported as a standalone module (`import set from 'kari/set';`), or as a named import (`import {set} from 'kari';`) if you use tree shaking.
+
+`kari` is still quite young, and we are looking to make the API more comprehensive, so PRs are welcome!
 
 ### API
 
@@ -418,26 +424,38 @@ console.log(objectResult); // 2
 
 #### findIndex
 
-`findIndex(fn: function, collection: (Array<any>|Object)): any`
+`findIndex(fn: function, array: Array<any>): any`
 
-Find the first item in `collection` that matches `fn`.
+Find the index of the first item in `array` that matches `fn`.
 
 ```javascript
-const isPositive = (value, keyOrIndex, collection) => {
+const isPositive = (value, index, array) => {
   return value > 1;
 };
 
-const arrayResult = k.findIndex(isPositive)([1, 2, 3]);
+const result = k.findIndex(isPositive)([1, 2, 3]);
 
-console.log(arrayResult); // 1
+console.log(result); // 1
+```
 
-const objectResult = k.findIndex(isPositive)({
+#### findKey
+
+`findKey(fn: function, object: Object): any`
+
+Find the key of the first item in `object` that matches `fn`.
+
+```javascript
+const isPositive = (value, key, object) => {
+  return value > 1;
+};
+
+const result = k.findKey(isPositive)({
   zero: 0,
   one: 1,
   two: 2
 });
 
-console.log(objectResult); // 1
+console.log(result); // one
 ```
 
 #### forEach
@@ -522,6 +540,26 @@ console.log(k.gte(10, 10)); // true
 console.log(k.gte('foo', 'bar')); // true
 console.log(k.gte('bar', 'foo')); // false
 console.log(k.gte('foo', 'foo')); // true
+```
+
+#### has
+
+`has(keyOrIndex: (number|string), collection: (Array<*>|Object)): boolean`
+
+Determines if the `collection` has the `keyOrIndex` as a valid key (if an object) or index (if an array).
+
+```javascript
+const array = ['foo'];
+
+console.log(k.has(0)(array)); // true
+console.log(k.has(1)(array)); // false
+
+const object = {
+  foo: 'bar'
+};
+
+console.log(k.has('foo')(object)); // true
+console.log(k.has('bar')(object)); // false
 ```
 
 #### identity
@@ -663,6 +701,62 @@ const objectResult = k.map(squareAll)({
 });
 
 console.log(objectResult); // {one: 1, two: 4, three: 9}
+```
+
+#### merge
+
+`merge(firstCollection: (Array<*>|Object), secondCollection: (Array<*>|Object)): (Array<*>|Object)`
+
+Shallowly merges two collections into a new collection with their combined values. If you want to do a deep merge of values, use [mergeDeep](#mergedeep).
+
+```javascript
+const array1 = ['foo', 'baz'];
+const array2 = ['bar'];
+
+const mergedArray = k.merge(array1)(array2);
+
+console.log(mergedArray); // ['bar', 'baz'];
+
+const object1 = {
+  foo: {
+    bar: 'bar'
+  },
+  bar: 'baz'
+};
+const object2 = {
+  foo: 'foo'
+};
+
+const mergedObject = k.merge(object1)(object2);
+
+console.log(mergedObject); // {foo: 'foo', bar: 'baz'}
+```
+
+#### mergeDeep
+
+`mergeDeep(firstCollection: (Array<*>|Object), secondCollection: (Array<*>|Object)): (Array<*>|Object)`
+
+Deeply merged two collections into a new collection with their combined values. If you want to do a shallow merge of values, use [merge](#merge).
+
+```javascript
+const collection1 = [
+  {foo: 'bar', bar: ['bar', 'baz']},
+  {foo: 'foo', bar: ['bar']}
+];
+const collection2 = [
+  {foo: 'baz', bar: ['foo']},
+  {foo: 'blah', bar: [], baz: 'blah'}
+];
+
+const result = k.mergeDeep(collection1, collection2);
+
+console.log(result);
+/*
+[
+  {foo: 'baz', bar: ['foo', 'baz']},
+  {foo: 'blah', bar: ['bar'], baz: 'blah'}
+]
+*/
 ```
 
 #### modulo
@@ -831,7 +925,7 @@ console.log(prepended); // ['baz', 'foo', 'bar']
 
 #### reduce
 
-`reduce(fn: function, collection: (Array<any>|Object), initialValue: ?any): (Array<any>|Object)`
+`reduce(fn: function, initialValue: any, collection: (Array<any>|Object)): (Array<any>|Object)`
 
 Applies `fn` to calculate a new value based on each iteration, starting with `initialValue`. If no `initialValue` is provided, the first value in `collection` is used.
 
@@ -851,7 +945,7 @@ console.log(objectResult); // 6
 
 #### reduceRight
 
-`reduceRight(fn: function, collection: (Array<any>|Object), initialValue: ?any): (Array<any>|Object)`
+`reduceRight(fn: function, initialValue: any, collection: (Array<any>|Object)): (Array<any>|Object)`
 
 Applies `fn` to calculate a new value based on each iteration, starting with `initialValue` from the end of `collection` and working to the front. If no `initialValue` is provided, the last value in `collection` is used.
 

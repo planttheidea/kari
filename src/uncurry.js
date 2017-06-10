@@ -19,7 +19,7 @@ export default curry(function uncurry(arity, fn) {
     let index = 0,
         value = fn(args[index]);
 
-    while (++index < arity && isFunction(value)) {
+    while (isFunction(value) && ++index < arity) {
       value = value(args[index]);
     }
 

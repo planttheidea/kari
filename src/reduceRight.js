@@ -1,6 +1,12 @@
 // methods
 import curry from './curry';
-import forEach from './forEach';
+
+// utils
+import isArray from './_utils/isArray';
+import isObject from './_utils/isObject';
+import reduceArray from './_utils/reduceArray';
+import reduceObject from './_utils/reduceObject';
+import reverseArray from './_utils/reverseArray';
 
 /**
  * @function reduceRight
@@ -13,15 +19,7 @@ import forEach from './forEach';
  * @param {*} initialValue the initial value to start the reduction from
  * @returns {*} the reduced value
  */
-export default curry(function reduceRight(fn, items, initialValue) {
-  const isInitialValueDefined = initialValue === void 0;
-  const reversedItems = [...items].reverse();
-
-  let value = isInitialValueDefined ? reversedItems[0] : initialValue;
-
-  forEach(function(item, index) {
-    value = fn(value, item, index, items);
-  }, isInitialValueDefined ? reversedItems.slice(1) : reversedItems);
-
-  return value;
+export default curry(function reduceRight(fn, initialValue, items) {
+  return isObject(items) ? reduceObject(fn, items, initialValue, reverseArray(Object.keys(items))) :
+    reduceArray(fn, isArray(items) ? reverseArray(items) : [items], initialValue);
 });

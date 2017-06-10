@@ -1,6 +1,7 @@
 // test
 import test from 'ava';
 import _ from 'lodash';
+import sinon from 'sinon';
 import {
   ARRAY,
   DATE,
@@ -14,6 +15,7 @@ import {
 
 // src
 import isEquivalent from 'src/_utils/isEquivalent';
+import * as type from 'src/_utils/getObjectClass';
 
 test('if isEquivalent returns true when values are strictly equal', (t) => {
   t.true(isEquivalent(STRING, STRING));
@@ -128,4 +130,12 @@ test('if isEquivalent handles circular objects', (t) => {
   clone.baz = clone;
 
   t.true(isEquivalent(object, clone));
+});
+
+test('if isEquivalent returns false as an ultimate fallback when no object class match is found for comparison', (t) => {
+  const getObjectClassStub = sinon.stub(type, 'default').returns('foo');
+
+  t.false(isEquivalent({}, {}));
+
+  getObjectClassStub.restore();
 });

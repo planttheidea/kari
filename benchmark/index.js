@@ -202,7 +202,7 @@ const runMapObject = () => {
 
   return new Promise((resolve) => {
     suite
-      .add('lodash', () => {
+      .add('lodash (returns an array of values instead of a new object)', () => {
         _.map(fn)(object);
       })
       .add('ramda', () => {
@@ -230,7 +230,87 @@ const runMapObject = () => {
   });
 };
 
+const runReduceArray = () => {
+  const suite = new Benchmark.Suite('Reduce array');
+
+  const array = getArrayWithRandomValues();
+
+  const fn = (total, value) => {
+    return total + value;
+  };
+
+  return new Promise((resolve) => {
+    suite
+      .add('lodash', () => {
+        _.reduce(fn)(0)(array);
+      })
+      .add('ramda', () => {
+        R.reduce(fn)(0)(array);
+      })
+      .add('kari', () => {
+        k.reduce(fn)(0)(array);
+      })
+      .on('start', () => {
+        console.log('');
+        console.log('Starting cycles for reducing an array...');
+
+        results = [];
+
+        spinner.start();
+      })
+      .on('cycle', onCycle)
+      .on('complete', () => {
+        onComplete();
+        resolve();
+      })
+      .run({
+        async: true
+      });
+  });
+};
+
+const runReduceObject = () => {
+  const suite = new Benchmark.Suite('Reduce object');
+
+  const object = getObjectWithRandomValues();
+
+  const fn = (total, value) => {
+    return total + value;
+  };
+
+  return new Promise((resolve) => {
+    suite
+      .add('lodash', () => {
+        _.reduce(fn)(0)(object);
+      })
+      .add('ramda (not supported)', () => {
+        R.reduce(fn)(0)(object);
+      })
+      .add('kari', () => {
+        k.reduce(fn)(0)(object);
+      })
+      .on('start', () => {
+        console.log('');
+        console.log('Starting cycles for reducing an object...');
+
+        results = [];
+
+        spinner.start();
+      })
+      .on('cycle', onCycle)
+      .on('complete', () => {
+        onComplete();
+        resolve();
+      })
+      .run({
+        async: true
+      });
+  });
+};
+
 runFilterArray()
   .then(runFilterObject)
   .then(runMapArray)
-  .then(runMapObject);
+  .then(runMapObject)
+  .then(runReduceArray)
+  .then(runReduceObject);

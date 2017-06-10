@@ -1,43 +1,78 @@
 // test
 import test from 'ava';
+import sinon from 'sinon';
 
 // src
-import findIndex from 'src/findIndex';
+import findIndex from 'src/findIndex';import * as array from 'src/_utils/findInArray';
+import * as object from 'src/_utils/findInObject';
 
-test('if findIndex will find the index of the item in the array that matches', (t) => {
-  const items = [
-    {
-      foo: 'foo'
-    }, {
-      foo: 'bar'
-    }, {
-      foo: 'baz'
-    }
-  ];
-  const method = (item) => {
-    return item.foo === 'bar';
-  };
+test('if findIndex will find call findInArray when the item is an array', (t) => {
+  const items = [];
+  const method = () => {};
 
-  const result = findIndex(method)(items);
+  const findInArrayStub = sinon.stub(array, 'default');
+  const findInObjectStub = sinon.stub(object, 'default');
 
-  t.is(result, 1);
+  findIndex(method)(items);
+
+  t.true(findInArrayStub.calledOnce);
+  t.true(findInArrayStub.calledWith(method, items, true));
+
+  t.true(findInObjectStub.notCalled);
+
+  findInArrayStub.restore();
+  findInObjectStub.restore();
 });
 
-test('if findIndex returns -1 if nothing matching is found', (t) => {
-  const items = [
-    {
-      foo: 'foo'
-    }, {
-      foo: 'bar'
-    }, {
-      foo: 'baz'
-    }
-  ];
-  const method = (item) => {
-    return item.foo === 'blarg';
-  };
+test('if findIndex will find call findInObject when the item is an object', (t) => {
+  const items = {};
+  const method = () => {};
 
-  const result = findIndex(method, items);
+  const findInArrayStub = sinon.stub(array, 'default');
+  const findInObjectStub = sinon.stub(object, 'default');
 
-  t.is(result, -1);
+  findIndex(method)(items);
+
+  t.true(findInArrayStub.notCalled);
+
+  t.true(findInObjectStub.calledOnce);
+
+  const args = findInObjectStub.firstCall.args;
+
+  t.is(args.length, 4);
+  t.deepEqual(args, [
+    method,
+    items,
+    Object.keys(items),
+    true
+  ]);
+
+  findInArrayStub.restore();
+  findInObjectStub.restore();
+});
+
+test('if findIndex will find call findInArray when the item is neither an array or object', (t) => {
+  const items = 'foo';
+  const method = () => {};
+
+  const findInArrayStub = sinon.stub(array, 'default');
+  const findInObjectStub = sinon.stub(object, 'default');
+
+  findIndex(method)(items);
+
+  t.true(findInArrayStub.calledOnce);
+
+  const args = findInArrayStub.firstCall.args;
+
+  t.is(args.length, 3);
+  t.deepEqual(args, [
+    method,
+    [items],
+    true
+  ]);
+
+  t.true(findInObjectStub.notCalled);
+
+  findInArrayStub.restore();
+  findInObjectStub.restore();
 });

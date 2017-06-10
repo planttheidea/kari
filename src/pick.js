@@ -40,7 +40,7 @@ function pickObject(keys, object) {
     }
 
     return newObject;
-  }, keys, {});
+  }, {}, keys);
 }
 
 /**
@@ -54,19 +54,5 @@ function pickObject(keys, object) {
  * @returns {Array<*>|Object} the object with specific keys picked
  */
 export default curry(function pick(keys, items) {
-  const isItemsArray = isArray(items);
-
-  if (!isItemsArray && !isObject(items)) {
-    return {};
-  }
-
-  if (isObject(items)) {
-    return pickObject(keys, items);
-  }
-
-  if (isArray(items)) {
-    return pickArray(keys, items);
-  }
-
-  return isItemsArray ? pickArray(keys, items) : pickObject(keys, items);
+  return isArray(items) ? pickArray(keys, items) : isObject(items) ? pickObject(keys, items) : {};
 });
