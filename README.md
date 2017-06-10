@@ -2,7 +2,7 @@
 
 A tiny, modular, functional library to make all your collections curriable.
 
-### Table of contents
+## Table of contents
 * [Installation](#installation)
 * [Usage](#usage)
   * [All modules](#all-modules)
@@ -69,13 +69,13 @@ A tiny, modular, functional library to make all your collections curriable.
   * [uncurry](#uncurry)
 * [Development](#development)
 
-### Installation
+## Installation
 
 ```
 $ npm i kari --save
 ```
 
-### Usage
+## Usage
 
 #### All modules
 
@@ -107,13 +107,13 @@ console.log(state);
 // {foo: 'bar'}
 ```
 
-### Difference with other functional libraries
+## Difference with other functional libraries
 
 There are some really killer libraries out there, namely `ramda` and `lodash/fp`, and both were used as inspiration when building this library. The goal with `kari` is to keep the footprint very small while providing a fast and comprehensive collection of utility methods. Each method can be imported as a standalone module (`import set from 'kari/set';`), or as a named import (`import {set} from 'kari';`) if you use tree shaking.
 
 `kari` is still quite young, and we are looking to make the API more comprehensive, so PRs are welcome!
 
-### API
+## API
 
 #### add
 
@@ -638,9 +638,20 @@ console.log(k.instanceOf(String)(object)); // false
 
 `is(value: any, valueOrConstructor: any): boolean`
 
-Compares `value` to `valueOrConstructor` to determine if they are either strictly equal or if `value` is an instance of `valueOrConstructor`. If you wish to do a value equality comparison instead of strict equality, see [equals](#equals). Please note that this does not check up the inheritance chain, so if you wish to check ancestry see [instanceOf](#instanceof).
+Compares `value` to `valueOrConstructor` to determine if they are either strictly equal or if `value` is an instance of `valueOrConstructor`. If you wish to do a value equality comparison instead of strict equality, see [equals](#equals).
+
+Please note that when using this for testing constructors, it does not check up the inheritance chain. If you wish to check up the full inheritance chain, see [instanceOf](#instanceof).
 
 ```javascript
+// strict equality check
+const object = {foo: 'bar'};
+
+console.log(k.is('foo')('foo')); // true
+console.log(k.is('foo')('bar')); // false
+console.log(k.is(object)(object)); // true
+console.log(k.is(object)({foo: 'bar'})); // false
+
+// constructor check
 console.log(k.is(String)('foo')); // true
 console.log(k.is(String)(new String('foo'))); // true
 console.log(k.is(Number)(123)); // true
@@ -654,13 +665,13 @@ console.log(k.is(Object)({})); // true
 Determines if `lesserValue` is less than `greaterValue` based on the `>` operator.
 
 ```javascript
-console.log(k.lt(10, 15)); // true
-console.log(k.lt(10, 5)); // false
-console.log(k.lt(10, 10)); // false
+console.log(k.lt(10)(15)); // true
+console.log(k.lt(10)(5)); // false
+console.log(k.lt(10)(10)); // false
 
-console.log(k.lt('bar', 'foo')); // true
-console.log(k.lt('foo', 'bar')); // false
-console.log(k.lt('foo', 'foo')); // false
+console.log(k.lt('bar')('foo')); // true
+console.log(k.lt('foo')('bar')); // false
+console.log(k.lt('foo')('foo')); // false
 ```
 
 #### lte
@@ -670,13 +681,13 @@ console.log(k.lt('foo', 'foo')); // false
 Determines if `lesserOrEqualValue` is less than or equal to `greaterOrEqualValue` based on the `>=` operator.
 
 ```javascript
-console.log(k.lte(10, 15)); // true
-console.log(k.lte(10, 5)); // false
-console.log(k.lte(10, 10)); // true
+console.log(k.lte(10)(15)); // true
+console.log(k.lte(10)(5)); // false
+console.log(k.lte(10)(10)); // true
 
-console.log(k.lte('bar', 'foo')); // true
-console.log(k.lte('foo', 'bar')); // false
-console.log(k.lte('foo', 'foo')); // true
+console.log(k.lte('bar')('foo')); // true
+console.log(k.lte('foo')('bar')); // false
+console.log(k.lte('foo')('foo')); // true
 ```
 
 #### map
@@ -1195,7 +1206,7 @@ console.log(uncurried(1)(2)(3)(4)); // throws error that result of first call is
 console.log(uncurried(1, 2, 3, 4)); // [1, 2, 3, 4]
 ```
 
-### Development
+## Development
 
   Standard stuff, clone the repo and `npm i` to get the dependencies. npm scripts available:
   * `build` => builds the distributed JS with `NODE_ENV=development` and with sourcemaps
