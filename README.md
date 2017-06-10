@@ -544,9 +544,9 @@ console.log(k.gte('foo', 'foo')); // true
 
 #### has
 
-`has(keyOrIndex: (number|string), collection: (Array<*>|Object)): boolean`
+`has(keyOrIndex: (string>|number|string), collection: (Array<*>|Object)): boolean`
 
-Determines if the `collection` has the `keyOrIndex` as a valid key (if an object) or index (if an array).
+Determines if the `collection` has the `keyOrIndex` as a valid key (if an object) or index (if an array). Nested paths using dot or bracket notation are accepted as well.
 
 ```javascript
 const array = ['foo'];
@@ -805,7 +805,7 @@ console.log(product); // 8
 
 `omit(keys: Array<number|string>, collection: (Array<any>|Object)): (Array<any>|Object)`
 
-Create a new object with the same values as `collection` but with the `keys` removed.
+Create a new object with the same values as `collection` but with the `keys` removed. Nested paths using dot or bracket notation are accepted as well.
 
 ```javascript
 const arrayResult = k.omit([1])(['foo', 'bar', 'baz']);
