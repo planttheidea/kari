@@ -1,10 +1,74 @@
 // methods
 import curry from './curry';
+import equals from './equals';
+import findIndex from './findIndex';
+import reduce from './reduce';
+import set from './set';
 
 // utils
 import coalesceToArray from './_utils/coalesceToArray';
 import getPath from './_utils/getPath';
+import isNumber from './_utils/isNumber';
 import isObject from './_utils/isObject';
+
+/**
+ * @function getExistingPath
+ *
+ * @description
+ * does the path already exist minus the final item
+ *
+ * @param {Array<number|string>} path the path to check
+ * @param {Array<Array<number|string>>} existingPaths the existing paths
+ * @returns {number} the index of the existing path
+ */
+function getExistingPath(path, existingPaths) {
+  return findIndex((existingPath) => {
+    return equals(existingPath.slice(0, -1), path.slice(0, -1));
+  }, existingPaths);
+}
+
+/**
+ * @function getConsolidatedPaths
+ *
+ * @description
+ * partial function to get the array of paths consolidated if the final item in the path is an index
+ *
+ * @param {Array} consolidatedPaths the array to assign the consolidated paths
+ * @param {Array<string>} keys the current keys
+ * @returns {Array<Array<number|string>>} the array of consolidated paths
+ */
+const getConsolidatedPaths = reduce((consolidatedPaths, key) => {
+  const path = getPath(key);
+  const lastPathIndex = path.length - 1;
+  const finalPathItem = path[lastPathIndex];
+
+  let pathToAssign = path;
+
+  if (isNumber(finalPathItem)) {
+    const matchingIndex = getExistingPath(path, consolidatedPaths);
+
+    if (~matchingIndex) {
+      const match = consolidatedPaths[matchingIndex];
+      const lastMatchIndex = match.length - 1;
+      const newLastPathItem = set(lastMatchIndex, [
+        ...match[lastMatchIndex],
+        finalPathItem
+      ], match);
+
+      return [
+        ...consolidatedPaths.slice(0, matchingIndex),
+        newLastPathItem,
+        ...consolidatedPaths.slice(matchingIndex + 1)
+      ];
+    }
+
+    pathToAssign = set(lastPathIndex, [finalPathItem], path);
+  }
+
+  consolidatedPaths.push(pathToAssign);
+
+  return consolidatedPaths;
+});
 
 /**
  * @function removeKeyFromObject
@@ -40,21 +104,20 @@ function removeIndicesFromArray(indices, array) {
     return array;
   }
 
-  let newArray = [],
-      indexToRemove = indices.shift(),
-      index = -1;
+  let indexToRemove = indices.shift();
 
-  while (++index < array.length) {
-    if (index === indexToRemove) {
-      indexToRemove = indices.shift();
-
-      continue;
+  return reduce((newArray, item, index) => {
+    if (index !== indexToRemove) {
+      return [
+        ...newArray,
+        item
+      ];
     }
 
-    newArray.push(array[index]);
-  }
+    indexToRemove = indices.shift();
 
-  return newArray;
+    return newArray;
+  }, [], array);
 }
 
 /**
@@ -83,27 +146,20 @@ function getCleanCollection(collection, isCollectionObject) {
  * @returns {Array<*>|Object} the updated collection
  */
 function omitNested(path, collection, isCollectionObject) {
-  const key = path.shift();
-  const hasKey = collection != null && collection.hasOwnProperty(key); // eslint-disable-line eqeqeq
+  const nextPath = path.shift();
   const cleanCollection = getCleanCollection(collection, isCollectionObject);
 
-  if (!hasKey) {
-    return collection;
-  }
-
   if (!path.length) {
-    if (isCollectionObject) {
-      return removeKeyFromObject(key, cleanCollection);
-    }
+    const removeMethod = isCollectionObject ? removeKeyFromObject : removeIndicesFromArray;
 
-    return removeIndicesFromArray([key], cleanCollection);
+    return removeMethod(nextPath, cleanCollection);
   }
 
   /* eslint-disable no-use-before-define */
-  let omitMethod = isObject(cleanCollection[key]) ? omitFromObject : omitFromArray;
+  const omitMethod = isObject(cleanCollection[nextPath]) ? omitFromObject : omitFromArray;
   /* eslint-enable */
 
-  collection[key] = omitMethod([path], cleanCollection[key]);
+  collection[nextPath] = omitMethod(cleanCollection[nextPath], [path]);
 
   return collection;
 }
@@ -112,27 +168,27 @@ function omitNested(path, collection, isCollectionObject) {
  * @function omitFromArray
  *
  * @description
- * remove the items at the keys location from the array
+ * remove the items at the paths location from the array
  *
- * @param {Array<string>} keys the keys to remove
- * @param {Array<*>} array the array to remove the keys from
+ * @param {Array<*>} array the array to remove the paths from
+ * @param {Array<string>} paths the paths to remove
  * @returns {Array<*>} the omitted array
  */
-function omitFromArray(keys, array) {
-  let index = -1,
-      newCollection = array,
-      indicesToRemove = [],
-      path;
+function omitFromArray(array, paths) {
+  let indicesToRemove = [];
 
-  while (++index < keys.length) {
-    path = getPath(keys[index]);
-
+  const newCollection = reduce((deeplyNestedOmittedCollection, path) => {
     if (path.length > 1) {
-      newCollection = omitNested(path, newCollection, true);
-    } else {
-      indicesToRemove.push(path[0]);
+      return omitNested(path, deeplyNestedOmittedCollection, true);
     }
-  }
+
+    indicesToRemove = [
+      ...indicesToRemove,
+      ...path[0]
+    ];
+
+    return deeplyNestedOmittedCollection;
+  }, array, paths);
 
   return removeIndicesFromArray(indicesToRemove, newCollection);
 }
@@ -141,22 +197,16 @@ function omitFromArray(keys, array) {
  * @function omitFromObject
  *
  * @description
- * remove the items at the keys location from the object
+ * remove the items at the paths location from the object
  *
- * @param {Array<string>} keys the keys to remove
  * @param {Object} object the object to remove the keys from
+ * @param {Array<string>} paths the paths to remove
  * @returns {Object} the omitted object
  */
-function omitFromObject(keys, object) {
-  let index = -1,
-      newCollection = object;
 
-  while (++index < keys.length) {
-    newCollection = omitNested(getPath(keys[index]), newCollection, true);
-  }
-
-  return newCollection;
-}
+const omitFromObject = reduce((newCollection, path) => {
+  return omitNested(path, newCollection, true);
+});
 
 /**
  * @function omit
@@ -171,19 +221,12 @@ function omitFromObject(keys, object) {
 export default curry(function omit(keys, collection) {
   const isCollectionObject = isObject(collection);
   const coalescedCollection = isCollectionObject ? collection : coalesceToArray(collection);
-  const cleanKeys = [...keys];
-
-  /**
-   * @todo
-   *
-   * group keys into their hierarchical levels to ensure that nested array indices don't change
-   * between omittances
-   */
 
   if (coalescedCollection !== collection) {
     return coalescedCollection;
   }
 
-  return isCollectionObject ? omitFromObject(cleanKeys, coalescedCollection) :
-    omitFromArray(cleanKeys, coalescedCollection);
+  const paths = getConsolidatedPaths([], keys);
+
+  return isCollectionObject ? omitFromObject(coalescedCollection, paths) : omitFromArray(coalescedCollection, paths);
 });
