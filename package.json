@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/planttheidea/kari/issues"
   },
-  "description": "Modular curryable utilities for modern JS",
+  "description": "Modular curriable utilities for modern JS",
   "devDependencies": {
     "ava": "^0.19.1",
     "babel-cli": "^6.24.1",
