@@ -41,13 +41,13 @@ test('if omit will return the original object as an array if not an array or obj
 
 test('if omit will remove the nested item from the array', (t) => {
   const items = [{foo: ['bar', 'baz']}];
-  const keys = ['[0]foo[0]'];
+  const keys = ['[0]foo[0]', '[0]foo[1]'];
 
   const result = omit(keys, items);
 
   t.deepEqual(result, [
     {
-      foo: ['baz']
+      foo: []
     }
   ]);
 });
