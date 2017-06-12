@@ -4,7 +4,38 @@ import isArray from './isArray';
 import isNumber from './isNumber';
 import isString from './isString';
 
-const PERIOD = '.';
+/**
+ * @function getDotSeparatedPath
+ *
+ * @description
+ * get the path separated by periods as an array of strings or numbers
+ *
+ * @param {string} path the string path to parse
+ * @returns {Array<number|string>} the parsed string path as an array path
+ */
+function getDotSeparatedPath(path) {
+  return path
+    .split('.')
+    .reduce((splitPath, pathItem) => {
+      return !pathItem ? splitPath : [
+        ...splitPath,
+        getKey(pathItem)
+      ];
+    }, []);
+}
+
+/**
+ * @function isQuotedKey
+ *
+ * @description
+ * is the key passed a quoted key
+ *
+ * @param {string} key the key to test
+ * @returns {boolean} is the key a quoted key
+ */
+function isQuotedKey(key) {
+  return /['|"|`]/.test(key[0]) && key[0] === key[key.length - 1];
+}
 
 /**
  * @function getPath
@@ -25,20 +56,24 @@ export default function getPath(path) {
   }
 
   if (isString(path)) {
-    let cleanPath = path
-      .replace(/\[(\w+)\]/g, '.$1.')
-      .replace(/(\.){2,}/g, '.');
+    return path
+      .split(/\[(.*?)\]/g)
+      .reduce((cleanPath, pathItem) => {
+        if (!pathItem) {
+          return cleanPath;
+        }
 
-    if (cleanPath[0] === PERIOD) {
-      cleanPath = cleanPath.slice(1);
-    }
+        if (isQuotedKey(pathItem)) {
+          return [
+            ...cleanPath,
+            getKey(pathItem.slice(1, -1))
+          ];
+        }
 
-    if (cleanPath.slice(-1) === PERIOD) {
-      cleanPath = cleanPath.slice(0, -1);
-    }
-
-    return cleanPath
-      .split(PERIOD)
-      .map(getKey);
+        return [
+          ...cleanPath,
+          ...getDotSeparatedPath(pathItem)
+        ];
+      }, []);
   }
 }

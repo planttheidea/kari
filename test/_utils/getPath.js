@@ -63,10 +63,27 @@ test('if the path will handle the bracket notation being last', (t) => {
   ]);
 });
 
-test('if when the path is not an array, number or string, it will return undefined', (t) => {
+test('if when the path is not an array, number or string, it will return the item in an array', (t) => {
   const path = {};
 
   const result = getPath(path);
 
   t.is(result, undefined);
+});
+
+test('if when the path has nested quoted strings, it will respect those strings as singular keys', (t) => {
+  const simple = '["foo.bar"]';
+  const simplePath = getPath(simple);
+
+  t.deepEqual(simplePath, ['foo.bar']);
+
+  const complex = 'foo[`bar.baz`]';
+  const complexPath = getPath(complex);
+
+  t.deepEqual(complexPath, ['foo', 'bar.baz']);
+
+  const crazy = 'foo[\'bar.baz\'].blah[0]["super.blah"]';
+  const crazyPath = getPath(crazy);
+
+  t.deepEqual(crazyPath, ['foo', 'bar.baz', 'blah', 0, 'super.blah']);
 });
