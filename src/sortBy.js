@@ -1,6 +1,9 @@
 // methods
 import curry from './curry';
 
+// utils
+import coalesceToArray from './_utils/coalesceToArray';
+
 /**
  * @function sortBy
  *
@@ -11,7 +14,7 @@ import curry from './curry';
 export default curry(function sortBy(fn, array) {
   let firstValue, secondValue;
 
-  return [...array].sort(function(first, second) {
+  return [...coalesceToArray(array)].sort(function(first, second) {
     firstValue = fn(first);
     secondValue = fn(second);
 

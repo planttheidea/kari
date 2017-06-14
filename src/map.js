@@ -56,12 +56,12 @@ function mapObject(fn, object) {
  * @function map
  *
  * @description
- * map the items based on the returns of the call with fn
+ * map the collection based on the returns of the call with fn
  *
  * @param {function(*, (number|string), (Array<*>|Object)): *} fn the method to map with
- * @param {Array<*>|Object} items the array of items to map
- * @returns {Array<*>|Object} the mapped items
+ * @param {Array<*>|Object} collection the collection of items to map
+ * @returns {Array<*>|Object} the mapped collection
  */
-export default curry(function map(fn, items) {
-  return isObject(items) ? mapObject(fn, items) : mapArray(fn, coalesceToArray(items));
+export default curry(function map(fn, collection) {
+  return isObject(collection) ? mapObject(fn, collection) : mapArray(fn, coalesceToArray(collection));
 });

@@ -13,13 +13,20 @@ import compose from './compose';
 import curry from './curry';
 import descend from './descend';
 import divide from './divide';
+import empty from './empty';
 import endsWith from './endsWith';
+import entries from './entries';
 import equals from './equals';
+import equalsBy from './equalsBy';
 import every from './every';
 import filter from './filter';
 import find from './find';
 import findIndex from './findIndex';
 import findKey from './findKey';
+import findLast from './findLast';
+import findLastIndex from './findLastIndex';
+import findLastKey from './findLastKey';
+import flatten from './flatten';
 import forEach from './forEach';
 import get from './get';
 import gt from './gt';
@@ -33,10 +40,14 @@ import is from './is';
 import lt from './lt';
 import lte from './lte';
 import map from './map';
+import max from './max';
 import merge from './merge';
 import mergeDeep from './mergeDeep';
+import min from './min';
 import modulo from './modulo';
 import multiply from './multiply';
+import not from './not';
+import notBy from './notBy';
 import omit from './omit';
 import partial from './partial';
 import partialRight from './partialRight';
@@ -47,6 +58,7 @@ import pluck from './pluck';
 import prepend from './prepend';
 import reduce from './reduce';
 import reduceRight from './reduceRight';
+import reject from './reject';
 import remainder from './remainder';
 import rest from './rest';
 import set from './set';
@@ -60,6 +72,8 @@ import take from './take';
 import tap from './tap';
 import tryCatch from './tryCatch';
 import uncurry from './uncurry';
+import unique from './unique';
+import uniqueBy from './uniqueBy';
 
 export {__};
 export {add};
@@ -73,13 +87,20 @@ export {compose};
 export {curry};
 export {descend};
 export {divide};
+export {empty};
 export {endsWith};
+export {entries};
 export {equals};
+export {equalsBy};
 export {every};
 export {filter};
 export {find};
 export {findIndex};
 export {findKey};
+export {findLast};
+export {findLastIndex};
+export {findLastKey};
+export {flatten};
 export {forEach};
 export {get};
 export {gt};
@@ -93,10 +114,14 @@ export {is};
 export {lt};
 export {lte};
 export {map};
+export {max};
 export {merge};
 export {mergeDeep};
+export {min};
 export {modulo};
 export {multiply};
+export {not};
+export {notBy};
 export {omit};
 export {partial};
 export {partialRight};
@@ -107,6 +132,7 @@ export {pluck};
 export {prepend};
 export {reduce};
 export {reduceRight};
+export {reject};
 export {remainder};
 export {rest};
 export {set};
@@ -120,6 +146,8 @@ export {take};
 export {tap};
 export {tryCatch};
 export {uncurry};
+export {unique};
+export {uniqueBy};
 
 export default {
   __,
@@ -134,13 +162,20 @@ export default {
   curry,
   descend,
   divide,
+  empty,
   endsWith,
+  entries,
   equals,
+  equalsBy,
   every,
   filter,
   find,
   findIndex,
   findKey,
+  findLast,
+  findLastIndex,
+  findLastKey,
+  flatten,
   forEach,
   get,
   gt,
@@ -154,10 +189,14 @@ export default {
   lt,
   lte,
   map,
+  max,
   merge,
   mergeDeep,
+  min,
   modulo,
   multiply,
+  not,
+  notBy,
   omit,
   partial,
   partialRight,
@@ -168,6 +207,7 @@ export default {
   prepend,
   reduce,
   reduceRight,
+  reject,
   remainder,
   rest,
   set,
@@ -180,5 +220,7 @@ export default {
   take,
   tap,
   tryCatch,
-  uncurry
+  uncurry,
+  unique,
+  uniqueBy
 };

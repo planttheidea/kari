@@ -55,12 +55,12 @@ function forEachObject(fn, object) {
  * @function forEach
  *
  * @description
- * iterate over each of the items
+ * iterate over each of the items in the collection
  *
- * @param {function(*, (number|string), (Array<*>|Object)): *} fn the function to iterate over the items
- * @param {Array<*>|Object} items the items to iterate over
- * @returns {Array<*>|Object} the items passed
+ * @param {function(*, (number|string), (Array<*>|Object)): *} fn the function to iterate over the collection
+ * @param {Array<*>|Object} collection the collection to iterate over
+ * @returns {Array<*>|Object} the collection passed
  */
-export default curry(function forEach(fn, items) {
-  return isObject(items) ? forEachObject(fn, items) : forEachArray(fn, coalesceToArray(items));
+export default curry(function forEach(fn, collection) {
+  return isObject(collection) ? forEachObject(fn, collection) : forEachArray(fn, coalesceToArray(collection));
 });

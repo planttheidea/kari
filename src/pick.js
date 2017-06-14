@@ -50,9 +50,9 @@ function pickObject(keys, object) {
  * pick specific keys from the object passed
  *
  * @param {Array<number|string>} keys the keys to pick from the object
- * @param {Array<*>|Object} items the object to pick the keys from
+ * @param {Array<*>|Object} collection the object to pick the keys from
  * @returns {Array<*>|Object} the object with specific keys picked
  */
-export default curry(function pick(keys, items) {
-  return isArray(items) ? pickArray(keys, items) : isObject(items) ? pickObject(keys, items) : {};
+export default curry(function pick(keys, collection) {
+  return isArray(collection) ? pickArray(keys, collection) : isObject(collection) ? pickObject(keys, collection) : {};
 });

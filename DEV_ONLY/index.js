@@ -245,6 +245,62 @@ const tryCatchResult = k.tryCatch(JSON.parse, catchFn)({foo: 'bar'});
 
 console.log(tryCatchResult);
 
+console.log(k.flatten([1, 2, [3, 4], 5, [6, [7, 8, [9, [10, 11], 12]]]]));
+console.log(k.flatten({
+  one: 1,
+  two: 2,
+  threeAndFour: {
+    three: 3,
+    four: 4
+  },
+  five: 5,
+  sixThroughTwelve: {
+    six: 6,
+    sevenThroughTwelve: {
+      seven: 7,
+      eight: 8,
+      nineThroughTwelve: {
+        nine: 9,
+        tenAndEleven: {
+          ten: 10,
+          eleven: 11
+        },
+        twelve: 12
+      }
+    }
+  }
+}));
+
+console.log(k.not('foo'));
+console.log(k.notBy((value) => {
+  return value !== 'foo';
+})('foo'));
+
+console.log(k.equals({foo: 'foo'})({foo: 'bar'}));
+console.log(k.equalsBy((value, key) => {
+  return key;
+})({foo: 'foo'})({foo: 'bar'}));
+
+console.log(k.empty(['foo', 'bar']));
+console.log(k.empty({foo: 'bar'}));
+console.log(k.empty('foo'));
+console.log(k.empty(123));
+
+console.log(k.entries(['foo', 'bar']));
+console.log(k.entries({foo: 'bar', bar: 'baz'}));
+
+console.log(k.reject((value) => {
+  return value % 2 === 0;
+})([1, 2, 3, 4, 5]));
+console.log(k.filter((value) => {
+  return value % 2 === 0;
+})([1, 2, 3, 4, 5]));
+
+console.log(k.unique([1, 2, 2, 1, 1, 2, 2, 1, 3]));
+console.log(k.uniqueBy((value) => {
+  return 3;
+})([1, 2, 2, 1, 1, 2, 2, 1, 3]));
+
 
 
 

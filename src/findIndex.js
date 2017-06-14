@@ -14,10 +14,10 @@ import isObject from './_utils/isObject';
  * find the index of the first item that returns truthy based on the call to fn
  *
  * @param {function(*, number, Array<*>): *} fn the method to test with
- * @param {Array<*>} items the array of items to test
+ * @param {Array<*>} collection the collection of items to test
  * @returns {number} the index of the item that matches, or -1
  */
-export default curry(function findIndex(fn, items) {
-  return isObject(items) ? findInObject(fn, items, Object.keys(items), true) :
-    findInArray(fn, coalesceToArray(items), true);
+export default curry(function findIndex(fn, collection) {
+  return isObject(collection) ? findInObject(fn, collection, Object.keys(collection), true) :
+    findInArray(fn, coalesceToArray(collection), true);
 });

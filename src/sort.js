@@ -1,6 +1,9 @@
 // methods
 import curry from './curry';
 
+// utils
+import coalesceToArray from './_utils/coalesceToArray';
+
 /**
  * @function sort
  *
@@ -9,5 +12,5 @@ import curry from './curry';
  * @returns {Array<*>} the sorted array
  */
 export default curry(function sort(fn, array) {
-  return [...array].sort(fn);
+  return [...coalesceToArray(array)].sort(fn);
 });

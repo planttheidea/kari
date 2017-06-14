@@ -69,13 +69,13 @@ function partitionObject(fn, object) {
  * @function partition
  *
  * @description
- * partition the items into truthy and falsy values
+ * partition the collection into truthy and falsy values
  *
  * @param {function(*, (number|string), (Array<*>|Object))}
  * fn the function that will determine which partition to put the value into
- * @param {Array<*>|Object} items the items to partition
- * @returns {Array<Array<*>>|Object} the partitioned items
+ * @param {Array<*>|Object} collection the collection to partition
+ * @returns {Array<Array<*>>|Object} the partitioned collection
  */
-export default curry(function partition(fn, items) {
-  return isObject(items) ? partitionObject(fn, items) : partitionArray(fn, coalesceToArray(items));
+export default curry(function partition(fn, collection) {
+  return isObject(collection) ? partitionObject(fn, collection) : partitionArray(fn, coalesceToArray(collection));
 });

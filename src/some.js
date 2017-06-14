@@ -57,19 +57,19 @@ function someObject(fn, object, keys) {
  * @function some
  *
  * @description
- * does any of the iteration of items return truthy based on passing to fn
+ * does any of the iteration of collection return truthy based on passing to fn
  *
  * @param {function(*, (number|string), (Array<*>|Object)): *} fn the method to test with
- * @param {Array<*>|Object} items the array of items to test
+ * @param {Array<*>|Object} collection the collection of items to test
  * @returns {boolean} does any iteration match
  */
-export default curry(function some(fn, items) {
-  const keys = Object.keys(items);
+export default curry(function some(fn, collection) {
+  const keys = Object.keys(collection);
 
   if (!keys.length) {
     return true;
   }
 
-  return isObject(items) ? someObject(fn, items, keys) :
-    someArray(fn, coalesceToArray(items));
+  return isObject(collection) ? someObject(fn, collection, keys) :
+    someArray(fn, coalesceToArray(collection));
 });

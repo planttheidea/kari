@@ -43,12 +43,13 @@ function mergeObjects(object1, object2) {
  * @function merge
  *
  * @description
- * shallowly merge two items into a new item modeled after the first
+ * shallowly merge two items into a new collection modeled after the first
  *
- * @param {Array<*>|Object} item1 the first item to merge
- * @param {Array<*>|Object} item2 the second item to merge
- * @returns {Array<*>|Object} the merged items
+ * @param {Array<*>|Object} collection1 the first collection to merge
+ * @param {Array<*>|Object} collection2 the second collection to merge
+ * @returns {Array<*>|Object} the merged collections
  */
-export default curry(function merge(item1, item2) {
-  return isObject(item1) ? mergeObjects(item1, item2) : mergeArrays(coalesceToArray(item1), coalesceToArray(item2));
+export default curry(function merge(collection1, collection2) {
+  return isObject(collection1) ? mergeObjects(collection1, collection2) :
+    mergeArrays(coalesceToArray(collection1), coalesceToArray(collection2));
 });

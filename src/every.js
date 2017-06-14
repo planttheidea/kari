@@ -57,19 +57,19 @@ function everyObject(fn, object, keys) {
  * @function every
  *
  * @description
- * does every iteration of items return truthy based on passing to fn
+ * does every iteration of collection return truthy based on passing to fn
  *
  * @param {function(*, (number|string), (Array<*>|Object)): *} fn the method to test with
- * @param {Array<*>|Object} items the array of items to test
+ * @param {Array<*>|Object} collection the collection of items to test
  * @returns {boolean} does every iteration match
  */
-export default curry(function every(fn, items) {
-  const keys = Object.keys(items);
+export default curry(function every(fn, collection) {
+  const keys = Object.keys(collection);
 
   if (!keys.length) {
     return true;
   }
 
-  return isObject(items) ? everyObject(fn, items, keys) :
-    everyArray(fn, coalesceToArray(items));
+  return isObject(collection) ? everyObject(fn, collection, keys) :
+    everyArray(fn, coalesceToArray(collection));
 });

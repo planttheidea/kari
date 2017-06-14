@@ -108,13 +108,13 @@ function mergeDeepObjects(object1, object2) {
  * @function mergeDeep
  *
  * @description
- * deeply merge two items into a new item modeled after the first
+ * deeply merge two items into a new collection modeled after the first
  *
- * @param {Array<*>|Object} item1 the first item to merge
- * @param {Array<*>|Object} item2 the second item to merge
- * @returns {Array<*>|Object} the merged items
+ * @param {Array<*>|Object} collection1 the first collection to merge
+ * @param {Array<*>|Object} collection2 the second collection to merge
+ * @returns {Array<*>|Object} the merged collections
  */
-export default curry(function mergeDeep(item1, item2) {
-  return isObject(item1) ? mergeDeepObjects(item1, item2) :
-    mergeDeepArrays(coalesceToArray(item1), coalesceToArray(item2));
+export default curry(function mergeDeep(collection1, collection2) {
+  return isObject(collection1) ? mergeDeepObjects(collection1, collection2) :
+    mergeDeepArrays(coalesceToArray(collection1), coalesceToArray(collection2));
 });

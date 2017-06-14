@@ -12,21 +12,21 @@ import isObject from './_utils/isObject';
  * @function set
  *
  * @description
- * create a new object based on the original, deeply setting the value
+ * create a new collection based on the original, deeply setting the value
  *
  * @param {Array<number|string>|number|string} path the path to deeply assign to
  * @param {*} value the value to assign
- * @param {Array<*>|Object} object the object to deeply assign to
- * @returns {Array<*>|Object} the object clone, with the value deeply assigned
+ * @param {Array<*>|Object} collection the collection to deeply assign to
+ * @returns {Array<*>|Object} the collection clone, with the value deeply assigned
  */
-function set(path, value, object) {
+function set(path, value, collection) {
   const cleanPath = getPath(path);
 
   if (isEmpty(cleanPath)) {
-    return object;
+    return collection;
   }
 
-  let destination = isArray(object) ? [...object] : {...object};
+  let destination = isArray(collection) ? [...collection] : {...collection};
 
   if (cleanPath.length === 1) {
     destination[cleanPath[0]] = value;
@@ -35,7 +35,7 @@ function set(path, value, object) {
   }
 
   const childPath = cleanPath[0];
-  const childSource = object[childPath];
+  const childSource = collection[childPath];
   const descentantSource = isArray(childSource) || isObject(childSource) ? childSource :
     isNumber(cleanPath[1]) ? [] : {};
 

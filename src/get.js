@@ -15,7 +15,7 @@ import isEmpty from './_utils/isEmpty';
  * @param {Array<*>|Object} object the object to get the value from
  * @returns {*} the value at the path passed
  */
-function get(path, object) {
+export default curry(function get(path, object) {
   const cleanPath = getPath(path);
 
   if (!object || isEmpty(cleanPath)) {
@@ -25,6 +25,4 @@ function get(path, object) {
   const childSource = object[cleanPath[0]];
 
   return cleanPath.length === 1 ? childSource : get(cleanPath.slice(1), childSource);
-}
-
-export default curry(get);
+});

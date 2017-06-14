@@ -60,15 +60,12 @@ function filterObject(fn, object) {
  * @function filter
  *
  * @description
- * filter down the items to those that return truthy based on the call of fn
+ * filter down the collection to those that return truthy based on the call of fn
  *
  * @param {function(*, (number|string), (Array<*>|Object): *} fn the method to filter with
- * @param {Array<*>|Object} items the array of items to filter
- * @returns {Array<*>|Object} the filtered items
+ * @param {Array<*>|Object} collection the collection of items to filter
+ * @returns {Array<*>|Object} the filtered collection
  */
-// export default curry2(function filter(fn, items) {
-  // return isObject(items) ? filterObject(fn, items) : filterArray(fn, isArray(items) ? items : [items]);
-// });
-export default curry(function filter(fn, items) {
-  return isObject(items) ? filterObject(fn, items) : filterArray(fn, coalesceToArray(items));
+export default curry(function filter(fn, collection) {
+  return isObject(collection) ? filterObject(fn, collection) : filterArray(fn, coalesceToArray(collection));
 });

@@ -11,14 +11,14 @@ import reduceObject from './_utils/reduceObject';
  * @function reduce
  *
  * @description
- * reduce the items to a single value based on fn
+ * reduce the collection to a single value based on fn
  *
- * @param {function(*, *, (number|string), (Array<*>|Object)): *} the method to reduce the items with
- * @param {Array<*>|Object} items the items to reduce
+ * @param {function(*, *, (number|string), (Array<*>|Object)): *} the method to reduce the collection with
+ * @param {Array<*>|Object} collection the collection to reduce
  * @param {*} initialValue the initial value to start the reduction from
  * @returns {*} the reduced value
  */
-export default curry(function reduce(fn, initialValue, items) {
-  return isObject(items) ? reduceObject(fn, items, initialValue, Object.keys(items)) :
-    reduceArray(fn, coalesceToArray(items), initialValue);
+export default curry(function reduce(fn, initialValue, collection) {
+  return isObject(collection) ? reduceObject(fn, collection, initialValue, Object.keys(collection)) :
+    reduceArray(fn, coalesceToArray(collection), initialValue);
 });
