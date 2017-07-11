@@ -1165,9 +1165,9 @@ console.log(result); // [1, 4, 9]
 
 #### take
 
-`take(size: number, array: Array<any>): Array<any>`
+`take(size: number, collection: (Array<any>|Object)): (Array<any>|Object)`
 
-Takes the first *n* number of items from `array`, where *n* is `size`.
+Takes the first *n* number of items from `collection`, where *n* is `size`.
 
 ```javascript
 const firstThreeArray = k.take(3)([1, 2, 3, 4, 5, 6]);

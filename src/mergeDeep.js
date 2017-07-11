@@ -18,7 +18,7 @@ import isObject from './_utils/isObject';
  */
 function getDeeplyMergedValues(value1, value2) {
   if (isArray(value2)) {
-    return !isArray(value1) ? value2 : mergeDeepArrays(value1, value2);  //eslint-disable-line no-use-before-define
+    return !isArray(value1) ? value2 : mergeDeepArrays(value1, value2); // eslint-disable-line no-use-before-define
   }
 
   if (isObject(value2)) {
