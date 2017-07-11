@@ -16,12 +16,14 @@ import isObject from './_utils/isObject';
  * @returns {boolean} does any of the items in the array match fn
  */
 function someArray(fn, array) {
-  let index = -1;
+  let index = 0;
 
-  while (++index < array.length) {
+  while (index < array.length) {
     if (fn(array[index], index, array)) {
       return true;
     }
+
+    index++;
   }
 
   return false;
@@ -39,15 +41,17 @@ function someArray(fn, array) {
  * @returns {boolean} does any of the items in the object match fn
  */
 function someObject(fn, object, keys) {
-  let index = -1,
+  let index = 0,
       key;
 
-  while (++index < keys.length) {
+  while (index < keys.length) {
     key = keys[index];
 
     if (fn(object[key], key, object)) {
       return true;
     }
+
+    index++;
   }
 
   return false;

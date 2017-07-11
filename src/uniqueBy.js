@@ -15,8 +15,8 @@ export default curry(function uniqueBy(fn, collection) {
   let values = [],
       value;
 
-  return filter((item) => {
-    value = fn(item);
+  return filter((item, key) => {
+    value = fn(item, key, collection);
 
     const doesNotExist = !~values.indexOf(value);
 

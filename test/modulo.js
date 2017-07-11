@@ -34,7 +34,7 @@ test('if modulo will return NaN if the modulus is negative', (t) => {
 
   const result = modulo(first)(second);
 
-  t.not(result, result);
+  t.is(result, NaN);
 });
 
 test('if modulo will return NaN if the modulus is zero', (t) => {
@@ -43,7 +43,7 @@ test('if modulo will return NaN if the modulus is zero', (t) => {
 
   const result = modulo(first)(second);
 
-  t.not(result, result);
+  t.is(result, NaN);
 });
 
 test('if modulo will return NaN if the denominator is a decimal', (t) => {
@@ -52,7 +52,7 @@ test('if modulo will return NaN if the denominator is a decimal', (t) => {
 
   const result = modulo(first)(second);
 
-  t.not(result, result);
+  t.is(result, NaN);
 });
 
 test('if modulo will return NaN if the modulus is a decimal', (t) => {
@@ -61,5 +61,5 @@ test('if modulo will return NaN if the modulus is a decimal', (t) => {
 
   const result = modulo(first)(second);
 
-  t.not(result, result);
+  t.is(result, NaN);
 });
