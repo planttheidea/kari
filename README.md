@@ -988,14 +988,18 @@ console.log(k.remainder(17)(-3)) // 2
 
 #### rest
 
-`rest(size: number, array: Array<any>): Array<any>`
+`rest(size: number, collection: (Array<any>|Object)): (Array<any>|Object)`
 
-Takes the final *n* number of items from `array`, where *n* is `size`.
+Takes the final *n* number of items from `collection`, where *n* is `size`.
 
 ```javascript
-const lastThree = k.rest(3)([1, 2, 3, 4, 5, 6]);
+const lastThreeArray = k.rest(3)([1, 2, 3, 4, 5, 6]);
 
-console.log(lastThree); // [4, 5, 6]
+console.log(lastThreeArray); // [4, 5, 6]
+
+const lastTwoObject = k.rest(2)({one: 1, two: 2, three: 3, four: 4});
+
+console.log(lastTwoObject); // {three: 3, four: 4}
 ```
 
 #### set
@@ -1166,9 +1170,13 @@ console.log(result); // [1, 4, 9]
 Takes the first *n* number of items from `array`, where *n* is `size`.
 
 ```javascript
-const firstThree = k.take(3)([1, 2, 3, 4, 5, 6]);
+const firstThreeArray = k.take(3)([1, 2, 3, 4, 5, 6]);
 
-console.log(firstThree); // [1, 2, 3]
+console.log(firstThreeArray); // [1, 2, 3]
+
+const firstTwoObject = k.rest(2)({one: 1, two: 2, three: 3, four: 4});
+
+console.log(firstTwoObject); // {one: 1, two: 2}
 ```
 
 #### tryCatch
