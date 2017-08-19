@@ -1,5 +1,26 @@
 # kari CHANGELOG
 
+### 0.6.0
+* Add methods:
+  * [empty](README.md#empty)
+  * [entries](README.md#entries)
+  * [equalsBy](README.md#equalsby)
+  * [findLast](README.md#findlast)
+  * [findLastIndex](README.md#findlastindex)
+  * [findLastKey](README.md#findlastkey)
+  * [flatten](README.md#flatten)
+  * [max](README.md#max)
+  * [min](README.md#min)
+  * [not](README.md#not)
+  * [notBy](README.md#notby)
+  * [reject](README.md#reject)
+  * [unique](README.md#unique)
+  * [uniqueBy](README.md#uniqueby)
+* Add benchmarks
+
+### 0.5.3
+* Make nested paths support quoted keys
+
 ### 0.5.2
 * Fix issue with `omit` not respecting original indices when multiple keys from the same nested array are declared
 
@@ -8,10 +29,10 @@
 
 ### 0.5.0
 * Add methods:
-  * [findKey](#findkey)
-  * [has](#has)
-  * [merge](#merge)
-  * [mergeDeep](#mergedeep)
+  * [findKey](README.md#findkey)
+  * [has](README.md#has)
+  * [merge](README.md#merge)
+  * [mergeDeep](README.md#mergedeep)
 * Greatly improve the performance of `filter`, `map`, and `reduce` (which are used for a number of other methods)
 
 ### 0.4.1

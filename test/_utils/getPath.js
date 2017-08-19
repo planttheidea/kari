@@ -50,12 +50,12 @@ test('if the path will handle the bracket notation being last', (t) => {
   t.deepEqual(result, ['foo', 0]);
 });
 
-test('if when the path is not an array, number or string, it will return the item in an array', (t) => {
-  const path = {};
+test('if when the path is not an array or string, it will return the item in an array', (t) => {
+  const path = 123;
 
   const result = getPath(path);
 
-  t.is(result, undefined);
+  t.deepEqual(result, [123]);
 });
 
 test('if when the path has nested quoted strings, it will respect those strings as singular keys', (t) => {

@@ -1,7 +1,6 @@
 // utils
 import getKey from './getKey';
 import isArray from './isArray';
-import isNumber from './isNumber';
 import isString from './isString';
 
 /**
@@ -46,10 +45,6 @@ export default function getPath(path) {
     return path;
   }
 
-  if (isNumber(path)) {
-    return [path];
-  }
-
   if (isString(path)) {
     return path.split(/\[(.*?)\]/g).reduce((cleanPath, pathItem) => {
       if (!pathItem) {
@@ -63,4 +58,6 @@ export default function getPath(path) {
       return [...cleanPath, ...getDotSeparatedPath(pathItem)];
     }, []);
   }
+
+  return [path];
 }
