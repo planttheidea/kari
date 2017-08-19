@@ -16,7 +16,9 @@ import isFunction from './_utils/isFunction';
  * @returns {boolean} does collection contain value
  */
 export default curry(function includes(value, collection) {
-  return isFunction(collection.indexOf) ? !!~collection.indexOf(value) : some(function(valueToCompare) {
-    return valueToCompare === value;
-  }, collection);
+  return isFunction(collection.indexOf)
+    ? !!~collection.indexOf(value)
+    : some(function(valueToCompare) {
+      return valueToCompare === value;
+    }, collection);
 });

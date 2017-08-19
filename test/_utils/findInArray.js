@@ -8,9 +8,11 @@ test('if findInArray will find the item in the array that matches when isIndex i
   const items = [
     {
       foo: 'foo'
-    }, {
+    },
+    {
       foo: 'bar'
-    }, {
+    },
+    {
       foo: 'baz'
     }
   ];
@@ -27,9 +29,11 @@ test('if findInArray will find the index in the array that matches when isIndex 
   const items = [
     {
       foo: 'foo'
-    }, {
+    },
+    {
       foo: 'bar'
-    }, {
+    },
+    {
       foo: 'baz'
     }
   ];
@@ -46,9 +50,11 @@ test('if findInArray returns undefined if nothing matching is found and isIndex 
   const items = [
     {
       foo: 'foo'
-    }, {
+    },
+    {
       foo: 'bar'
-    }, {
+    },
+    {
       foo: 'baz'
     }
   ];
@@ -65,9 +71,11 @@ test('if findInArray returns -1 if nothing matching is found and isIndex is true
   const items = [
     {
       foo: 'foo'
-    }, {
+    },
+    {
       foo: 'bar'
-    }, {
+    },
+    {
       foo: 'baz'
     }
   ];

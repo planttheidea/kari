@@ -55,7 +55,7 @@ function takeArray(size, array) {
  * @return {Array<*>|Object} the first n number of items
  */
 export default curry(function take(size, collection) {
-  return isObject(collection) ?
-    takeObject(size, collection, Object.keys(collection)) :
-    takeArray(size, coalesceToArray(collection));
+  return isObject(collection)
+    ? takeObject(size, collection, Object.keys(collection))
+    : takeArray(size, coalesceToArray(collection));
 });

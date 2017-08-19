@@ -10,9 +10,12 @@ test('if omit will omit the indices out of the array', (t) => {
 
   const result = omit(keys)(items);
 
-  t.deepEqual(result, items.filter((ignored, index) => {
-    return !~keys.indexOf(index);
-  }));
+  t.deepEqual(
+    result,
+    items.filter((ignored, index) => {
+      return !~keys.indexOf(index);
+    })
+  );
 });
 
 test('if omit will omit the keys out of the object', (t) => {
@@ -59,9 +62,6 @@ test('if omit will remove the nested keys from the object', (t) => {
   const result = omit(keys, items);
 
   t.deepEqual(result, {
-    foo: [
-      'bar',
-      {}
-    ]
+    foo: ['bar', {}]
   });
 });

@@ -10,9 +10,12 @@ test('if pick will pick the indices out of the array', (t) => {
 
   const result = pick(keys)(items);
 
-  t.deepEqual(result, keys.map((index) => {
-    return items[index];
-  }));
+  t.deepEqual(
+    result,
+    keys.map((index) => {
+      return items[index];
+    })
+  );
 });
 
 test('if pick will pick the keys out of the object', (t) => {

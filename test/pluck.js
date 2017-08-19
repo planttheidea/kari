@@ -7,14 +7,14 @@ import pluck from 'src/pluck';
 test('if pluck will pluck the value at the given key from the objects in the array', (t) => {
   const key = 'foo';
 
-  const items = (new Array(10)).fill(key).map((keyToAssign, index) => {
+  const collection = new Array(10).fill(key).map((keyToAssign, index) => {
     return {
       [keyToAssign]: index
     };
   });
 
-  const result = pluck(key)(items);
-  const expectedResult = (new Array(10)).fill(key).map((ignored, index) => {
+  const result = pluck(key)(collection);
+  const expectedResult = new Array(10).fill(key).map((ignored, index) => {
     return index;
   });
 
@@ -24,14 +24,17 @@ test('if pluck will pluck the value at the given key from the objects in the arr
 test('if pluck will not push the value if the key does not exist', (t) => {
   const key = 'foo';
 
-  const items = (new Array(10)).fill(key).map((keyToAssign, index) => {
-    return index === 5 ? {} : {
-      [keyToAssign]: index
-    };
+  const collection = new Array(10).fill(key).map((keyToAssign, index) => {
+    return index === 5
+      ? {}
+      : {
+        [keyToAssign]: index
+      };
   });
 
-  const result = pluck(key, items);
-  const expectedResult = (new Array(10)).fill(key)
+  const result = pluck(key, collection);
+  const expectedResult = new Array(10)
+    .fill(key)
     .map((ignored, index) => {
       return index;
     })
@@ -40,4 +43,21 @@ test('if pluck will not push the value if the key does not exist', (t) => {
     });
 
   t.deepEqual(result, expectedResult);
+});
+
+test('if pluck will pluck the value at the given key from the object passed', (t) => {
+  const key = 'bar';
+
+  const collection = {
+    foo: {
+      bar: 'baz'
+    },
+    bar: {
+      baz: 'baz'
+    }
+  };
+
+  const result = pluck(key, collection);
+
+  t.deepEqual(result, ['baz']);
 });

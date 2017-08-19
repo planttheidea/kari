@@ -41,12 +41,7 @@ test('if find will find call findInObject when the item is an object', (t) => {
   const args = findInObjectStub.firstCall.args;
 
   t.is(args.length, 4);
-  t.deepEqual(args, [
-    method,
-    items,
-    Object.keys(items),
-    false
-  ]);
+  t.deepEqual(args, [method, items, Object.keys(items), false]);
 
   findInArrayStub.restore();
   findInObjectStub.restore();
@@ -66,11 +61,7 @@ test('if find will find call findInArray when the item is neither an array or ob
   const args = findInArrayStub.firstCall.args;
 
   t.is(args.length, 3);
-  t.deepEqual(args, [
-    method,
-    [items],
-    false
-  ]);
+  t.deepEqual(args, [method, [items], false]);
 
   t.true(findInObjectStub.notCalled);
 

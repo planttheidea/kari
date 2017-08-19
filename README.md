@@ -8,6 +8,7 @@ A tiny, modular, functional library to make all your collections curriable.
   * [All modules](#all-modules)
   * [Specific module](#sopecific-module)
 * [Difference with other functional libraries](#difference-with-other-functional-libraries)
+* [Benchmarks](#benchmarks)
 * [API](#api)
   * [add](#add)
   * [always](#always)
@@ -20,13 +21,20 @@ A tiny, modular, functional library to make all your collections curriable.
   * [curry](#curry)
   * [descend](#descend)
   * [divide](#divide)
+  * [empty](#empty)
   * [endsWith](#endswith)
+  * [entries](#entries)
   * [equals](#equals)
+  * [equalsBy](#equalsby)
   * [every](#every)
   * [filter](#filter)
   * [find](#find)
   * [findIndex](#findindex)
   * [findKey](#findkey)
+  * [findLast](#findlast)
+  * [findLastIndex](#findlastindex)
+  * [findLastKey](#findlastkey)
+  * [flatten](#flatten)
   * [forEach](#foreach)
   * [get](#get)
   * [gt](#gt)
@@ -40,10 +48,14 @@ A tiny, modular, functional library to make all your collections curriable.
   * [lt](#lt)
   * [lte](#lte)
   * [map](#map)
+  * [max](#max)
   * [merge](#merge)
   * [mergeDeep](#mergedeep)
+  * [min](#min)
   * [modulo](#modulo)
   * [multiply](#multiply)
+  * [not](#not)
+  * [notBy](#notby)
   * [omit](#omit)
   * [partial](#partial)
   * [partialRight](#partialright)
@@ -54,6 +66,7 @@ A tiny, modular, functional library to make all your collections curriable.
   * [prepend](#prepend)
   * [reduce](#reduce)
   * [reduceRight](#reduceright)
+  * [reject](#reject)
   * [remainder](#remainder)
   * [rest](#rest)
   * [set](#set)
@@ -67,6 +80,8 @@ A tiny, modular, functional library to make all your collections curriable.
   * [take](#take)
   * [tryCatch](#trycatch)
   * [uncurry](#uncurry)
+  * [unique](#unique)
+  * [uniqueBy](#uniqueby)
 * [Development](#development)
 
 ## Installation
@@ -112,6 +127,60 @@ console.log(state);
 There are some really killer libraries out there, namely `ramda` and `lodash/fp`, and both were used as inspiration when building this library. The goal with `kari` is to keep the footprint very small while providing a fast and comprehensive collection of utility methods. Each method can be imported as a standalone module (`import set from 'kari/set';`), or as a named import (`import {set} from 'kari';`) if you use tree shaking.
 
 `kari` is still quite young, and we are looking to make the API more comprehensive, so PRs are welcome!
+
+## Benchmarks
+
+#### Filtering an array
+
+|           | Operates / second | Relative margin of error |
+|-----------|-------------------|--------------------------|
+| **kari**  | **1,268,981**     | **0.99%**                |
+| ramda     | 960,657           | 0.64%                    |
+| lodash/fp | 190,895           | 0.61%                    |
+
+#### Filtering an object
+
+|           | Operates / second | Relative margin of error |
+|-----------|-------------------|--------------------------|
+| **kari**  | **148,199**       | **1.41%**                |
+| ramda     | 116,004           | 0.56%                    |
+| lodash/fp | 90,192            | 1.71%                    |
+
+#### Mapping an array
+
+|           | Operates / second | Relative margin of error |
+|-----------|-------------------|--------------------------|
+| **kari**  | **889,256**       | **1.09%**                |
+| ramda     | 644,178           | 1.12%                    |
+| lodash/fp | 217,648           | 2.09%                    |
+
+#### Mapping an object
+
+*NOTE: lodash/fp returns an array of values instead of a new object*
+
+|           | Operates / second | Relative margin of error |
+|-----------|-------------------|--------------------------|
+| **kari**  | **102,999**       | **1.21%**                |
+| lodash/fp | 92,126            | 2.14%                    |
+| ramda     | 79,453            | 1.67%                    |
+
+#### Reducing an array
+
+|           | Operates / second | Relative margin of error |
+|-----------|-------------------|--------------------------|
+| **kari**  | **867,475**       | **0.63%**                |
+| lodash/fp | 125,667           | 2.73%                    |
+| ramda     | 42,753            | 3.03%                    |
+
+#### Reducing an object
+
+*NOTE: ramda does not support reducing objects*
+
+|           | Operates / second | Relative margin of error |
+|-----------|-------------------|--------------------------|
+| **kari**  | **195,203**       | **1.43%**                |
+| lodash/fp | 75,357            | 1.69%                    |
+| ramda     | 0                 | 0 %                      |
 
 ## API
 
@@ -319,6 +388,45 @@ const division = k.divide(26)(2);
 console.log(division); // 13
 ```
 
+#### empty
+
+`empty(value: any): (Array|Map|Object|Set|string|undefined)`
+
+Returns an empty value of the object type for the following objects:
+* `Array`
+* `Map`
+* `Object`
+* `Set`
+* `string`
+
+Returns undefined for all other types.
+
+```javascript
+const emptiedArray = empty([1, 2, 3]);
+
+console.log(emptiedArray); // []
+
+const emptiedMap = empty(new Map().set('foo', 'bar'));
+
+console.log(emptiedMap); // Map {}
+
+const emptiedObject = empty({foo: 'bar', bar: 'baz'});
+
+console.log(emptiedObject); // {}
+
+const emptiedSet = empty(new Set().add('foo').add('bar'));
+
+console.log(emptiedSet); // Set {}
+
+const emptiedString = empty('foo');
+
+console.log(emptiedString); // ''
+
+const emptiedOther = empty(123);
+
+console.log(emptiedOther); // undefined
+```
+
 #### endsWith
 
 `endsWith(endingValue: any, objectToTest: (Array<any>|string)): boolean`
@@ -336,6 +444,30 @@ const endsWithObject = k.endsWith(object);
 console.log(endsWithObject(['foo', 'bar', object])); // true
 ```
 
+#### entries
+
+`entries(value: any): (Array<Array<any>>)`
+
+Converts the value passed into an array of `[key, value]` pairs.
+
+```javascript
+const map = new Map().set('foo', 'bar');
+
+console.log(entries(map)); // [['foo', 'bar']];
+
+const set = new Set().add('foo').add('bar');
+
+console.log(entries(set)); // [['foo', 'foo'], ['bar', 'bar']]
+
+const array = ['foo', 'bar'];
+
+console.log(entries(array)); // [[0, 'foo'], [1, 'bar']]
+
+const object = {foo: 'bar', bar: 'baz'};
+
+console.log(entries(object)); // [['foo', 'bar'], ['bar', 'baz']]
+```
+
 #### equals
 
 `equals(firstValue: any, secondValue: any): boolean`
@@ -348,6 +480,21 @@ const object2 = {foo: 'bar'};
 
 console.log(object1 === object2); // false
 console.log(k.equals(object1, object2)); // true
+```
+
+#### equalsBy
+
+`equalsBy(fn: function, firstValue: any, secondValue: any): boolean`
+
+Performs the same comparison that `equal` does but based on the return of the function called with the values.
+
+```javascript
+const isString = (value) => {
+  return typeof value === 'string';
+};
+
+console.log(equalsBy(isString, 'foo', 'foo')); // true
+console.log(equalsBy(isString, 'foo', 123)); // false
 ```
 
 #### every
@@ -456,6 +603,78 @@ const result = k.findKey(isPositive)({
 });
 
 console.log(result); // one
+```
+
+#### findLast
+
+`findLast(fn: function, collection: (Array<any>|Object)): any`
+
+Performs the same search as `find`, but starting from the last item and iterating to the first.
+
+```javascript
+const isPositive = (value, keyOrIndex, collection) => {
+  return value > 1;
+};
+
+const arrayResult = k.findLast(isPositive)([1, 2, 3]);
+
+console.log(arrayResult); // 2
+
+const objectResult = k.findLast(isPositive)({
+  zero: 0,
+  one: 1,
+  two: 2
+});
+
+console.log(objectResult); // 2
+```
+
+#### findLastIndex
+
+`findLastIndex(fn: function, array: Array<any>): any`
+
+Performs the same search as `findIndex`, but starting from the last item and iterating to the first.
+
+```javascript
+const isPositive = (value, index, array) => {
+  return value > 1;
+};
+
+const result = k.findLastIndex(isPositive)([1, 2, 3]);
+
+console.log(result); // 1
+```
+
+#### findLastKey
+
+`findLastKey(fn: function, object: Object): any`
+
+Performs the same search as `findKey`, but starting from the last item and iterating to the first.
+
+```javascript
+const isPositive = (value, key, object) => {
+  return value > 1;
+};
+
+const result = k.findLastKey(isPositive)({
+  zero: 0,
+  one: 1,
+  two: 2
+});
+
+console.log(result); // one
+```
+
+#### flatten
+
+`flatten(collection: (Array<any>|Object)): (Array<any>|Object)`
+
+Flattens the `collection` into the same object type but only one level deep based on its nested values.
+
+```javascript
+const array = [1, [2, 3], [4, [5, 6]]];
+
+console.log(flatten(array)); // [1, 2, 3, 4, 5, 6]
 ```
 
 #### forEach
@@ -714,6 +933,16 @@ const objectResult = k.map(squareAll)({
 console.log(objectResult); // {one: 1, two: 4, three: 9}
 ```
 
+#### max
+
+`max(firstValue: number, secondValue: number): number`
+
+Returns the higher value between the two numbers passed.
+
+```javascript
+console.log(max(123, 234)); // 234
+```
+
 #### merge
 
 `merge(firstCollection: (Array<*>|Object), secondCollection: (Array<*>|Object)): (Array<*>|Object)`
@@ -770,6 +999,16 @@ console.log(result);
 */
 ```
 
+#### min
+
+`min(firstValue: number, secondValue: number): number`
+
+Returns the lower value between the two numbers passed.
+
+```javascript
+console.log(min(123, 234)); // 123
+```
+
 #### modulo
 
 `modulo(numerator: number, modulus: number): number`
@@ -799,6 +1038,38 @@ Multiplies two values together.
 const product = k.multiply(2)(4);
 
 console.log(product); // 8
+```
+
+#### not
+
+`not(value: any): boolean`
+
+Returns the falsiness of the value coerced into a boolean.
+
+```javascript
+console.log(not(true)); // false
+console.log(not(123)); // false
+console.log(not('foo')); // false
+console.log(not({foo: 'bar'})); // false
+
+console.log(not(null)); // true
+console.log(not('')); // true
+console.log(not(0)); // true
+```
+
+#### notBy
+
+`notBy(fn: function, value: any): boolean`
+
+Returns the same result as `not` but based on the return of `fn` with the `value` passed.
+
+```javascript
+const isString = (value) => {
+  return typeof value === 'string';
+};
+
+console.log(notBy(isString, 'foo')); // false
+console.log(notBy(isString, 123)); // true
 ```
 
 #### omit
@@ -974,6 +1245,21 @@ const objectResult = k.reduce(difference)({one: 1, two: 2, three: 3})(6);
 console.log(objectResult); // 0
 ```
 
+#### reject
+
+`reject(fn: function, collection: (Array<any>|Object)): (Array<any>|Object)`
+
+Performs the same filtration as `filter` but will filter out truthy values returned.
+
+```javascript
+const isString = (value) => {
+  return typeof value === 'string';
+};
+const array = [1, 'two', /three/];
+
+console.log(reject(isString, array)); // [1, /three/]
+```
+
 #### remainder
 
 `remainder(numerator: number, denominator: number): number`
@@ -1142,6 +1428,22 @@ const difference = k.subtract(10)(4);
 console.log(difference); // 6
 ```
 
+#### take
+
+`take(size: number, collection: (Array<any>|Object)): (Array<any>|Object)`
+
+Takes the first *n* number of items from `collection`, where *n* is `size`.
+
+```javascript
+const firstThreeArray = k.take(3)([1, 2, 3, 4, 5, 6]);
+
+console.log(firstThreeArray); // [1, 2, 3]
+
+const firstTwoObject = k.rest(2)({one: 1, two: 2, three: 3, four: 4});
+
+console.log(firstTwoObject); // {one: 1, two: 2}
+```
+
 #### tap
 
 `tap(fn: function): function(...Array<any>): any`
@@ -1161,22 +1463,6 @@ const result = k.map(logThenSquare)([1, 2, 3]);
 // 3 2 [1, 2, 3]
 
 console.log(result); // [1, 4, 9]
-```
-
-#### take
-
-`take(size: number, collection: (Array<any>|Object)): (Array<any>|Object)`
-
-Takes the first *n* number of items from `collection`, where *n* is `size`.
-
-```javascript
-const firstThreeArray = k.take(3)([1, 2, 3, 4, 5, 6]);
-
-console.log(firstThreeArray); // [1, 2, 3]
-
-const firstTwoObject = k.rest(2)({one: 1, two: 2, three: 3, four: 4});
-
-console.log(firstTwoObject); // {one: 1, two: 2}
 ```
 
 #### tryCatch
@@ -1212,6 +1498,33 @@ const uncurried = k.uncurry(4)(curried);
 
 console.log(uncurried(1)(2)(3)(4)); // throws error that result of first call is not a function
 console.log(uncurried(1, 2, 3, 4)); // [1, 2, 3, 4]
+```
+
+#### unique
+
+`unique(collection: (Array<any>|Object)): (Array<any>|Object)`
+
+Returns a collection made unique by strict equality of its values.
+
+```javascript
+const array = [1, 2, 1, 1, 3, 4, 2, 3];
+
+console.log(unique(array)); // [1, 2, 3, 4]
+```
+
+#### uniqueBy
+
+`uniqueBy(fn: function, collection: (Array<any>|Object)): (Array<any>|Object)`
+
+Performs the same uniqueness filtration done by `unique` but based on the return from `fn` called with each value in the collection.
+
+```javascript
+const toBool = (value) => {
+  return !!value;
+};
+const array = [true, false, 1, 0, 'foo', ''];
+
+console.log(uniqueBy(toBool, array)); // [true, false]
 ```
 
 ## Development

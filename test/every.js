@@ -20,7 +20,7 @@ test('if every returns true if all items in the array match the method', (t) => 
 test('if every returns true if all items in the array match the method', (t) => {
   const items = [1, 2, 3, 4, 5];
 
-  const result = every((isEven))(items);
+  const result = every(isEven)(items);
 
   t.false(result);
 });

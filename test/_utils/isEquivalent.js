@@ -2,16 +2,7 @@
 import test from 'ava';
 import _ from 'lodash';
 import sinon from 'sinon';
-import {
-  ARRAY,
-  DATE,
-  OBJECT,
-  NAN,
-  NULL,
-  POSITIVE_INTEGER,
-  STRING,
-  UNDEFINED
-} from 'test/helpers/_typeCheckValues';
+import {ARRAY, DATE, OBJECT, NAN, NULL, POSITIVE_INTEGER, STRING, UNDEFINED} from 'test/helpers/_typeCheckValues';
 
 // src
 import isEquivalent from 'src/_utils/isEquivalent';
@@ -96,10 +87,12 @@ test('if isEquivalent returns true if the object is equal in value', (t) => {
   const clone = _.cloneDeep(object);
 
   t.true(isEquivalent(object, clone));
-  t.false(isEquivalent(object, {
-    ...object,
-    baz: 'foo'
-  }));
+  t.false(
+    isEquivalent(object, {
+      ...object,
+      baz: 'foo'
+    })
+  );
 });
 
 test('if isEquivalent returns true if the array is equal in value', (t) => {

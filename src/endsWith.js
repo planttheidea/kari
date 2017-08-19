@@ -30,6 +30,7 @@ export default curry(function endsWith(endingValue, valueToTest) {
     return false;
   }
 
-  return isString(valueToTest) ? endsWithString(endingValue, valueToTest) :
-    valueToTest[valueToTest.length - 1] === endingValue;
+  return isString(valueToTest)
+    ? endsWithString(endingValue, valueToTest)
+    : valueToTest[valueToTest.length - 1] === endingValue;
 });

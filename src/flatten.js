@@ -17,10 +17,7 @@ import isObject from './_utils/isObject';
  * @returns {Array<*>} the flattened array
  */
 const flattenArray = reduce((array, value) => {
-  return !isArray(value) ? [...array, value] : [
-    ...array,
-    ...flattenArray([], value)
-  ];
+  return !isArray(value) ? [...array, value] : [...array, ...flattenArray([], value)];
 });
 
 /**
@@ -34,10 +31,12 @@ const flattenArray = reduce((array, value) => {
  * @returns {Object} the flattened object
  */
 const flattenObject = reduce((object, value, key) => {
-  return !isObject(value) ? {...object, [key]: value} : {
-    ...object,
-    ...flattenObject({}, value)
-  };
+  return !isObject(value)
+    ? {...object, [key]: value}
+    : {
+      ...object,
+      ...flattenObject({}, value)
+    };
 });
 
 /**

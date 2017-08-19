@@ -22,10 +22,10 @@ export default curry(function is(Constructor, value) {
 
   if (isFunction(Constructor)) {
     /* eslint-disable eqeqeq */
-    return value != null && (
-    /* eslint-enable */
-      value === Constructor ||
-      value.constructor === Constructor
+    return (
+      value != null &&
+      /* eslint-enable */
+      (value === Constructor || value.constructor === Constructor)
     );
   }
 

@@ -1,7 +1,5 @@
 // utils
-import isArray from './_utils/isArray';
-import isObject from './_utils/isObject';
-import isString from './_utils/isString';
+import is from './is';
 
 /**
  * @function empty
@@ -13,15 +11,16 @@ import isString from './_utils/isString';
  * @returns {*} the empty version of value
  */
 export default function empty(value) {
-  if (isArray(value)) {
-    return [];
-  }
-
-  if (isObject(value)) {
-    return {};
-  }
-
-  if (isString(value)) {
+  if (is(String, value)) {
     return '';
+  }
+
+  if (
+    is(Array, value) ||
+    is(Object, value) ||
+    (typeof Map === 'function' && is(Map, value)) ||
+    (typeof Set === 'function' && is(Set, value))
+  ) {
+    return new value.constructor();
   }
 }

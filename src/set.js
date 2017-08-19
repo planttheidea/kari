@@ -36,8 +36,8 @@ function set(path, value, collection) {
 
   const childPath = cleanPath[0];
   const childSource = collection[childPath];
-  const descentantSource = isArray(childSource) || isObject(childSource) ? childSource :
-    isNumber(cleanPath[1]) ? [] : {};
+  const descentantSource =
+    isArray(childSource) || isObject(childSource) ? childSource : isNumber(cleanPath[1]) ? [] : {};
 
   destination[childPath] = set(cleanPath.slice(1), value, descentantSource);
 

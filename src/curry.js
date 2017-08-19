@@ -60,8 +60,10 @@ export function getAreArgsFilled(args, arity) {
  */
 export default function curry(fn, arity = fn.length) {
   return function curried(...args) {
-    return getAreArgsFilled(args, arity) ? fn.apply(this, args) : function(...nextArgs) {
-      return curried.apply(this, getArgsToPass(args, nextArgs));
-    };
+    return getAreArgsFilled(args, arity)
+      ? fn.apply(this, args)
+      : function(...nextArgs) {
+        return curried.apply(this, getArgsToPass(args, nextArgs));
+      };
   };
 }

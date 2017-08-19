@@ -50,7 +50,6 @@ function forEachObject(fn, object) {
   return object;
 }
 
-
 /**
  * @function forEach
  *

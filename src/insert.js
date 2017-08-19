@@ -26,9 +26,5 @@ export default curry(function insert(key, newItems, collection) {
 
   const array = coalesceToArray(collection);
 
-  return [
-    ...array.slice(0, key),
-    ...coalesceToArray(newItems),
-    ...array.slice(key)
-  ];
+  return [...array.slice(0, key), ...coalesceToArray(newItems), ...array.slice(key)];
 });

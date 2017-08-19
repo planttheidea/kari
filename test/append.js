@@ -11,8 +11,5 @@ test('if append will add an item to the end of the array', (t) => {
   const result = append(item)(array);
 
   t.not(result, array);
-  t.deepEqual(result, [
-    ...array,
-    item
-  ]);
+  t.deepEqual(result, [...array, item]);
 });

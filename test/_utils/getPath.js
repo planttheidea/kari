@@ -18,18 +18,11 @@ test('if when the path is a number, it will be coalesced to an array of that num
 
   const result = getPath(path);
 
-  t.deepEqual(result, [
-    path
-  ]);
+  t.deepEqual(result, [path]);
 });
 
 test('if when the path is a string, it will parse out the path based on dot and bracket notation', (t) => {
-  const keys = [
-    'foo',
-    0,
-    'bar',
-    'baz'
-  ];
+  const keys = ['foo', 0, 'bar', 'baz'];
   const path = keys
     .reduce((keyString, key) => {
       return `${keyString}${_.isNumber(key) ? `[${key}]` : `.${key}`}`;
@@ -46,10 +39,7 @@ test('if the path will handle the bracket notation being first', (t) => {
 
   const result = getPath(path);
 
-  t.deepEqual(result, [
-    0,
-    'foo'
-  ]);
+  t.deepEqual(result, [0, 'foo']);
 });
 
 test('if the path will handle the bracket notation being last', (t) => {
@@ -57,10 +47,7 @@ test('if the path will handle the bracket notation being last', (t) => {
 
   const result = getPath(path);
 
-  t.deepEqual(result, [
-    'foo',
-    0
-  ]);
+  t.deepEqual(result, ['foo', 0]);
 });
 
 test('if when the path is not an array, number or string, it will return the item in an array', (t) => {

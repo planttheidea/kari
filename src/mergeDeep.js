@@ -22,8 +22,7 @@ function getDeeplyMergedValues(value1, value2) {
   }
 
   if (isObject(value2)) {
-    return !isObject(value1) ? value2 :
-      mergeDeepObjects(value1, value2); //eslint-disable-line no-use-before-define
+    return !isObject(value1) ? value2 : mergeDeepObjects(value1, value2); //eslint-disable-line no-use-before-define
   }
 
   return value2;
@@ -74,7 +73,8 @@ function mergeDeepObjects(object1, object2) {
 
   let index = -1,
       mergedObject = {},
-      key, indexOfKey;
+      key,
+      indexOfKey;
 
   while (++index < keys1.length) {
     key = keys1[index];
@@ -115,6 +115,7 @@ function mergeDeepObjects(object1, object2) {
  * @returns {Array<*>|Object} the merged collections
  */
 export default curry(function mergeDeep(collection1, collection2) {
-  return isObject(collection1) ? mergeDeepObjects(collection1, collection2) :
-    mergeDeepArrays(coalesceToArray(collection1), coalesceToArray(collection2));
+  return isObject(collection1)
+    ? mergeDeepObjects(collection1, collection2)
+    : mergeDeepArrays(coalesceToArray(collection1), coalesceToArray(collection2));
 });

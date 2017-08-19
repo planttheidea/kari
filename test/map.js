@@ -49,7 +49,5 @@ test('if map returns the items passed mapped as an array if not an object or arr
 
   const result = map(method, items);
 
-  t.deepEqual(result, [
-    {0: items}
-  ]);
+  t.deepEqual(result, [{0: items}]);
 });

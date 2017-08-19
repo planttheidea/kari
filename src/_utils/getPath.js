@@ -14,14 +14,9 @@ import isString from './isString';
  * @returns {Array<number|string>} the parsed string path as an array path
  */
 function getDotSeparatedPath(path) {
-  return path
-    .split('.')
-    .reduce((splitPath, pathItem) => {
-      return !pathItem ? splitPath : [
-        ...splitPath,
-        getKey(pathItem)
-      ];
-    }, []);
+  return path.split('.').reduce((splitPath, pathItem) => {
+    return !pathItem ? splitPath : [...splitPath, getKey(pathItem)];
+  }, []);
 }
 
 /**
@@ -56,24 +51,16 @@ export default function getPath(path) {
   }
 
   if (isString(path)) {
-    return path
-      .split(/\[(.*?)\]/g)
-      .reduce((cleanPath, pathItem) => {
-        if (!pathItem) {
-          return cleanPath;
-        }
+    return path.split(/\[(.*?)\]/g).reduce((cleanPath, pathItem) => {
+      if (!pathItem) {
+        return cleanPath;
+      }
 
-        if (isQuotedKey(pathItem)) {
-          return [
-            ...cleanPath,
-            getKey(pathItem.slice(1, -1))
-          ];
-        }
+      if (isQuotedKey(pathItem)) {
+        return [...cleanPath, getKey(pathItem.slice(1, -1))];
+      }
 
-        return [
-          ...cleanPath,
-          ...getDotSeparatedPath(pathItem)
-        ];
-      }, []);
+      return [...cleanPath, ...getDotSeparatedPath(pathItem)];
+    }, []);
   }
 }

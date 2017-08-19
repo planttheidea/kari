@@ -74,6 +74,5 @@ export default curry(function every(fn, collection) {
     return true;
   }
 
-  return isObject(collection) ? everyObject(fn, collection, keys) :
-    everyArray(fn, coalesceToArray(collection));
+  return isObject(collection) ? everyObject(fn, collection, keys) : everyArray(fn, coalesceToArray(collection));
 });

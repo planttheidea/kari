@@ -3,10 +3,7 @@ import test from 'ava';
 import _ from 'lodash';
 
 // src
-import curry, {
-  getArgsToPass,
-  getAreArgsFilled
-} from 'src/curry';
+import curry, {getArgsToPass, getAreArgsFilled} from 'src/curry';
 import __ from 'src/__';
 
 test('if curry creates a method that will curry each of the arguments in the method arity', (t) => {

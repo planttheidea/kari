@@ -5,9 +5,7 @@ import test from 'ava';
 import coalesceToArray from 'src/_utils/coalesceToArray';
 
 test('if coalesceToArray will keep the value as-is if an array', (t) => {
-  const value = [
-    'foo'
-  ];
+  const value = ['foo'];
 
   const result = coalesceToArray(value);
 
@@ -20,7 +18,5 @@ test('if coalesceToArray will make the value an array of that value when not an 
   const result = coalesceToArray(value);
 
   t.not(result, value);
-  t.deepEqual(result, [
-    value
-  ]);
+  t.deepEqual(result, [value]);
 });

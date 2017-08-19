@@ -74,6 +74,5 @@ export default curry(function some(fn, collection) {
     return true;
   }
 
-  return isObject(collection) ? someObject(fn, collection, keys) :
-    someArray(fn, coalesceToArray(collection));
+  return isObject(collection) ? someObject(fn, collection, keys) : someArray(fn, coalesceToArray(collection));
 });

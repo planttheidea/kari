@@ -17,10 +17,7 @@ test('if partition will split the array based on truthy / falsy returns from the
   const truthyResults = items.filter(createMethod(0));
   const falsyResults = items.filter(createMethod(1));
 
-  t.deepEqual(result, [
-    truthyResults,
-    falsyResults
-  ]);
+  t.deepEqual(result, [truthyResults, falsyResults]);
 });
 
 test('if partition does the same for objects as it does for arrays', (t) => {

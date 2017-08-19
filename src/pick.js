@@ -34,13 +34,17 @@ function pickArray(indices, array) {
  * @returns {Array<*>} the object with the picked values
  */
 function pickObject(keys, object) {
-  return reduce(function(newObject, key) {
-    if (object.hasOwnProperty(key)) {
-      newObject[key] = object[key];
-    }
+  return reduce(
+    function(newObject, key) {
+      if (object.hasOwnProperty(key)) {
+        newObject[key] = object[key];
+      }
 
-    return newObject;
-  }, {}, keys);
+      return newObject;
+    },
+    {},
+    keys
+  );
 }
 
 /**

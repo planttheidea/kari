@@ -32,14 +32,18 @@ function getCorrectPartition(partitions, result) {
  * @returns {Array<Array<*>>} the partitioned items
  */
 function partitionArray(fn, array) {
-  const reducedPartitions = reduce(function(partitions, item, index) {
-    getCorrectPartition(partitions, fn(item, index, array)).push(item);
+  const reducedPartitions = reduce(
+    function(partitions, item, index) {
+      getCorrectPartition(partitions, fn(item, index, array)).push(item);
 
-    return partitions;
-  }, {
-    falsy: [],
-    truthy: []
-  }, array);
+      return partitions;
+    },
+    {
+      falsy: [],
+      truthy: []
+    },
+    array
+  );
 
   return [reducedPartitions.truthy, reducedPartitions.falsy];
 }
@@ -55,14 +59,18 @@ function partitionArray(fn, array) {
  * @returns {Object} the partitioned items
  */
 function partitionObject(fn, object) {
-  return reduce(function(partitions, item, key) {
-    getCorrectPartition(partitions, fn(item, key, object))[key] = item;
+  return reduce(
+    function(partitions, item, key) {
+      getCorrectPartition(partitions, fn(item, key, object))[key] = item;
 
-    return partitions;
-  }, {
-    falsy: {},
-    truthy: {}
-  }, object);
+      return partitions;
+    },
+    {
+      falsy: {},
+      truthy: {}
+    },
+    object
+  );
 }
 
 /**

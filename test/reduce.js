@@ -44,12 +44,7 @@ test('if reduce will call reduceObject if the items are an object', (t) => {
 
   t.is(args.length, 4);
 
-  t.deepEqual(args, [
-    method,
-    items,
-    initialValue,
-    Object.keys(items)
-  ]);
+  t.deepEqual(args, [method, items, initialValue, Object.keys(items)]);
 
   reduceArrayStub.restore();
   reduceObjectStub.restore();
@@ -71,11 +66,7 @@ test('if reduce will call reduceArray if the items are neither an array nor obje
 
   t.is(args.length, 3);
 
-  t.deepEqual(args, [
-    method,
-    [items],
-    initialValue
-  ]);
+  t.deepEqual(args, [method, [items], initialValue]);
 
   t.true(reduceObjectStub.notCalled);
 

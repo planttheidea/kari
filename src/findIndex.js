@@ -18,6 +18,7 @@ import isObject from './_utils/isObject';
  * @returns {number} the index of the item that matches, or -1
  */
 export default curry(function findIndex(fn, collection) {
-  return isObject(collection) ? findInObject(fn, collection, Object.keys(collection), true) :
-    findInArray(fn, coalesceToArray(collection), true);
+  return isObject(collection)
+    ? findInObject(fn, collection, Object.keys(collection), true)
+    : findInArray(fn, coalesceToArray(collection), true);
 });

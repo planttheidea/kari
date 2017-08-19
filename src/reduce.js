@@ -19,6 +19,7 @@ import reduceObject from './_utils/reduceObject';
  * @returns {*} the reduced value
  */
 export default curry(function reduce(fn, initialValue, collection) {
-  return isObject(collection) ? reduceObject(fn, collection, initialValue, Object.keys(collection)) :
-    reduceArray(fn, coalesceToArray(collection), initialValue);
+  return isObject(collection)
+    ? reduceObject(fn, collection, initialValue, Object.keys(collection))
+    : reduceArray(fn, coalesceToArray(collection), initialValue);
 });

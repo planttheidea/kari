@@ -1,14 +1,6 @@
 // test
 import test from 'ava';
-import {
-  ARRAY,
-  BOOLEAN,
-  EMPTY_STRING,
-  NULL,
-  OBJECT,
-  UNDEFINED,
-  ZERO
-} from 'test/helpers/_typeCheckValues';
+import {ARRAY, BOOLEAN, EMPTY_STRING, NULL, OBJECT, UNDEFINED, ZERO} from 'test/helpers/_typeCheckValues';
 
 // src
 import isEmpty from 'src/_utils/isEmpty';

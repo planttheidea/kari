@@ -18,6 +18,7 @@ import isObject from './_utils/isObject';
  * @returns {*} the item that matches, or undefined
  */
 export default curry(function find(fn, collection) {
-  return isObject(collection) ? findInObject(fn, collection, Object.keys(collection), false) :
-    findInArray(fn, coalesceToArray(collection), false);
+  return isObject(collection)
+    ? findInObject(fn, collection, Object.keys(collection), false)
+    : findInArray(fn, coalesceToArray(collection), false);
 });

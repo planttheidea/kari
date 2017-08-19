@@ -3,7 +3,8 @@ import test from 'ava';
 import sinon from 'sinon';
 
 // src
-import findIndex from 'src/findIndex';import * as array from 'src/_utils/findInArray';
+import findIndex from 'src/findIndex';
+import * as array from 'src/_utils/findInArray';
 import * as object from 'src/_utils/findInObject';
 
 test('if findIndex will find call findInArray when the item is an array', (t) => {
@@ -40,12 +41,7 @@ test('if findIndex will find call findInObject when the item is an object', (t) 
   const args = findInObjectStub.firstCall.args;
 
   t.is(args.length, 4);
-  t.deepEqual(args, [
-    method,
-    items,
-    Object.keys(items),
-    true
-  ]);
+  t.deepEqual(args, [method, items, Object.keys(items), true]);
 
   findInArrayStub.restore();
   findInObjectStub.restore();
@@ -65,11 +61,7 @@ test('if findIndex will find call findInArray when the item is neither an array 
   const args = findInArrayStub.firstCall.args;
 
   t.is(args.length, 3);
-  t.deepEqual(args, [
-    method,
-    [items],
-    true
-  ]);
+  t.deepEqual(args, [method, [items], true]);
 
   t.true(findInObjectStub.notCalled);
 

@@ -55,7 +55,7 @@ function restArray(size, array) {
  * @return {Array<*>|Object} the last n number of items in the collection
  */
 export default curry(function rest(size, collection) {
-  return isObject(collection) ?
-    restObject(size, collection, Object.keys(collection)) :
-    restArray(size, coalesceToArray(collection));
+  return isObject(collection)
+    ? restObject(size, collection, Object.keys(collection))
+    : restArray(size, coalesceToArray(collection));
 });

@@ -50,10 +50,7 @@ const getConsolidatedPaths = reduce((consolidatedPaths, key) => {
     if (~matchingIndex) {
       const match = consolidatedPaths[matchingIndex];
       const lastMatchIndex = match.length - 1;
-      const newLastPathItem = set(lastMatchIndex, [
-        ...match[lastMatchIndex],
-        finalPathItem
-      ], match);
+      const newLastPathItem = set(lastMatchIndex, [...match[lastMatchIndex], finalPathItem], match);
 
       return [
         ...consolidatedPaths.slice(0, matchingIndex),
@@ -81,10 +78,7 @@ const getConsolidatedPaths = reduce((consolidatedPaths, key) => {
  * @returns {Object} a shallow clone of the object passed, minus the key
  */
 function removeKeyFromObject(key, object) {
-  const {
-    [key]: keyIgnored,
-    ...newObject
-  } = object;
+  const {[key]: keyIgnored, ...newObject} = object;
 
   return newObject;
 }
@@ -106,18 +100,19 @@ function removeIndicesFromArray(indices, array) {
 
   let indexToRemove = indices.shift();
 
-  return reduce((newArray, item, index) => {
-    if (index !== indexToRemove) {
-      return [
-        ...newArray,
-        item
-      ];
-    }
+  return reduce(
+    (newArray, item, index) => {
+      if (index !== indexToRemove) {
+        return [...newArray, item];
+      }
 
-    indexToRemove = indices.shift();
+      indexToRemove = indices.shift();
 
-    return newArray;
-  }, [], array);
+      return newArray;
+    },
+    [],
+    array
+  );
 }
 
 /**
@@ -177,18 +172,19 @@ function omitNested(path, collection, isCollectionObject) {
 function omitFromArray(array, paths) {
   let indicesToRemove = [];
 
-  const newCollection = reduce((deeplyNestedOmittedCollection, path) => {
-    if (path.length > 1) {
-      return omitNested(path, deeplyNestedOmittedCollection, true);
-    }
+  const newCollection = reduce(
+    (deeplyNestedOmittedCollection, path) => {
+      if (path.length > 1) {
+        return omitNested(path, deeplyNestedOmittedCollection, true);
+      }
 
-    indicesToRemove = [
-      ...indicesToRemove,
-      ...path[0]
-    ];
+      indicesToRemove = [...indicesToRemove, ...path[0]];
 
-    return deeplyNestedOmittedCollection;
-  }, array, paths);
+      return deeplyNestedOmittedCollection;
+    },
+    array,
+    paths
+  );
 
   return removeIndicesFromArray(indicesToRemove, newCollection);
 }

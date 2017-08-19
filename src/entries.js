@@ -21,10 +21,7 @@ function getEntriesFromIterable(collection) {
   let entries = [];
 
   collection.forEach((value, key) => {
-    entries.push([
-      key,
-      value
-    ]);
+    entries.push([key, value]);
   });
 
   return entries;
@@ -44,10 +41,13 @@ export default function entries(collection) {
     return [];
   }
 
-  return isFunction(collection.entries) ? getEntriesFromIterable(collection) : reduce((entries, value, key) => {
-    return [
-      ...entries,
-      [key, value]
-    ];
-  }, [], collection);
+  return isFunction(collection.entries)
+    ? getEntriesFromIterable(collection)
+    : reduce(
+      (entries, value, key) => {
+        return [...entries, [key, value]];
+      },
+      [],
+      collection
+    );
 }

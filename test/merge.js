@@ -19,10 +19,7 @@ test('if merge will merge two arrays where the first is longer than the second',
 
   const result = merge(first, second);
 
-  t.deepEqual(result, [
-    ...second,
-    ...first.slice(3)
-  ]);
+  t.deepEqual(result, [...second, ...first.slice(3)]);
 });
 
 test('if merge will merge two arrays where the first is shorter than the second', (t) => {

@@ -16,10 +16,7 @@ import isObject from './_utils/isObject';
  * @returns {Array<*>} the merged arrays
  */
 function mergeArrays(array1, array2) {
-  return array2.length >= array1.length ? [...array2] : [
-    ...array2,
-    ...array1.slice(array2.length)
-  ];
+  return array2.length >= array1.length ? [...array2] : [...array2, ...array1.slice(array2.length)];
 }
 
 /**
@@ -50,6 +47,7 @@ function mergeObjects(object1, object2) {
  * @returns {Array<*>|Object} the merged collections
  */
 export default curry(function merge(collection1, collection2) {
-  return isObject(collection1) ? mergeObjects(collection1, collection2) :
-    mergeArrays(coalesceToArray(collection1), coalesceToArray(collection2));
+  return isObject(collection1)
+    ? mergeObjects(collection1, collection2)
+    : mergeArrays(coalesceToArray(collection1), coalesceToArray(collection2));
 });

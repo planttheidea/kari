@@ -17,11 +17,15 @@ import isObject from './_utils/isObject';
  * @returns {Array<*>} the values at key in the collection of objects
  */
 export default curry(function pluck(key, collection) {
-  return reduce((pluckedItems, item) => {
-    if (item.hasOwnProperty(key)) {
-      pluckedItems.push(item[key]);
-    }
+  return reduce(
+    (pluckedItems, item) => {
+      if (item.hasOwnProperty(key)) {
+        pluckedItems.push(item[key]);
+      }
 
-    return pluckedItems;
-  }, [], isObject(collection) ? collection : coalesceToArray(collection));
+      return pluckedItems;
+    },
+    [],
+    isObject(collection) ? collection : coalesceToArray(collection)
+  );
 });

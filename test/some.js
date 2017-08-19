@@ -24,7 +24,7 @@ test('if some returns true if all items in the array match the method', (t) => {
 test('if some returns true if some items in the array match the method', (t) => {
   const items = [1, 2, 3, 4, 5];
 
-  const result = some((isEven))(items);
+  const result = some(isEven)(items);
 
   t.true(result);
 });
@@ -32,7 +32,7 @@ test('if some returns true if some items in the array match the method', (t) => 
 test('if some returns false if no items in the array match the method', (t) => {
   const items = [1, 2, 3, 4, 5];
 
-  const result = some((isZero))(items);
+  const result = some(isZero)(items);
 
   t.false(result);
 });

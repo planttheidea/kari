@@ -77,7 +77,7 @@ function isObjectOrArrayEquivalent(firstValue, secondValue, firstStack, secondSt
 
     /* eslint-disable no-use-before-define */
     if (!isEquivalent(firstValue[key], secondValue[key], firstStack, secondStack)) {
-    /* eslint-enable */
+      /* eslint-enable */
       return false;
     }
   }
@@ -128,8 +128,12 @@ export default function isEquivalent(firstValue, secondValue, firstStack = [], s
   }
 
   if (ITERATOR_COMPARE_REGEXP.test(objectClass)) {
-    return isEquivalent(getArrayFromIterator(firstValue.entries()), getArrayFromIterator(secondValue.entries()),
-      firstStack, secondStack);
+    return isEquivalent(
+      getArrayFromIterator(firstValue.entries()),
+      getArrayFromIterator(secondValue.entries()),
+      firstStack,
+      secondStack
+    );
   }
 
   if (OBJECT_OR_ARRAY_COMPARE_REGEXP.test(objectClass)) {

@@ -1,8 +1,6 @@
 // test
 import test from 'ava';
-import {
-  getFiles
-} from 'test/helpers/_methods';
+import {getFiles} from 'test/helpers/_methods';
 
 test('if all the files in src have been tested', (t) => {
   const srcFiles = getFiles('./src');

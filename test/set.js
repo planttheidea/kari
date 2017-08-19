@@ -112,8 +112,6 @@ test('if set will add an array when a descendant is not found and the next path 
   const result = set(key, value, object);
 
   t.deepEqual(result, {
-    bar: [
-      value
-    ]
+    bar: [value]
   });
 });

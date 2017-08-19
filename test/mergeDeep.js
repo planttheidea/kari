@@ -5,21 +5,12 @@ import test from 'ava';
 import mergeDeep from 'src/mergeDeep';
 
 test('if mergeDeep will deeply merge nested arrays', (t) => {
-  const first = [
-    ['foo', 'bar'],
-    ['baz']
-  ];
-  const second = [
-    ['foo'],
-    ['bar', 'baz']
-  ];
+  const first = [['foo', 'bar'], ['baz']];
+  const second = [['foo'], ['bar', 'baz']];
 
   const result = mergeDeep(first, second);
 
-  t.deepEqual(result, [
-    ['foo', 'bar'],
-    ['bar', 'baz']
-  ]);
+  t.deepEqual(result, [['foo', 'bar'], ['bar', 'baz']]);
 });
 
 test('if mergeDeep will deeply merge nested objects', (t) => {

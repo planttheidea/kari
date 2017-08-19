@@ -11,8 +11,5 @@ test('if prepend will add an item to the beginning of the array', (t) => {
   const result = prepend(item)(array);
 
   t.not(result, array);
-  t.deepEqual(result, [
-    item,
-    ...array
-  ]);
+  t.deepEqual(result, [item, ...array]);
 });

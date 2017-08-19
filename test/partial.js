@@ -19,8 +19,5 @@ test('if partial will create a partial-application method', (t) => {
 
   const result = partialed(...additionalArgs);
 
-  t.deepEqual(result, [
-    ...initialArgs,
-    ...additionalArgs
-  ]);
+  t.deepEqual(result, [...initialArgs, ...additionalArgs]);
 });

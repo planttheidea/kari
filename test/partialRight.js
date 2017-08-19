@@ -19,8 +19,5 @@ test('if partialRight will create a partial-application method where the additio
 
   const result = partialed(...additionalArgs);
 
-  t.deepEqual(result, [
-    ...additionalArgs,
-    ...initialArgs
-  ]);
+  t.deepEqual(result, [...additionalArgs, ...initialArgs]);
 });

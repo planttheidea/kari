@@ -2,17 +2,10 @@
   "author": "tony.quetano@planttheidea.com",
   "ava": {
     "babel": "inherit",
-    "concurrency": 5,
     "failFast": true,
-    "files": [
-      "test/**/*.js"
-    ],
-    "require": [
-      "babel-register"
-    ],
-    "source": [
-      "src/**/*.js"
-    ],
+    "files": ["test/**/*.js"],
+    "require": ["babel-register"],
+    "source": ["src/**/*.js"],
     "verbose": true
   },
   "bugs": {
@@ -20,40 +13,36 @@
   },
   "description": "Modular curriable utilities for modern JS",
   "devDependencies": {
-    "ava": "^0.20.0",
-    "babel-cli": "^6.24.1",
+    "ava": "^0.22.0",
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.3",
-    "babel-loader": "^7.1.1",
+    "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "benchmark": "^2.1.4",
     "cli-table2": "^0.2.0",
-    "eslint": "^4.2.0",
-    "eslint-config-rapid7": "^2.10.0",
+    "eslint": "^4.5.0",
+    "eslint-config-rapid7": "^2.11.1",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.9.0",
-    "html-webpack-plugin": "^2.29.0",
+    "html-webpack-plugin": "^2.30.1",
     "in-publish": "^2.0.0",
     "lodash": "^4.17.4",
-    "nyc": "^11.0.3",
+    "nyc": "^11.1.0",
     "optimize-js-plugin": "^0.0.4",
     "ora": "^1.3.0",
     "ramda": "^0.24.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "rimraf": "^2.6.1",
-    "sinon": "^2.3.7",
-    "webpack": "^3.1.0",
-    "webpack-dashboard": "^0.4.0",
-    "webpack-dev-server": "^2.5.1"
+    "sinon": "^3.2.1",
+    "webpack": "^3.5.5",
+    "webpack-dashboard": "^1.0.0-3",
+    "webpack-dev-server": "^2.7.1"
   },
   "homepage": "https://github.com/planttheidea/kari#readme",
-  "keywords": [
-    "curry",
-    "functional",
-    "fp"
-  ],
+  "keywords": ["curry", "functional", "fp"],
   "license": "MIT",
   "main": "index.js",
   "name": "kari",
@@ -75,7 +64,7 @@
     "prepublish:compile": "npm run lint && npm run test:coverage && npm run clean && npm run transpile && npm run build && npm run build:minified",
     "start": "npm run dev",
     "test": "NODE_PATH=. NODE_ENV=test ava",
-    "test:coverage": "nyc npm test",
+    "test:coverage": "nyc --cache npm test",
     "test:watch": "NODE_PATH=. NODE_ENV=test ava --watch",
     "transpile": "babel src --out-dir .",
     "transpile:benchmark": "babel src --out-dir lib"
