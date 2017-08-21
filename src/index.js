@@ -71,6 +71,7 @@ import subtract from './subtract';
 import take from './take';
 import tap from './tap';
 import tryCatch from './tryCatch';
+import typeOf from './typeOf';
 import uncurry from './uncurry';
 import unique from './unique';
 import uniqueBy from './uniqueBy';
@@ -145,6 +146,7 @@ export {subtract};
 export {take};
 export {tap};
 export {tryCatch};
+export {typeOf};
 export {uncurry};
 export {unique};
 export {uniqueBy};
@@ -220,6 +222,7 @@ export default {
   take,
   tap,
   tryCatch,
+  typeOf,
   uncurry,
   unique,
   uniqueBy
