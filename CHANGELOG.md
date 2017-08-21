@@ -1,5 +1,8 @@
 # kari CHANGELOG
 
+### 0.7.0
+* Add [typeOf](#README#typeof) method
+
 ### 0.6.0
 * Add methods:
   * [empty](README.md#empty)

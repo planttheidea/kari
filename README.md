@@ -79,6 +79,7 @@ A tiny, modular, functional library to make all your collections curriable.
   * [tap](#tap)
   * [take](#take)
   * [tryCatch](#trycatch)
+  * [typeOf](#typeof)
   * [uncurry](#uncurry)
   * [unique](#unique)
   * [uniqueBy](#uniqueby)
@@ -1483,6 +1484,19 @@ const attemptParse = k.tryCatch(JSON.parse, catchFn);
 
 console.log(attemptParse('{"foo":"bar"}')); // {foo: 'bar'}
 console.log(attemptParse({foo: 'bar'})); // {args: {foo: 'bar'}, error: SyntaxError: Unexpected token o in JSON at position 1 at parse (<anonymous>)}
+```
+
+#### typeOf
+
+`typeOf(type: string, value: any): boolean`
+
+Determines if the `value` is the `type` provided based on the `typeof` comparator.
+
+```javascript
+const isString = typeOf('string');
+
+console.log(isString('foo')); // true
+console.log(isString(123)); // false
 ```
 
 #### uncurry

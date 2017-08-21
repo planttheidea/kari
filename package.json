@@ -3,15 +3,9 @@
   "ava": {
     "babel": "inherit",
     "failFast": true,
-    "files": [
-      "test/**/*.js"
-    ],
-    "require": [
-      "babel-register"
-    ],
-    "source": [
-      "src/**/*.js"
-    ],
+    "files": ["test/**/*.js"],
+    "require": ["babel-register"],
+    "source": ["src/**/*.js"],
     "verbose": true
   },
   "bugs": {
@@ -48,11 +42,7 @@
     "webpack-dev-server": "^2.7.1"
   },
   "homepage": "https://github.com/planttheidea/kari#readme",
-  "keywords": [
-    "curry",
-    "functional",
-    "fp"
-  ],
+  "keywords": ["curry", "functional", "fp"],
   "license": "MIT",
   "main": "index.js",
   "name": "kari",
@@ -67,7 +57,7 @@
     "clean": "rimraf *.js && rimraf _utils && rimraf dist",
     "clean:benchmark": "rimraf lib",
     "dev": "NODE_ENV=development webpack-dev-server --progress --colors --config=webpack/webpack.config.dev.js",
-    "lint": "NODE_ENV=test eslint src",
+    "lint": "NODE_ENV=test eslint --max-warnings 0 src",
     "lint:fix": "NODE_ENV=test eslint src --fix",
     "postpublish": "npm run clean",
     "prepublish": "in-publish && npm run prepublish:compile || echo ''",
