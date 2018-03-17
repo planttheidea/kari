@@ -1,5 +1,5 @@
 // utils
-import is from './is';
+import {isPrimitive} from './_internal/is';
 
 /**
  * @function empty
@@ -11,16 +11,15 @@ import is from './is';
  * @returns {*} the empty version of value
  */
 export default function empty(value) {
-  if (is(String, value)) {
+  if (Array.isArray(value)) {
+    return [];
+  }
+
+  if (typeof value === 'string') {
     return '';
   }
 
-  if (
-    is(Array, value) ||
-    is(Object, value) ||
-    (typeof Map === 'function' && is(Map, value)) ||
-    (typeof Set === 'function' && is(Set, value))
-  ) {
+  if (value && !isPrimitive(value) && !(value instanceof RegExp || value instanceof Date)) {
     return new value.constructor();
   }
 }

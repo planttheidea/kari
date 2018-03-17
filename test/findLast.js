@@ -1,92 +1,44 @@
 // test
 import test from 'ava';
-import sinon from 'sinon';
 
 // src
 import findLast from 'src/findLast';
-import * as array from 'src/_utils/findInArray';
-import * as object from 'src/_utils/findInObject';
-import * as reverse from 'src/_utils/reverse';
 
-test('if findLast will find call findInArray and reverse when the item is an array', (t) => {
-  const items = [];
-  const method = () => {};
+test('if findLast will find the first entry when the item is an array', (t) => {
+  const items = [{}, {}, {}];
 
-  const reversedItems = [];
+  items.push(items[1]);
 
-  const reverseStub = sinon.stub(reverse, 'default').returns(reversedItems);
-  const findInArrayStub = sinon.stub(array, 'default');
-  const findInObjectStub = sinon.stub(object, 'default');
+  const method = (value) => {
+    return value === items[3];
+  };
 
-  findLast(method)(items);
+  const result = findLast(method)(items);
 
-  t.true(reverseStub.calledOnce);
-  t.true(reverseStub.calledWith(items));
-
-  t.true(findInArrayStub.calledOnce);
-  t.true(findInArrayStub.calledWith(method, reversedItems, false));
-
-  t.true(findInObjectStub.notCalled);
-
-  reverseStub.restore();
-  findInArrayStub.restore();
-  findInObjectStub.restore();
+  t.is(result, items[3]);
 });
 
-test('if findLast will find call findInObject and reverse when the item is an object', (t) => {
-  const items = {};
-  const method = () => {};
+test('if findLast will find the first entry when the item is an object', (t) => {
+  const items = {one: {}, two: {}, three: {}};
 
-  const reversedItems = {};
+  items.four = items.one;
 
-  const reverseStub = sinon.stub(reverse, 'default').returns(reversedItems);
-  const findInArrayStub = sinon.stub(array, 'default');
-  const findInObjectStub = sinon.stub(object, 'default');
+  const method = (value) => {
+    return value === items.one;
+  };
 
-  findLast(method)(items);
+  const result = findLast(method)(items);
 
-  t.true(reverseStub.calledOnce);
-  t.true(reverseStub.calledWith(items));
-
-  t.true(findInArrayStub.notCalled);
-
-  t.true(findInObjectStub.calledOnce);
-
-  const args = findInObjectStub.firstCall.args;
-
-  t.is(args.length, 4);
-  t.deepEqual(args, [method, items, Object.keys(items), false]);
-
-  reverseStub.restore();
-  findInArrayStub.restore();
-  findInObjectStub.restore();
+  t.is(result, items.four);
 });
 
-test('if findLast will find call findInArray and reverse when the item is neither an array or object', (t) => {
+test('if findLast will find the only entry when the item is neither an array or object', (t) => {
   const items = 'foo';
-  const method = () => {};
+  const method = (value) => {
+    return value === 'foo';
+  };
 
-  const reversedItems = 'oof';
+  const result = findLast(method)(items);
 
-  const reverseStub = sinon.stub(reverse, 'default').returns(reversedItems);
-  const findInArrayStub = sinon.stub(array, 'default');
-  const findInObjectStub = sinon.stub(object, 'default');
-
-  findLast(method)(items);
-
-  t.true(reverseStub.calledOnce);
-  t.true(reverseStub.calledWith(items));
-
-  t.true(findInArrayStub.calledOnce);
-
-  const args = findInArrayStub.firstCall.args;
-
-  t.is(args.length, 3);
-  t.deepEqual(args, [method, [reversedItems], false]);
-
-  t.true(findInObjectStub.notCalled);
-
-  reverseStub.restore();
-  findInArrayStub.restore();
-  findInObjectStub.restore();
+  t.is(result, items);
 });

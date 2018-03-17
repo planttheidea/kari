@@ -1,8 +1,5 @@
-// methods
-import reduce from './reduce';
-
 // utils
-import isFunction from './_utils/isFunction';
+import {reduce} from './_internal/reduce';
 
 /**
  * @function getEntriesFromIterable
@@ -13,8 +10,8 @@ import isFunction from './_utils/isFunction';
  * @param {Map|Set} collection the collection to get the entries of
  * @returns {Array<Array<*>>} the entries of the collection
  */
-function getEntriesFromIterable(collection) {
-  if (isFunction(Array.from)) {
+export function getEntriesFromIterable(collection) {
+  if (typeof Array.from === 'function') {
     return Array.from(collection.entries());
   }
 
@@ -37,17 +34,17 @@ function getEntriesFromIterable(collection) {
  * @returns {Array<Array<*>>} the entries of the collection
  */
 export default function entries(collection) {
-  if (!collection) {
-    return [];
-  }
+  return collection
+    ? typeof collection.entries === 'function'
+      ? getEntriesFromIterable(collection)
+      : reduce(
+        (entries, value, key) => {
+          entries.push([key, value]);
 
-  return isFunction(collection.entries)
-    ? getEntriesFromIterable(collection)
-    : reduce(
-      (entries, value, key) => {
-        return [...entries, [key, value]];
-      },
-      [],
-      collection
-    );
+          return entries;
+        },
+        [],
+        collection
+      )
+    : [];
 }

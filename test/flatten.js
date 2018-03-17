@@ -7,9 +7,7 @@ import flatten from 'src/flatten';
 test('if flatten will flatten the nested array', (t) => {
   const value = [1, [2, 3], [[4, 5], 6]];
 
-  const result = flatten(value);
-
-  t.deepEqual(result, [1, 2, 3, 4, 5, 6]);
+  t.deepEqual(flatten(value), [1, 2, 3, 4, 5, 6]);
 });
 
 test('if flatten will flatten the nested object', (t) => {

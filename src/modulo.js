@@ -2,8 +2,7 @@
 import curry from './curry';
 
 // utils
-import isInteger from './_utils/isInteger';
-import isPositiveInteger from './_utils/isPositiveInteger';
+import {isInteger} from './_internal/is';
 
 /**
  * @function remainder
@@ -16,7 +15,7 @@ import isPositiveInteger from './_utils/isPositiveInteger';
  * @returns {number} the remainder of the division
  */
 export default curry(function modulo(numerator, modulus) {
-  if (!isInteger(numerator) || !isPositiveInteger(modulus)) {
+  if (!isInteger(numerator) || !isInteger(modulus) || modulus < 1) {
     return NaN;
   }
 

@@ -6,7 +6,7 @@
  * @returns {function(...Array<*>): *} the partial function that will apply fn
  */
 export default function partial(fn, ...outerArgs) {
-  return function(...innerArgs) {
-    return fn(...outerArgs, ...innerArgs);
+  return function() {
+    return fn.apply(this, outerArgs.concat(Array.prototype.slice.call(arguments, 0)));
   };
 }

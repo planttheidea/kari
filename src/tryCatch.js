@@ -12,11 +12,11 @@ import curry from './curry';
  * @returns {function(...Array<*>): *} the method that will handle the try / catch
  */
 export default curry(function tryCatch(tryFn, catchFn) {
-  return function(...args) {
+  return function() {
     try {
-      return tryFn(...args);
+      return tryFn.apply(this, arguments);
     } catch (error) {
-      return catchFn(error, ...args);
+      return catchFn.apply(this, [error].concat(Array.prototype.slice.call(arguments, 0)));
     }
   };
 });

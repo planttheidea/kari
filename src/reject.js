@@ -1,8 +1,7 @@
 // methods
-import compose from './compose';
 import curry from './curry';
 import filter from './filter';
-import not from './not';
+import notBy from './notBy';
 
 /**
  * @function reject
@@ -15,5 +14,5 @@ import not from './not';
  * @returns {Array<*>|Object} the filtered collection
  */
 export default curry(function reject(fn, collection) {
-  return filter(compose(not, fn), collection);
+  return filter(notBy(fn), collection);
 });

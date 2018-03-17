@@ -2,8 +2,7 @@
 import curry from './curry';
 
 // utils
-import coalesceToArray from './_utils/coalesceToArray';
-import isObject from './_utils/isObject';
+import {normalizeObject} from './_internal/normalize';
 
 /**
  * @function restObject
@@ -13,35 +12,22 @@ import isObject from './_utils/isObject';
  *
  * @param {number} size the number of items to get from the end of the object
  * @param {Object} object the object of items to get the last n items from
- * @param {Array<string>} keys the object's keys
  * @return {Object} the last n number of items in the object
  */
-function restObject(size, object, keys) {
-  let index = keys.length - size - 1,
+function restObject(size, object) {
+  const keys = Object.keys(object);
+
+  let index = keys.length - size,
       newObject = {},
       key;
 
-  while (++index < keys.length) {
+  for (; index < keys.length; index++) {
     key = keys[index];
 
     newObject[key] = object[key];
   }
 
   return newObject;
-}
-
-/**
- * @function restArray
- *
- * @description
- * get the last n number of items in a array
- *
- * @param {number} size the number of items to get from the end of the array
- * @param {Array<*>} array the array of items to get the last n items from
- * @return {Array<*>} the last n number of items in the array
- */
-function restArray(size, array) {
-  return size > 0 ? array.slice(array.length - size) : [];
 }
 
 /**
@@ -55,7 +41,9 @@ function restArray(size, array) {
  * @return {Array<*>|Object} the last n number of items in the collection
  */
 export default curry(function rest(size, collection) {
-  return isObject(collection)
-    ? restObject(size, collection, Object.keys(collection))
-    : restArray(size, coalesceToArray(collection));
+  const normalizedCollection = normalizeObject(collection);
+
+  return Array.isArray(normalizedCollection)
+    ? size > 0 ? normalizedCollection.slice(normalizedCollection.length - size) : []
+    : restObject(size, normalizedCollection);
 });

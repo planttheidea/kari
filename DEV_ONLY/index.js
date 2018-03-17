@@ -1,14 +1,21 @@
-import React, {
-  PureComponent
-} from 'react';
-import {
-  render
-} from 'react-dom';
+import React, {PureComponent} from 'react';
+import {render} from 'react-dom';
 
 import k from '../src';
 import R from 'ramda';
 
-const array = (new Array(1000)).fill(1).map((ignored, index) => {
+document.body.style.backgroundColor = '#1d1d1d';
+document.body.style.color = '#d5d5d5';
+document.body.style.margin = 0;
+document.body.style.padding = 0;
+
+const div = document.createElement('div');
+
+div.textContent = 'Check the console for details.';
+
+document.body.appendChild(div);
+
+const array = new Array(1000).fill(1).map((ignored, index) => {
   return ~~(Math.random() * index);
 });
 
@@ -33,21 +40,31 @@ console.log('last', curried(1, 2)(3));
 console.log('first', curried(1)(2, 3));
 console.log('none', curried(1, 2, 3));
 
-const curriedForEach = k.forEach((item, index, items) => {
-  console.log(item, index, items);
-}, [1, 2, 3]);
+const curriedForEach = k.forEach(
+  (item, index, items) => {
+    console.log(item, index, items);
+  },
+  [1, 2, 3]
+);
 
 console.log(curriedForEach);
 
-const reduced = k.reduce((sum, num) => {
-  return sum + num;
-}, [1, 2, 3, 4, 5], 0);
+const reduced = k.reduce(
+  (sum, num) => {
+    return sum + num;
+  },
+  [1, 2, 3, 4, 5],
+  0
+);
 
 console.log(reduced);
 
-const partitioned = k.partition((item) => {
-  return item % 2 === 0;
-}, [1, 2, 3, 4, 5, 6]);
+const partitioned = k.partition(
+  (item) => {
+    return item % 2 === 0;
+  },
+  [1, 2, 3, 4, 5, 6]
+);
 
 console.log(partitioned);
 
@@ -130,9 +147,11 @@ const obj = {
 
 k.forEach(console.log.bind(console), obj);
 
-console.log(k.filter((value) => {
-  return value === 'foo';
-}, obj));
+console.log(
+  k.filter((value) => {
+    return value === 'foo';
+  }, obj)
+);
 
 const addThreeNumbers = (a, b, c) => {
   return a + b + c;
@@ -159,28 +178,19 @@ console.log(k.modulo(17.2, 5));
 console.log(k.modulo(17, 5.3));
 console.log(k.modulo(17, 5.3, 'foo'));
 //
-console.log(k.sort((a, b) => {
-  return a > b;
-})([4, 1, 2, 8, 4]));
+console.log(
+  k.sort((a, b) => {
+    return a > b;
+  })([4, 1, 2, 8, 4])
+);
 
 const sortByFoo = k.sortBy(k.get('foo'));
 
-console.log(sortByFoo([
-  {foo: 'foo'},
-  {foo: 'bar'},
-  {foo: 'baz'}
-]));
+console.log(sortByFoo([{foo: 'foo'}, {foo: 'bar'}, {foo: 'baz'}]));
 
-const workers = [
-  {name: 'Bill', salary: 40000},
-  {name: 'Suzy', salary: 40000},
-  {name: 'Alex', salary: 50000}
-];
+const workers = [{name: 'Bill', salary: 40000}, {name: 'Suzy', salary: 40000}, {name: 'Alex', salary: 50000}];
 
-const sortBySalaryThenName = k.sortWith([
-  k.descend(k.get('salary')),
-  k.ascend(k.get('name'))
-]);
+const sortBySalaryThenName = k.sortWith([k.descend(k.get('salary')), k.ascend(k.get('name'))]);
 
 console.log(sortBySalaryThenName(workers));
 
@@ -246,40 +256,46 @@ const tryCatchResult = k.tryCatch(JSON.parse, catchFn)({foo: 'bar'});
 console.log(tryCatchResult);
 
 console.log(k.flatten([1, 2, [3, 4], 5, [6, [7, 8, [9, [10, 11], 12]]]]));
-console.log(k.flatten({
-  one: 1,
-  two: 2,
-  threeAndFour: {
-    three: 3,
-    four: 4
-  },
-  five: 5,
-  sixThroughTwelve: {
-    six: 6,
-    sevenThroughTwelve: {
-      seven: 7,
-      eight: 8,
-      nineThroughTwelve: {
-        nine: 9,
-        tenAndEleven: {
-          ten: 10,
-          eleven: 11
-        },
-        twelve: 12
+console.log(
+  k.flatten({
+    one: 1,
+    two: 2,
+    threeAndFour: {
+      three: 3,
+      four: 4
+    },
+    five: 5,
+    sixThroughTwelve: {
+      six: 6,
+      sevenThroughTwelve: {
+        seven: 7,
+        eight: 8,
+        nineThroughTwelve: {
+          nine: 9,
+          tenAndEleven: {
+            ten: 10,
+            eleven: 11
+          },
+          twelve: 12
+        }
       }
     }
-  }
-}));
+  })
+);
 
 console.log(k.not('foo'));
-console.log(k.notBy((value) => {
-  return value !== 'foo';
-})('foo'));
+console.log(
+  k.notBy((value) => {
+    return value !== 'foo';
+  })('foo')
+);
 
 console.log(k.equals({foo: 'foo'})({foo: 'bar'}));
-console.log(k.equalsBy((value, key) => {
-  return key;
-})({foo: 'foo'})({foo: 'bar'}));
+console.log(
+  k.equalsBy((value, key) => {
+    return key;
+  })({foo: 'foo'})({foo: 'bar'})
+);
 
 console.log(k.empty(['foo', 'bar']));
 console.log(k.empty({foo: 'bar'}));
@@ -289,133 +305,20 @@ console.log(k.empty(123));
 console.log(k.entries(['foo', 'bar']));
 console.log(k.entries({foo: 'bar', bar: 'baz'}));
 
-console.log(k.reject((value) => {
-  return value % 2 === 0;
-})([1, 2, 3, 4, 5]));
-console.log(k.filter((value) => {
-  return value % 2 === 0;
-})([1, 2, 3, 4, 5]));
+console.log(
+  k.reject((value) => {
+    return value % 2 === 0;
+  })([1, 2, 3, 4, 5])
+);
+console.log(
+  k.filter((value) => {
+    return value % 2 === 0;
+  })([1, 2, 3, 4, 5])
+);
 
 console.log(k.unique([1, 2, 2, 1, 1, 2, 2, 1, 3]));
-console.log(k.uniqueBy((value) => {
-  return 3;
-})([1, 2, 2, 1, 1, 2, 2, 1, 3]));
-
-
-
-
-
-
-
-
-
-
-
-
-
-// class App extends PureComponent {
-//   render() {
-//     return (
-//       <div className={`example`}>
-//         <h1>
-//           App
-//         </h1>
-//       </div>
-//     );
-//   }
-// }
-//
-// const div = document.createElement('div');
-// const style = document.createElement('style');
-//
-// style.textContent = `
-// body {
-//       margin: 0;
-//       font-family: 'Helvetica Neue', sans-serif;
-//     }
-//
-//     a {
-//       color: #38afd4;
-//       text-decoration: none;
-//     }
-//
-//     a:hover {
-//       text-decoration: underline;
-//     }
-//
-//     .banner {
-//       border: 0;
-//       position: absolute;
-//       right: 0;
-//       top: 0;
-//     }
-//
-//     .header {
-//       background: #fff;
-//       color: #ec7720;
-//       font-size: 50px;
-//       padding: 40px;
-//     }
-//
-//     .example {
-//       padding: 25px;
-//     }
-//
-//     .props {
-//       overflow: auto;
-//     }
-//
-//     .component {
-//       border: 10px solid #38afd4;
-//       border-radius: 5px;
-//       height: 300px;
-//       overflow: auto;
-//       -webkit-overflow-scrolling: touch;
-//     }
-//
-//     .item {
-//       background: linear-gradient(#fff, #eee);
-//       line-height: 30px;
-//       padding: 0 10px;
-//     }
-//
-//     .axis-x .item {
-//       display: inline-block;
-//       line-height: 300px;
-//       padding: 0;
-//       text-align: center;
-//       width: 150px;
-//     }
-//
-//     .axis-x .component {
-//       white-space: nowrap;
-//     }
-//
-//     .square-item {
-//       background: linear-gradient(#fff, #eee);
-//       display: inline-block;
-//       line-height: 100px;
-//       text-align: center;
-//       width: 100px;
-//     }
-//
-//     .even {
-//       background: linear-gradient(#ddd, #ccc);
-//     }
-// `;
-//
-// const renderApp = (container, length = 1000) => {
-//   render((
-//     <App length={length}/>
-//   ), container);
-// };
-//
-// // // uncomment to see the list update based on new props
-// // setInterval(() => {
-// //   renderApp(div, (Math.random() * 1000));
-// // }, 5000);
-//
-// renderApp(div);
-//
-// document.body.appendChild(div);
-// document.body.appendChild(style);
+console.log(
+  k.uniqueBy((value) => {
+    return 3;
+  })([1, 2, 2, 1, 1, 2, 2, 1, 3])
+);

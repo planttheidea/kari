@@ -2,8 +2,7 @@
 import curry from './curry';
 
 // utils
-import isFunction from './_utils/isFunction';
-import isNAN from './_utils/isNAN';
+import {isNaN} from './_internal/is';
 
 /**
  * @function is
@@ -16,18 +15,9 @@ import isNAN from './_utils/isNAN';
  * @returns {boolean} is the value an instance of the Constructor
  */
 export default curry(function is(Constructor, value) {
-  if (value === Constructor) {
-    return true;
-  }
-
-  if (isFunction(Constructor)) {
-    /* eslint-disable eqeqeq */
-    return (
-      value != null &&
-      /* eslint-enable */
-      (value === Constructor || value.constructor === Constructor)
-    );
-  }
-
-  return isNAN(Constructor) && isNAN(value);
+  return (
+    value === Constructor ||
+    (value != null && typeof value.constructor === 'function' && value.constructor === Constructor) || // eslint-disable-line eqeqeq
+    (isNaN(Constructor) && isNaN(value))
+  );
 });

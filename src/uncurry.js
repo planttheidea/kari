@@ -1,9 +1,6 @@
 // methods
 import curry from './curry';
 
-// utils
-import isFunction from './_utils/isFunction';
-
 /**
  * @function subtract
  *
@@ -19,7 +16,7 @@ export default curry(function uncurry(arity, fn) {
     let index = 0,
         value = fn(args[index]);
 
-    while (isFunction(value) && ++index < arity) {
+    while (typeof value === 'function' && ++index < arity) {
       value = value(args[index]);
     }
 

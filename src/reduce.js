@@ -2,10 +2,7 @@
 import curry from './curry';
 
 // utils
-import coalesceToArray from './_utils/coalesceToArray';
-import isObject from './_utils/isObject';
-import reduceArray from './_utils/reduceArray';
-import reduceObject from './_utils/reduceObject';
+import {reduce} from './_internal/reduce';
 
 /**
  * @function reduce
@@ -18,8 +15,4 @@ import reduceObject from './_utils/reduceObject';
  * @param {*} initialValue the initial value to start the reduction from
  * @returns {*} the reduced value
  */
-export default curry(function reduce(fn, initialValue, collection) {
-  return isObject(collection)
-    ? reduceObject(fn, collection, initialValue, Object.keys(collection))
-    : reduceArray(fn, coalesceToArray(collection), initialValue);
-});
+export default curry(reduce);

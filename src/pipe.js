@@ -1,9 +1,6 @@
 // methods
 import compose from './compose';
 
-// utils
-import reverse from './_utils/reverse';
-
 /**
  * @function pipe
  *
@@ -11,5 +8,7 @@ import reverse from './_utils/reverse';
  * @returns {function(...Array<*>): *} the piped methods as a single method
  */
 export default function pipe(...fns) {
-  return compose(...reverse(fns));
+  fns.reverse();
+
+  return compose.apply(this, fns);
 }

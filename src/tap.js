@@ -8,9 +8,9 @@
  * @returns {function(...Array<*>): *} the method that will handle the tap call with args
  */
 export default function tap(fn) {
-  return function(...args) {
-    fn(...args);
+  return function() {
+    fn.apply(this, arguments);
 
-    return args[0];
+    return arguments[0];
   };
 }

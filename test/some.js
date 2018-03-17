@@ -58,7 +58,7 @@ test('if some does the same for objects as it does arrays', (t) => {
   t.false(falsyResult);
 });
 
-test('if some returns true when the array or object is empty', (t) => {
-  t.true(some(isEven, []));
-  t.true(some(isEven, {}));
+test('if some returns false when the array or object is empty', (t) => {
+  t.false(some(isEven, []));
+  t.false(some(isEven, {}));
 });

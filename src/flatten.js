@@ -2,9 +2,7 @@
 import reduce from './reduce';
 
 // utils
-import coalesceToArray from './_utils/coalesceToArray';
-import isArray from './_utils/isArray';
-import isObject from './_utils/isObject';
+import {assign, normalizeObject} from './_internal/normalize';
 
 /**
  * @function flattenArray
@@ -17,7 +15,7 @@ import isObject from './_utils/isObject';
  * @returns {Array<*>} the flattened array
  */
 const flattenArray = reduce((array, value) => {
-  return !isArray(value) ? [...array, value] : [...array, ...flattenArray([], value)];
+  return array.concat(Array.isArray(value) ? flattenArray([], value) : [value]);
 });
 
 /**
@@ -31,12 +29,7 @@ const flattenArray = reduce((array, value) => {
  * @returns {Object} the flattened object
  */
 const flattenObject = reduce((object, value, key) => {
-  return !isObject(value)
-    ? {...object, [key]: value}
-    : {
-      ...object,
-      ...flattenObject({}, value)
-    };
+  return assign(object, value && typeof value === 'object' ? flattenObject({}, value) : {[key]: value});
 });
 
 /**
@@ -49,5 +42,9 @@ const flattenObject = reduce((object, value, key) => {
  * @returns {Array<*>|Object} the flattened collection
  */
 export default function flatten(collection) {
-  return isObject(collection) ? flattenObject({}, collection) : flattenArray([], coalesceToArray(collection));
+  const normalizedCollection = normalizeObject(collection);
+
+  return Array.isArray(normalizedCollection)
+    ? flattenArray([], normalizedCollection)
+    : flattenObject({}, normalizedCollection);
 }

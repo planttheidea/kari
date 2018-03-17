@@ -1,67 +1,22 @@
-// methods
+// external dependencies
 import curry from './curry';
 
 // utils
-import coalesceToArray from './_utils/coalesceToArray';
-import isObject from './_utils/isObject';
+import {normalizeObject} from './_internal/normalize';
+import {reduceObject} from './_internal/reduce';
 
-/**
- * @function mapArray
- *
- * @description
- * map the array to a new array based on the returns of the call with fn
- *
- * @param {function(*, number, Array<*>): *} fn the method to map with
- * @param {Array<*>} array the array of items to map
- * @returns {Array<*>} the mapped items
- */
-function mapArray(fn, array) {
-  let newArray = [],
-      index = -1;
+export default curry(function map(fn, object) {
+  const normalizedObject = normalizeObject(object);
 
-  while (++index < array.length) {
-    newArray[index] = fn(array[index], index, array);
-  }
+  return Array.isArray(normalizedObject)
+    ? normalizedObject.map(fn)
+    : reduceObject(
+      normalizedObject,
+      function(mappedObject, value, key, objectBeingMapped) {
+        mappedObject[key] = fn(objectBeingMapped[key], key, objectBeingMapped);
 
-  return newArray;
-}
-
-/**
- * @function mapObject
- *
- * @description
- * map the object to a new object based on the returns of the call with fn
- *
- * @param {function(*, string, Object): *} fn the method to map with
- * @param {Object} object the object of items to map
- * @returns {Object} the mapped items
- */
-function mapObject(fn, object) {
-  const keys = Object.keys(object);
-
-  let newObject = {},
-      index = -1,
-      key;
-
-  while (++index < keys.length) {
-    key = keys[index];
-
-    newObject[key] = fn(object[key], key, object);
-  }
-
-  return newObject;
-}
-
-/**
- * @function map
- *
- * @description
- * map the collection based on the returns of the call with fn
- *
- * @param {function(*, (number|string), (Array<*>|Object)): *} fn the method to map with
- * @param {Array<*>|Object} collection the collection of items to map
- * @returns {Array<*>|Object} the mapped collection
- */
-export default curry(function map(fn, collection) {
-  return isObject(collection) ? mapObject(fn, collection) : mapArray(fn, coalesceToArray(collection));
+        return mappedObject;
+      },
+      {}
+    );
 });

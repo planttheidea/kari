@@ -8,15 +8,14 @@ import curry from './curry';
  * get the complete list of arguments based on arity, even if it is larger than the
  * original args list
  *
- * @param {Array<*>} args the args passed
+ * @param {Arguments} args the args passed
  * @param {number} arity the number of arguments to return in the array
  * @returns {Array<*>} the complete list of args
  */
-export function getCompleteArgs(args, arity) {
-  let index = -1,
-      completeArgs = [];
+function getCompleteArgs(args, arity) {
+  let completeArgs = new Array(arity);
 
-  while (++index < arity) {
+  for (let index = 0; index < arity; index++) {
     completeArgs[index] = args[index];
   }
 
@@ -34,7 +33,7 @@ export function getCompleteArgs(args, arity) {
  * @returns {function(...Array<*>): *} the function that will apply the arity of args requested to fn
  */
 export default curry(function arity(arity, fn) {
-  return function(...args) {
-    return fn.apply(this, getCompleteArgs(args, arity));
+  return function() {
+    return fn.apply(this, getCompleteArgs(arguments, arity));
   };
 });

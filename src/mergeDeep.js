@@ -2,9 +2,8 @@
 import curry from './curry';
 
 // utils
-import coalesceToArray from './_utils/coalesceToArray';
-import isArray from './_utils/isArray';
-import isObject from './_utils/isObject';
+import {isComplexObject} from './_internal/is';
+import {normalizeObject} from './_internal/normalize';
 
 /**
  * @function getDeeplyMergedValues
@@ -17,13 +16,15 @@ import isObject from './_utils/isObject';
  * @returns {*} the merged value
  */
 function getDeeplyMergedValues(value1, value2) {
-  if (isArray(value2)) {
-    return !isArray(value1) ? value2 : mergeDeepArrays(value1, value2); // eslint-disable-line no-use-before-define
+  /* eslint-disable no-use-before-define */
+  if (Array.isArray(value2)) {
+    return Array.isArray(value1) ? mergeDeepArrays(value1, value2) : value2;
   }
 
-  if (isObject(value2)) {
-    return !isObject(value1) ? value2 : mergeDeepObjects(value1, value2); //eslint-disable-line no-use-before-define
+  if (isComplexObject(value2)) {
+    return isComplexObject(value1) ? mergeDeepObjects(value1, value2) : value2;
   }
+  /* eslint-enable */
 
   return value2;
 }
@@ -41,17 +42,10 @@ function getDeeplyMergedValues(value1, value2) {
 function mergeDeepArrays(array1, array2) {
   const length = Math.max(array1.length, array2.length);
 
-  let index = -1,
-      mergedArray = [];
+  let mergedArray = [];
 
-  while (++index < length) {
-    if (index < array2.length) {
-      mergedArray[index] = getDeeplyMergedValues(array1[index], array2[index]);
-
-      continue;
-    }
-
-    mergedArray[index] = array1[index];
+  for (let index = 0; index < length; index++) {
+    mergedArray.push(index < array2.length ? getDeeplyMergedValues(array1[index], array2[index]) : array1[index]);
   }
 
   return mergedArray;
@@ -71,30 +65,23 @@ function mergeDeepObjects(object1, object2) {
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
 
-  let index = -1,
-      mergedObject = {},
+  let mergedObject = {},
       key,
       indexOfKey;
 
-  while (++index < keys1.length) {
+  for (let index = 0; index < keys1.length; index++) {
     key = keys1[index];
     indexOfKey = keys2.indexOf(key);
 
     if (~indexOfKey) {
-      mergedObject[key] = getDeeplyMergedValues(object1[key], object2[key]);
-
       keys2.splice(indexOfKey, 1);
-
-      continue;
     }
 
-    mergedObject[key] = object1[key];
+    mergedObject[key] = ~indexOfKey ? getDeeplyMergedValues(object1[key], object2[key]) : object1[key];
   }
 
   if (keys2.length) {
-    index = -1;
-
-    while (++index < keys2.length) {
+    for (let index = 0; index < keys2.length; index++) {
       key = keys2[index];
 
       mergedObject[key] = object2[key];
@@ -115,7 +102,7 @@ function mergeDeepObjects(object1, object2) {
  * @returns {Array<*>|Object} the merged collections
  */
 export default curry(function mergeDeep(collection1, collection2) {
-  return isObject(collection1)
-    ? mergeDeepObjects(collection1, collection2)
-    : mergeDeepArrays(coalesceToArray(collection1), coalesceToArray(collection2));
+  const mergeMethod = Array.isArray(collection1) ? mergeDeepArrays : mergeDeepObjects;
+
+  return mergeMethod(collection1, normalizeObject(collection2));
 });

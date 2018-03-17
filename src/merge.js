@@ -1,9 +1,8 @@
-// methods
+// external eependencies
 import curry from './curry';
 
 // utils
-import coalesceToArray from './_utils/coalesceToArray';
-import isObject from './_utils/isObject';
+import {assign, normalizeObject} from './_internal/normalize';
 
 /**
  * @function mergeArrays
@@ -16,7 +15,7 @@ import isObject from './_utils/isObject';
  * @returns {Array<*>} the merged arrays
  */
 function mergeArrays(array1, array2) {
-  return array2.length >= array1.length ? [...array2] : [...array2, ...array1.slice(array2.length)];
+  return array2.length >= array1.length ? array2.slice(0) : array2.concat(array1.slice(array2.length));
 }
 
 /**
@@ -30,10 +29,7 @@ function mergeArrays(array1, array2) {
  * @returns {Object} the merged objects
  */
 function mergeObjects(object1, object2) {
-  return {
-    ...object1,
-    ...object2
-  };
+  return assign(object1, object2);
 }
 
 /**
@@ -47,7 +43,10 @@ function mergeObjects(object1, object2) {
  * @returns {Array<*>|Object} the merged collections
  */
 export default curry(function merge(collection1, collection2) {
-  return isObject(collection1)
-    ? mergeObjects(collection1, collection2)
-    : mergeArrays(coalesceToArray(collection1), coalesceToArray(collection2));
+  const normalizedCollection1 = normalizeObject(collection1);
+  const normalizedCollection2 = normalizeObject(collection2);
+  const mergeMethod =
+    Array.isArray(normalizedCollection1) && Array.isArray(normalizedCollection2) ? mergeArrays : mergeObjects;
+
+  return mergeMethod(normalizedCollection1, normalizedCollection2);
 });

@@ -1,50 +1,28 @@
 // methods
 import curry from './curry';
-import filter from './filter';
-import reduce from './reduce';
 
 // utils
-import isArray from './_utils/isArray';
-import isObject from './_utils/isObject';
+import {isComplexObject} from './_internal/is';
+import {reduce} from './_internal/reduce';
 
-/**
- * @function pickArray
- *
- * @description
- * pick the values from the given array based on the existence of the indices
- *
- * @param {Array<number>} indices the indices to match
- * @param {Array<*>} array the array to pick from
- * @returns {Array<*>} the array with the picked values
- */
-function pickArray(indices, array) {
-  return filter(function(ignored, index) {
-    return ~indices.indexOf(index);
-  }, array);
+function createPickArray(indices) {
+  return function(newArray, value, index) {
+    if (~indices.indexOf(index)) {
+      newArray.push(value);
+    }
+
+    return newArray;
+  };
 }
 
-/**
- * @function pickObject
- *
- * @description
- * pick the values from the given object based on the existence of the keys
- *
- * @param {Array<number>} keys the keys to match
- * @param {Array<*>} object the object to pick from
- * @returns {Array<*>} the object with the picked values
- */
-function pickObject(keys, object) {
-  return reduce(
-    function(newObject, key) {
-      if (object.hasOwnProperty(key)) {
-        newObject[key] = object[key];
-      }
+function createPickObject(object) {
+  return function pickObject(newObject, key) {
+    if (object.hasOwnProperty(key)) {
+      newObject[key] = object[key];
+    }
 
-      return newObject;
-    },
-    {},
-    keys
-  );
+    return newObject;
+  };
 }
 
 /**
@@ -58,5 +36,7 @@ function pickObject(keys, object) {
  * @returns {Array<*>|Object} the object with specific keys picked
  */
 export default curry(function pick(keys, collection) {
-  return isArray(collection) ? pickArray(keys, collection) : isObject(collection) ? pickObject(keys, collection) : {};
+  return Array.isArray(collection)
+    ? reduce(createPickArray(keys), [], collection)
+    : isComplexObject(collection) ? reduce(createPickObject(collection), {}, keys) : {};
 });

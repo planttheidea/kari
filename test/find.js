@@ -1,70 +1,44 @@
 // test
 import test from 'ava';
-import sinon from 'sinon';
 
 // src
 import find from 'src/find';
-import * as array from 'src/_utils/findInArray';
-import * as object from 'src/_utils/findInObject';
 
-test('if find will find call findInArray when the item is an array', (t) => {
-  const items = [];
-  const method = () => {};
+test('if find will find the first entry when the item is an array', (t) => {
+  const items = [{}, {}, {}];
 
-  const findInArrayStub = sinon.stub(array, 'default');
-  const findInObjectStub = sinon.stub(object, 'default');
+  items.push(items[1]);
 
-  find(method)(items);
+  const method = (value) => {
+    return value === items[1];
+  };
 
-  t.true(findInArrayStub.calledOnce);
-  t.true(findInArrayStub.calledWith(method, items, false));
+  const result = find(method)(items);
 
-  t.true(findInObjectStub.notCalled);
-
-  findInArrayStub.restore();
-  findInObjectStub.restore();
+  t.is(result, items[1]);
 });
 
-test('if find will find call findInObject when the item is an object', (t) => {
-  const items = {};
-  const method = () => {};
+test('if find will find find the first entry when the item is an object', (t) => {
+  const items = {one: {}, two: {}, three: {}};
 
-  const findInArrayStub = sinon.stub(array, 'default');
-  const findInObjectStub = sinon.stub(object, 'default');
+  items.four = items.one;
 
-  find(method)(items);
+  const method = (value) => {
+    return value === items.one;
+  };
 
-  t.true(findInArrayStub.notCalled);
+  const result = find(method)(items);
 
-  t.true(findInObjectStub.calledOnce);
-
-  const args = findInObjectStub.firstCall.args;
-
-  t.is(args.length, 4);
-  t.deepEqual(args, [method, items, Object.keys(items), false]);
-
-  findInArrayStub.restore();
-  findInObjectStub.restore();
+  t.is(result, items.one);
 });
 
-test('if find will find call findInArray when the item is neither an array or object', (t) => {
+test('if find will find the only entry when the item is neither an array or object', (t) => {
   const items = 'foo';
-  const method = () => {};
+  const method = (value) => {
+    return value === 'foo';
+  };
 
-  const findInArrayStub = sinon.stub(array, 'default');
-  const findInObjectStub = sinon.stub(object, 'default');
+  const result = find(method)(items);
 
-  find(method)(items);
-
-  t.true(findInArrayStub.calledOnce);
-
-  const args = findInArrayStub.firstCall.args;
-
-  t.is(args.length, 3);
-  t.deepEqual(args, [method, [items], false]);
-
-  t.true(findInObjectStub.notCalled);
-
-  findInArrayStub.restore();
-  findInObjectStub.restore();
+  t.is(result, items);
 });

@@ -48,7 +48,7 @@ test('if get will get the deep key value', (t) => {
   t.is(result, value);
 });
 
-test('if get will return undefined when the path is empty', (t) => {
+test('if get will return the object itself when the path is empty', (t) => {
   const value = 'foo';
 
   const key = [];
@@ -67,7 +67,7 @@ test('if get will return undefined when the path is empty', (t) => {
 
   const result = get(key, object);
 
-  t.is(result, undefined);
+  t.is(result, object);
 });
 
 test('if get will return undefined when the object is falsy', (t) => {

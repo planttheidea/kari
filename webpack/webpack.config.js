@@ -9,17 +9,15 @@ const ROOT = path.join(__dirname, '..');
 module.exports = {
   devtool: '#source-map',
 
-  entry: [
-    path.join(ROOT, 'src', 'index.js')
-  ],
+  entry: [path.join(ROOT, 'src', 'index.js')],
+
+  mode: 'development',
 
   module: {
     rules: [
       {
         enforce: 'pre',
-        include: [
-          path.join(ROOT, 'src')
-        ],
+        include: [path.join(ROOT, 'src')],
         loader: 'eslint-loader',
         options: {
           configFile: '.eslintrc',
@@ -28,27 +26,10 @@ module.exports = {
           formatter: eslintFriendlyFormatter
         },
         test: /\.js$/
-      }, {
-        include: [
-          path.join(ROOT, 'src')
-        ],
+      },
+      {
+        include: [path.join(ROOT, 'src'), path.join(ROOT, 'DEV_ONLY')],
         loader: 'babel-loader',
-        options: {
-          babelrc: false,
-          presets: [
-            ['env', {
-              loose: true,
-              modules: false,
-              targets: {
-                browsers: [
-                  'last 2 versions',
-                  'ie 11'
-                ]
-              }
-            }],
-            'stage-2'
-          ]
-        },
         test: /\.js$/
       }
     ]
@@ -61,9 +42,5 @@ module.exports = {
     umdNamedDefine: true
   },
 
-  plugins: [
-    new webpack.EnvironmentPlugin([
-      'NODE_ENV'
-    ])
-  ]
+  plugins: [new webpack.EnvironmentPlugin(['NODE_ENV'])]
 };

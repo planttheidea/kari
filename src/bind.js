@@ -13,5 +13,5 @@ import curry from './curry';
  * @returns {function} the bound function
  */
 export default curry(function bind(fn, object, args = []) {
-  return fn.bind(object, ...args);
+  return fn.bind.apply(fn, [object].concat(args)); // eslint-disable-line prefer-spread
 });

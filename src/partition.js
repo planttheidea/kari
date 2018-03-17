@@ -1,10 +1,9 @@
 // methods
 import curry from './curry';
-import reduce from './reduce';
 
 // utils
-import coalesceToArray from './_utils/coalesceToArray';
-import isObject from './_utils/isObject';
+import {normalizeObject} from './_internal/normalize';
+import {reduce} from './_internal/reduce';
 
 /**
  * @function getCorrectPartition
@@ -15,62 +14,28 @@ import isObject from './_utils/isObject';
  *
  * @param {{falsy: (Array<*>|Object), truthy: (Array<*>|Object)}} partitions the truthy and falsy partitions
  * @param {*} result the result to determine the partition
+ * @param {boolean} isArray is the collection an array
  * @returns {Array<*>|Object} either the truthy or falsy partition
  */
-function getCorrectPartition(partitions, result) {
-  return result ? partitions.truthy : partitions.falsy;
+function getCorrectPartition(partitions, result, isArray) {
+  return result ? (isArray ? partitions[0] : partitions.truthy) : isArray ? partitions[1] : partitions.falsy;
 }
 
-/**
- * @function partitionArray
- *
- * @description
- * partition the array into truthy and falsy values
- *
- * @param {function(*, number, Array<*>)} fn the function that will determine which partition to put the value into
- * @param {Array<*>} array the items to partition
- * @returns {Array<Array<*>>} the partitioned items
- */
-function partitionArray(fn, array) {
-  const reducedPartitions = reduce(
-    function(partitions, item, index) {
-      getCorrectPartition(partitions, fn(item, index, array)).push(item);
-
-      return partitions;
-    },
-    {
-      falsy: [],
-      truthy: []
-    },
-    array
-  );
-
-  return [reducedPartitions.truthy, reducedPartitions.falsy];
+function addToArrayPartition(partition, value) {
+  partition.push(value);
 }
 
-/**
- * @function partitionObject
- *
- * @description
- * partition the array into truthy and falsy values
- *
- * @param {function(*, string, Object)} fn the function that will determine which partition to put the value into
- * @param {Object} object the items to partition
- * @returns {Object} the partitioned items
- */
-function partitionObject(fn, object) {
-  return reduce(
-    function(partitions, item, key) {
-      getCorrectPartition(partitions, fn(item, key, object))[key] = item;
+function addToObjectPartition(partition, value, key) {
+  partition[key] = value;
+}
 
-      return partitions;
-    },
-    {
+function createInitialValue(isArray) {
+  return isArray
+    ? [[], []]
+    : {
       falsy: {},
       truthy: {}
-    },
-    object
-  );
+    };
 }
 
 /**
@@ -85,5 +50,17 @@ function partitionObject(fn, object) {
  * @returns {Array<Array<*>>|Object} the partitioned collection
  */
 export default curry(function partition(fn, collection) {
-  return isObject(collection) ? partitionObject(fn, collection) : partitionArray(fn, coalesceToArray(collection));
+  const normalizedCollection = normalizeObject(collection);
+  const isCollectionArray = Array.isArray(normalizedCollection);
+  const addToPartition = isCollectionArray ? addToArrayPartition : addToObjectPartition;
+
+  return reduce(
+    function getObjectPartitions(partitions, value, key, object) {
+      addToPartition(getCorrectPartition(partitions, fn(value, key, object), isCollectionArray), value, key);
+
+      return partitions;
+    },
+    createInitialValue(isCollectionArray),
+    normalizedCollection
+  );
 });

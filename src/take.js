@@ -2,8 +2,7 @@
 import curry from './curry';
 
 // utils
-import coalesceToArray from './_utils/coalesceToArray';
-import isObject from './_utils/isObject';
+import {normalizeObject} from './_internal/normalize';
 
 /**
  * @function takeObject
@@ -13,35 +12,21 @@ import isObject from './_utils/isObject';
  *
  * @param {number} size the number of items to get from the end of the object
  * @param {Object} object the object of items to get the first n items from
- * @param {Array<string>} keys the keys of the object
  * @return {Object} the first n number of items
  */
-function takeObject(size, object, keys) {
-  let index = -1,
-      newObject = {},
+function takeObject(size, object) {
+  const keys = Object.keys(object);
+
+  let newObject = {},
       key;
 
-  while (++index < size) {
+  for (let index = 0; index < size; index++) {
     key = keys[index];
 
     newObject[key] = object[key];
   }
 
   return newObject;
-}
-
-/**
- * @function takeArray
- *
- * @description
- * get the first n number of items in an array
- *
- * @param {number} size the number of items to get from the end of the array
- * @param {Array<*>} array the array of items to get the first n items from
- * @return {Array<*>} the first n number of items
- */
-function takeArray(size, array) {
-  return size > 0 ? array.slice(0, size) : [];
 }
 
 /**
@@ -55,7 +40,9 @@ function takeArray(size, array) {
  * @return {Array<*>|Object} the first n number of items
  */
 export default curry(function take(size, collection) {
-  return isObject(collection)
-    ? takeObject(size, collection, Object.keys(collection))
-    : takeArray(size, coalesceToArray(collection));
+  const normalizedCollection = normalizeObject(collection);
+
+  return Array.isArray(normalizedCollection)
+    ? size > 0 ? normalizedCollection.slice(0, size) : []
+    : takeObject(size, normalizedCollection);
 });

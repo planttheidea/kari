@@ -12,6 +12,6 @@ import not from './not';
  * @param {*} value the value to call fn with
  * @returns {boolean} the opposite of the truthiness of the return from fn(value)
  */
-export default curry(function notBy(fn, value) {
-  return not(fn(value));
-});
+export default curry(function notBy(fn) {
+  return not(fn.apply(this, Array.prototype.slice.call(arguments, 1)));
+}, 2);

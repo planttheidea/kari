@@ -1,8 +1,6 @@
 // methods
 import curry from './curry';
-
-// utils
-import coalesceToArray from './_utils/coalesceToArray';
+import sort from './sort';
 
 /**
  * @function sortBy
@@ -14,10 +12,10 @@ import coalesceToArray from './_utils/coalesceToArray';
 export default curry(function sortBy(fn, array) {
   let firstValue, secondValue;
 
-  return [...coalesceToArray(array)].sort(function(first, second) {
+  return sort(function(first, second) {
     firstValue = fn(first);
     secondValue = fn(second);
 
     return firstValue < secondValue ? -1 : firstValue > secondValue ? 1 : 0;
-  });
+  }, array);
 });

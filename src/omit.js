@@ -1,15 +1,16 @@
+// external dependencies
+import {parse} from 'pathington';
+
 // methods
 import curry from './curry';
 import equals from './equals';
 import findIndex from './findIndex';
-import reduce from './reduce';
+import reduceCurried from './reduce';
 import set from './set';
 
 // utils
-import coalesceToArray from './_utils/coalesceToArray';
-import getPath from './_utils/getPath';
-import isNumber from './_utils/isNumber';
-import isObject from './_utils/isObject';
+import {normalizeObject} from './_internal/normalize';
+import {reduce} from './_internal/reduce';
 
 /**
  * @function getExistingPath
@@ -37,14 +38,14 @@ function getExistingPath(path, existingPaths) {
  * @param {Array<string>} keys the current keys
  * @returns {Array<Array<number|string>>} the array of consolidated paths
  */
-const getConsolidatedPaths = reduce((consolidatedPaths, key) => {
-  const path = getPath(key);
+const getConsolidatedPaths = reduceCurried((consolidatedPaths, key) => {
+  const path = parse(key).slice(0);
   const lastPathIndex = path.length - 1;
   const finalPathItem = path[lastPathIndex];
 
   let pathToAssign = path;
 
-  if (isNumber(finalPathItem)) {
+  if (typeof finalPathItem === 'number') {
     const matchingIndex = getExistingPath(path, consolidatedPaths);
 
     if (~matchingIndex) {
@@ -52,11 +53,9 @@ const getConsolidatedPaths = reduce((consolidatedPaths, key) => {
       const lastMatchIndex = match.length - 1;
       const newLastPathItem = set(lastMatchIndex, [...match[lastMatchIndex], finalPathItem], match);
 
-      return [
-        ...consolidatedPaths.slice(0, matchingIndex),
-        newLastPathItem,
-        ...consolidatedPaths.slice(matchingIndex + 1)
-      ];
+      return consolidatedPaths
+        .slice(0, matchingIndex)
+        .concat([newLastPathItem], consolidatedPaths.slice(matchingIndex + 1));
     }
 
     pathToAssign = set(lastPathIndex, [finalPathItem], path);
@@ -102,11 +101,11 @@ function removeIndicesFromArray(indices, array) {
 
   return reduce(
     (newArray, item, index) => {
-      if (index !== indexToRemove) {
-        return [...newArray, item];
+      if (index === indexToRemove) {
+        indexToRemove = indices.shift();
+      } else {
+        newArray.push(item);
       }
-
-      indexToRemove = indices.shift();
 
       return newArray;
     },
@@ -151,7 +150,7 @@ function omitNested(path, collection, isCollectionObject) {
   }
 
   /* eslint-disable no-use-before-define */
-  const omitMethod = isObject(cleanCollection[nextPath]) ? omitFromObject : omitFromArray;
+  const omitMethod = Array.isArray(cleanCollection[nextPath]) ? omitFromArray : omitFromObject;
   /* eslint-enable */
 
   collection[nextPath] = omitMethod(cleanCollection[nextPath], [path]);
@@ -178,7 +177,7 @@ function omitFromArray(array, paths) {
         return omitNested(path, deeplyNestedOmittedCollection, true);
       }
 
-      indicesToRemove = [...indicesToRemove, ...path[0]];
+      indicesToRemove = indicesToRemove.concat(path[0]);
 
       return deeplyNestedOmittedCollection;
     },
@@ -200,7 +199,7 @@ function omitFromArray(array, paths) {
  * @returns {Object} the omitted object
  */
 
-const omitFromObject = reduce((newCollection, path) => {
+const omitFromObject = reduceCurried((newCollection, path) => {
   return omitNested(path, newCollection, true);
 });
 
@@ -215,14 +214,16 @@ const omitFromObject = reduce((newCollection, path) => {
  * @returns {Array<*>|Object} the original object with the keys passed omitted
  */
 export default curry(function omit(keys, collection) {
-  const isCollectionObject = isObject(collection);
-  const coalescedCollection = isCollectionObject ? collection : coalesceToArray(collection);
+  const normalizedCollection = normalizeObject(collection);
+  const isCollectionArray = Array.isArray(normalizedCollection);
 
-  if (coalescedCollection !== collection) {
-    return coalescedCollection;
+  if (isCollectionArray && normalizedCollection !== collection) {
+    return normalizedCollection;
   }
 
   const paths = getConsolidatedPaths([], keys);
 
-  return isCollectionObject ? omitFromObject(coalescedCollection, paths) : omitFromArray(coalescedCollection, paths);
+  return isCollectionArray
+    ? normalizedCollection === collection ? omitFromArray(normalizedCollection, paths) : collection
+    : omitFromObject(normalizedCollection, paths);
 });

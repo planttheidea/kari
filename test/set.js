@@ -62,7 +62,7 @@ test('if set will set the deep key to be the value passed', (t) => {
   });
 });
 
-test('if set will return the object itself when the path is empty', (t) => {
+test('if set will return the original value when the path is empty', (t) => {
   const value = 'foo';
 
   const key = [];
@@ -81,7 +81,7 @@ test('if set will return the object itself when the path is empty', (t) => {
 
   const result = set(key, value, object);
 
-  t.is(result, object);
+  t.is(result, value);
 });
 
 test('if set will add an object when a descendant is not found and the next path item is a string', (t) => {

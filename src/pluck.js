@@ -1,10 +1,11 @@
 // methods
 import curry from './curry';
-import reduce from './reduce';
+import get from './get';
+import has from './has';
 
 // utils
-import coalesceToArray from './_utils/coalesceToArray';
-import isObject from './_utils/isObject';
+import {normalizeObject} from './_internal/normalize';
+import {reduce} from './_internal/reduce';
 
 /**
  * @function pluck
@@ -12,20 +13,23 @@ import isObject from './_utils/isObject';
  * @description
  * get the values from the collection of objects when the key is present in the object
  *
- * @param {string} key the key to find in the objects in items
+ * @param {string} path the path to find in the objects in items
  * @param {Array<Object>} collection the collection of items to get from
  * @returns {Array<*>} the values at key in the collection of objects
  */
-export default curry(function pluck(key, collection) {
+export default curry(function pluck(path, collection) {
+  const getFromPath = get(path);
+  const hasAtPath = has(path);
+
   return reduce(
     (pluckedItems, item) => {
-      if (item.hasOwnProperty(key)) {
-        pluckedItems.push(item[key]);
+      if (hasAtPath(item)) {
+        pluckedItems.push(getFromPath(item));
       }
 
       return pluckedItems;
     },
     [],
-    isObject(collection) ? collection : coalesceToArray(collection)
+    normalizeObject(collection)
   );
 });

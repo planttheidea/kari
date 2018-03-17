@@ -2,35 +2,30 @@
 import curry from './curry';
 
 // utils
-import isString from './_utils/isString';
+import {isEqual, isValidLength} from './_internal/is';
 
 /**
  * @function endsWithString
  *
- * @param {string} endingValue the value that the collection should end with
- * @param {string} valueToTest the value to test for ending with endingValue
+ * @param {string} value the value that the collection should end with
+ * @param {string} item the value to test for ending with endingValue
  * @returns {boolean} does valueToTest end with endingValue
  */
-function endsWithString(endingValue, valueToTest) {
-  const position = valueToTest.length - endingValue.length;
-  const lastIndexOfValue = valueToTest.lastIndexOf(endingValue);
+function endsWithString(value, item) {
+  const lastIndexOfValue = item.lastIndexOf(value);
 
-  return !!~lastIndexOfValue && lastIndexOfValue === position;
+  return !!~lastIndexOfValue && lastIndexOfValue === item.length - value.length;
 }
 
 /**
  * @function endsWith
  *
- * @param {*} endingValue the value that the collection should end with
- * @param {Array<*>|string} valueToTest the value to test for ending with endingValue
- * @returns {boolean} does valueToTest end with endingValue
+ * @param {*} value the value that the collection should end with
+ * @param {Array<*>|string} item the value to test for ending with endingValue
+ * @returns {boolean} does item end with value
  */
-export default curry(function endsWith(endingValue, valueToTest) {
-  if (!valueToTest.length) {
-    return false;
-  }
-
-  return isString(valueToTest)
-    ? endsWithString(endingValue, valueToTest)
-    : valueToTest[valueToTest.length - 1] === endingValue;
+export default curry(function endsWith(value, item) {
+  return item && isValidLength(item.length)
+    ? typeof item === 'string' ? endsWithString(value, item) : isEqual(item[item.length - 1], value)
+    : false;
 });

@@ -9,7 +9,7 @@ const FILES_OR_DIRECTORIES_TO_SKIP = [
 
   // directories
   'helpers',
-  '_utils'
+  '_internal'
 ];
 
 export const getFiles = (directory) => {
