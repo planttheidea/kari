@@ -5,6 +5,16 @@ import curry from './curry';
 import {getNormalizedResult} from './_internal/normalize';
 import {reduceArray, reduceObject} from './_internal/reduce';
 
+/**
+ * @function map
+ *
+ * @description
+ * map over the collection, assigning the result of fn to each key or index
+ *
+ * @param {function} fn the function to call on each iteration
+ * @param {Array<any>|Object} collection the collection to iterate over
+ * @returns {<Array<any>|Object} the mapped collection
+ */
 export default curry(function map(fn, collection) {
   return getNormalizedResult(
     collection,

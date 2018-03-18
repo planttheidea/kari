@@ -8,9 +8,19 @@ import {getNormalizedResult} from './_internal/normalize';
 const findArray = createFindArray(false, false);
 const findObject = createFindObject(false, false);
 
-export default curry(function find(fn, object) {
+/**
+ * @function find
+ *
+ * @description
+ * find the item in the collection passed
+ *
+ * @param {function} fn the function to find the matching item with
+ * @param {Array<any>|Object} collection the collection to find the item from
+ * @returns {any} the matching item
+ */
+export default curry(function find(fn, collection) {
   return getNormalizedResult(
-    object,
+    collection,
     (normalized) => findArray(fn, normalized),
     (normalized) => findObject(fn, normalized)
   );

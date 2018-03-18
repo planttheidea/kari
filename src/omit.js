@@ -126,36 +126,6 @@ function getCleanCollection(collection, isCollectionObject) {
 }
 
 /**
- * @function omitNested
- *
- * @description
- * remove the nested value at the path provided
- *
- * @param {Array<number|string>} path the path of the nested key
- * @param {Array<*>|Object} collection the collection to update
- * @param {boolean} isCollectionObject is the collection an object
- * @returns {Array<*>|Object} the updated collection
- */
-function omitNested(path, collection, isCollectionObject) {
-  const nextPath = path.shift();
-  const cleanCollection = getCleanCollection(collection, isCollectionObject);
-
-  if (!path.length) {
-    const removeMethod = isCollectionObject ? removeKeyFromObject : removeIndicesFromArray;
-
-    return removeMethod(nextPath, cleanCollection);
-  }
-
-  /* eslint-disable no-use-before-define */
-  const omitMethod = Array.isArray(cleanCollection[nextPath]) ? omitFromArray : omitFromObject;
-  /* eslint-enable */
-
-  collection[nextPath] = omitMethod(cleanCollection[nextPath], [path]);
-
-  return collection;
-}
-
-/**
  * @function omitFromArray
  *
  * @description
@@ -171,7 +141,9 @@ function omitFromArray(array, paths) {
   const newCollection = reduce(
     (omittedCollection, path) => {
       if (path.length > 1) {
+        /* eslint-disable no-use-before-define */
         return omitNested(path, omittedCollection, true);
+        /* eslint-enable */
       }
 
       indicesToRemove = indicesToRemove.concat(path[0]);
@@ -195,8 +167,37 @@ function omitFromArray(array, paths) {
  * @param {Array<string>} paths the paths to remove
  * @returns {Object} the omitted object
  */
-
+/* eslint-disable no-use-before-define */
 const omitFromObject = reduceCurried((newCollection, path) => omitNested(path, newCollection, true));
+/* eslint-enable */
+
+/**
+ * @function omitNested
+ *
+ * @description
+ * remove the nested value at the path provided
+ *
+ * @param {Array<number|string>} path the path of the nested key
+ * @param {Array<*>|Object} collection the collection to update
+ * @param {boolean} isCollectionObject is the collection an object
+ * @returns {Array<*>|Object} the updated collection
+ */
+function omitNested(path, collection, isCollectionObject) {
+  const nextPath = path.shift();
+  const cleanCollection = getCleanCollection(collection, isCollectionObject);
+
+  if (!path.length) {
+    const removeMethod = isCollectionObject ? removeKeyFromObject : removeIndicesFromArray;
+
+    return removeMethod(nextPath, cleanCollection);
+  }
+
+  const omitMethod = Array.isArray(cleanCollection[nextPath]) ? omitFromArray : omitFromObject;
+
+  collection[nextPath] = omitMethod(cleanCollection[nextPath], [path]);
+
+  return collection;
+}
 
 /**
  * @function omit

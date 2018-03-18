@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react';
 import {render} from 'react-dom';
 
-import k from '../src';
-import R from 'ramda';
+import * as k from '../src';
+import * as R from 'ramda';
 
 document.body.style.backgroundColor = '#1d1d1d';
 document.body.style.color = '#d5d5d5';
@@ -15,13 +15,9 @@ div.textContent = 'Check the console for details.';
 
 document.body.appendChild(div);
 
-const array = new Array(1000).fill(1).map((ignored, index) => {
-  return ~~(Math.random() * index);
-});
+const array = new Array(1000).fill(1).map((ignored, index) => ~~(Math.random() * index));
 
-const filterFn = (ignored, index) => {
-  return index % 7 === 0;
-};
+const filterFn = (ignored, index) => index % 7 === 0;
 
 console.log(k.filter(filterFn)(array));
 console.log(k.filter(filterFn, array));
@@ -29,9 +25,7 @@ console.log(k.filter(filterFn, array));
 console.log(k.gte(10)(5));
 console.log(k.gte(10, 5));
 
-const abc = (a, b, c) => {
-  return [a, b, c];
-};
+const abc = (a, b, c) => [a, b, c];
 
 const curried = k.curry(abc);
 
@@ -50,9 +44,7 @@ const curriedForEach = k.forEach(
 console.log(curriedForEach);
 
 const reduced = k.reduce(
-  (sum, num) => {
-    return sum + num;
-  },
+  (sum, num) => sum + num,
   [1, 2, 3, 4, 5],
   0
 );
@@ -60,9 +52,7 @@ const reduced = k.reduce(
 console.log(reduced);
 
 const partitioned = k.partition(
-  (item) => {
-    return item % 2 === 0;
-  },
+  (item) => item % 2 === 0,
   [1, 2, 3, 4, 5, 6]
 );
 
@@ -74,13 +64,9 @@ console.log(k.take(5)([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
 console.log(k.rest(5, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
 console.log(k.rest(5)([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
 
-const add = (a, b) => {
-  return a + b;
-};
+const add = (a, b) => a + b;
 
-const square = (c) => {
-  return c ** 2;
-};
+const square = (c) => c ** 2;
 
 const composeAddSquare = k.compose(square, add);
 const pipeAddSquare = k.pipe(add, square);
@@ -148,14 +134,10 @@ const obj = {
 k.forEach(console.log.bind(console), obj);
 
 console.log(
-  k.filter((value) => {
-    return value === 'foo';
-  }, obj)
+  k.filter((value) => value === 'foo', obj)
 );
 
-const addThreeNumbers = (a, b, c) => {
-  return a + b + c;
-};
+const addThreeNumbers = (a, b, c) => a + b + c;
 
 const doIt = k.curry(addThreeNumbers);
 
@@ -164,9 +146,7 @@ console.log(doIt(1, k.__, 3)(2));
 console.log(doIt(k.__, k.__, 3)(1, 2));
 console.log(doIt(k.__)(k.__)(k.__)(1)(k.__, 3)(2));
 
-const divide = k.curry((a, b) => {
-  return a / b;
-});
+const divide = k.curry((a, b) => a / b);
 
 console.log(divide(k.__, 4)(2));
 
@@ -179,9 +159,7 @@ console.log(k.modulo(17, 5.3));
 console.log(k.modulo(17, 5.3, 'foo'));
 //
 console.log(
-  k.sort((a, b) => {
-    return a > b;
-  })([4, 1, 2, 8, 4])
+  k.sort((a, b) => a > b)([4, 1, 2, 8, 4])
 );
 
 const sortByFoo = k.sortBy(k.get('foo'));
@@ -205,17 +183,13 @@ const bound = k.bind(fn)(objectToBind, ['foo']);
 
 console.log(bound() === objectToBind);
 
-const allFive = (a, b, c, d, e) => {
-  return [a, b, c, d, e];
-};
+const allFive = (a, b, c, d, e) => [a, b, c, d, e];
 
 const onlyTwo = k.arity(2)(allFive);
 
 console.log(onlyTwo('a', 'b', 'c', 'd', 'e'));
 
-const curriedTest = k.curry((a, b, c, d, e) => {
-  return [a, b, c, d, e];
-});
+const curriedTest = k.curry((a, b, c, d, e) => [a, b, c, d, e]);
 
 console.log(curriedTest(1, 2, 3, 4, 5));
 
@@ -244,12 +218,10 @@ const log = k.tap(k.bind(console.log, console));
 
 const result = k.map(k.compose(square, log))([1, 2, 3]);
 
-const catchFn = (error, ...args) => {
-  return {
-    args,
-    error
-  };
-};
+const catchFn = (error, ...args) => ({
+  args,
+  error
+});
 
 const tryCatchResult = k.tryCatch(JSON.parse, catchFn)({foo: 'bar'});
 
@@ -285,16 +257,12 @@ console.log(
 
 console.log(k.not('foo'));
 console.log(
-  k.notBy((value) => {
-    return value !== 'foo';
-  })('foo')
+  k.notBy((value) => value !== 'foo')('foo')
 );
 
 console.log(k.equals({foo: 'foo'})({foo: 'bar'}));
 console.log(
-  k.equalsBy((value, key) => {
-    return key;
-  })({foo: 'foo'})({foo: 'bar'})
+  k.equalsBy((value, key) => key)({foo: 'foo'})({foo: 'bar'})
 );
 
 console.log(k.empty(['foo', 'bar']));
@@ -306,19 +274,13 @@ console.log(k.entries(['foo', 'bar']));
 console.log(k.entries({foo: 'bar', bar: 'baz'}));
 
 console.log(
-  k.reject((value) => {
-    return value % 2 === 0;
-  })([1, 2, 3, 4, 5])
+  k.reject((value) => value % 2 === 0)([1, 2, 3, 4, 5])
 );
 console.log(
-  k.filter((value) => {
-    return value % 2 === 0;
-  })([1, 2, 3, 4, 5])
+  k.filter((value) => value % 2 === 0)([1, 2, 3, 4, 5])
 );
 
 console.log(k.unique([1, 2, 2, 1, 1, 2, 2, 1, 3]));
 console.log(
-  k.uniqueBy((value) => {
-    return 3;
-  })([1, 2, 2, 1, 1, 2, 2, 1, 3])
+  k.uniqueBy((value) => 3)([1, 2, 2, 1, 1, 2, 2, 1, 3])
 );

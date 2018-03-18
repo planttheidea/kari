@@ -20,10 +20,40 @@ import {reduceArray, reduceObject} from './_internal/reduce';
 const getCorrectPartition = (partitions, result, isArray) =>
   (result ? (isArray ? partitions[0] : partitions.truthy) : isArray ? partitions[1] : partitions.falsy);
 
+/**
+ * @function addToArrayPartition
+ *
+ * @description
+ * add the value to the partition
+ *
+ * @param {Array<any>} partition the partition to add to
+ * @param {any} value the value to add
+ * @returns {void}
+ */
 const addToArrayPartition = (partition, value) => partition.push(value);
 
+/**
+ * @function addToObjectPartition
+ *
+ * @description
+ * add the value to the partition
+ *
+ * @param {Object} partition the partition to add to
+ * @param {any} value the value to add
+ * @param {string} key the key to add the value at
+ * @returns {void}
+ */
 const addToObjectPartition = (partition, value, key) => (partition[key] = value);
 
+/**
+ * @function createInitialValue
+ *
+ * @description
+ * create the initial value for the partitioning
+ *
+ * @param {boolean} isArray is the value an array
+ * @returns {Array<Array>|{falsy:Object, truthy: Object}} the initial value
+ */
 const createInitialValue = (isArray) => (isArray ? [[], []] : {falsy: {}, truthy: {}});
 
 /**

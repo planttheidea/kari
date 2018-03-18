@@ -5,24 +5,6 @@ import curry from './curry';
 import {isComplexObject} from './_internal/is';
 import {reduce} from './_internal/reduce';
 
-const createPickArray = (indices) =>
-  function(newArray, value, index) {
-    if (~indices.indexOf(index)) {
-      newArray.push(value);
-    }
-
-    return newArray;
-  };
-
-const createPickObject = (object) =>
-  function pickObject(newObject, key) {
-    if (object.hasOwnProperty(key)) {
-      newObject[key] = object[key];
-    }
-
-    return newObject;
-  };
-
 /**
  * @function pick
  *
@@ -35,6 +17,28 @@ const createPickObject = (object) =>
  */
 export default curry(function pick(keys, collection) {
   return Array.isArray(collection)
-    ? reduce(createPickArray(keys), [], collection)
-    : isComplexObject(collection) ? reduce(createPickObject(collection), {}, keys) : {};
+    ? reduce(
+      function(newArray, value, index) {
+        if (~keys.indexOf(index)) {
+          newArray.push(value);
+        }
+
+        return newArray;
+      },
+      [],
+      collection
+    )
+    : isComplexObject(collection)
+      ? reduce(
+        function pickObject(newObject, key) {
+          if (collection.hasOwnProperty(key)) {
+            newObject[key] = collection[key];
+          }
+
+          return newObject;
+        },
+        {},
+        keys
+      )
+      : {};
 });

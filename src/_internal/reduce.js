@@ -1,6 +1,17 @@
 // utils
 import {getNormalizedResult} from './normalize';
 
+/**
+ * @function reduceArray
+ *
+ * @description
+ * reduce the array values to a single result
+ *
+ * @param {function} fn the function to reduce with
+ * @param {any} initialValue the initial value of the reduction
+ * @param {Array<any>} array the array to reduce from
+ * @returns {any} the reduced value
+ */
 export function reduceArray(fn, initialValue, array) {
   let value = initialValue;
 
@@ -15,6 +26,17 @@ export function reduceArray(fn, initialValue, array) {
   return value;
 }
 
+/**
+ * @function reduceArray
+ *
+ * @description
+ * reduce the array values to a single result starting from the end of the array and iterating forward
+ *
+ * @param {function} fn the function to reduce with
+ * @param {any} initialValue the initial value of the reduction
+ * @param {Array<any>} array the array to reduce from
+ * @returns {any} the reduced value
+ */
 export function reduceRightArray(fn, initialValue, array) {
   let value = initialValue;
 
@@ -29,6 +51,17 @@ export function reduceRightArray(fn, initialValue, array) {
   return value;
 }
 
+/**
+ * @function reduceObject
+ *
+ * @description
+ * reduce the object values to a single result
+ *
+ * @param {function} fn the function to reduce with
+ * @param {any} initialValue the initial value of the reduction
+ * @param {Object} object the object to reduce from
+ * @returns {any} the reduced value
+ */
 export function reduceObject(fn, initialValue, object) {
   let keys = Object.keys(object),
       value = initialValue,
@@ -48,6 +81,17 @@ export function reduceObject(fn, initialValue, object) {
   return value;
 }
 
+/**
+ * @function reduceRightObject
+ *
+ * @description
+ * reduce the object values to a single result starting from the end of the object and iterating forward
+ *
+ * @param {function} fn the function to reduce with
+ * @param {any} initialValue the initial value of the reduction
+ * @param {Object} object the object to reduce from
+ * @returns {any} the reduced value
+ */
 export function reduceRightObject(fn, initialValue, object) {
   let keys = Object.keys(object),
       value = initialValue,
@@ -67,6 +111,17 @@ export function reduceRightObject(fn, initialValue, object) {
   return value;
 }
 
+/**
+ * @function reduce
+ *
+ * @description
+ * reduce the collection values to a single result
+ *
+ * @param {function} fn the function to reduce with
+ * @param {any} initialValue the initial value of the reduction
+ * @param {Array<any>|Object} collection the collection to reduce from
+ * @returns {any} the reduced value
+ */
 export function reduce(fn, initialValue, collection) {
   return getNormalizedResult(
     collection,
@@ -75,6 +130,17 @@ export function reduce(fn, initialValue, collection) {
   );
 }
 
+/**
+ * @function reduceRight
+ *
+ * @description
+ * reduce the collection values to a single result starting from the end of the collection and iterating forward
+ *
+ * @param {function} fn the function to reduce with
+ * @param {any} initialValue the initial value of the reduction
+ * @param {Array<any>|Object} collection the collection to reduce from
+ * @returns {any} the reduced value
+ */
 export function reduceRight(fn, initialValue, collection) {
   return getNormalizedResult(
     collection,

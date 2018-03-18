@@ -47,5 +47,5 @@ test('if forEach will return the original items if not an object or array', (t) 
   const result = forEach(method, items);
 
   t.is(method.callCount, 1);
-  t.deepEqual(result, items);
+  t.deepEqual(result, [items]);
 });
