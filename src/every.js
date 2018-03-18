@@ -1,5 +1,6 @@
 // methods
 import curry from './curry';
+import notBy from './notBy';
 
 // utils
 import {createFindArray, createFindObject} from './_internal/find';
@@ -9,13 +10,9 @@ const findArray = createFindArray(false, false);
 const findObject = createFindObject(false, false);
 
 export default curry(function every(fn, object) {
-  const findHandler = function() {
-    return !fn.apply(this, arguments);
-  };
-
   return getNormalizedResult(
     object,
-    (normalized) => !findArray(normalized, findHandler),
-    (normalized) => !findObject(normalized, findHandler)
+    (normalized) => !findArray(notBy(fn), normalized),
+    (normalized) => !findObject(notBy(fn), normalized)
   );
 });

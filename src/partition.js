@@ -3,7 +3,7 @@ import curry from './curry';
 
 // utils
 import {getNormalizedResult} from './_internal/normalize';
-import {reduce} from './_internal/reduce';
+import {reduceArray, reduceObject} from './_internal/reduce';
 
 /**
  * @function getCorrectPartition
@@ -38,27 +38,16 @@ const createInitialValue = (isArray) => (isArray ? [[], []] : {falsy: {}, truthy
  * @returns {Array<Array<*>>|Object} the partitioned collection
  */
 export default curry(function partition(fn, collection) {
+  const createHandler = (addToPartition, isArray) =>
+    function(partitions, value, key, object) {
+      addToPartition(getCorrectPartition(partitions, fn(value, key, object), isArray), value, key);
+
+      return partitions;
+    };
+
   return getNormalizedResult(
     collection,
-    (normalized) =>
-      reduce(
-        function getObjectPartitions(partitions, value, key, object) {
-          addToArrayPartition(getCorrectPartition(partitions, fn(value, key, object), true), value);
-
-          return partitions;
-        },
-        createInitialValue(true),
-        normalized
-      ),
-    (normalized) =>
-      reduce(
-        function getObjectPartitions(partitions, value, key, object) {
-          addToObjectPartition(getCorrectPartition(partitions, fn(value, key, object), false), value, key);
-
-          return partitions;
-        },
-        createInitialValue(false),
-        normalized
-      )
+    (normalized) => reduceArray(createHandler(addToArrayPartition, true), createInitialValue(true), normalized),
+    (normalized) => reduceObject(createHandler(addToObjectPartition, false), createInitialValue(false), normalized)
   );
 });

@@ -11,7 +11,7 @@ const findObject = createFindObject(false, false);
 export default curry(function some(fn, collection) {
   return !!getNormalizedResult(
     collection,
-    (normalized) => findArray(normalized, fn),
-    (normalized) => findObject(normalized, fn)
+    (normalized) => findArray(fn, normalized),
+    (normalized) => findObject(fn, normalized)
   );
 });

@@ -1,5 +1,5 @@
 export function createFindArray(isIndex, isFromLast) {
-  function findArray(array, fn) {
+  function findArray(fn, array) {
     for (let index = 0; index < array.length; index++) {
       if (fn(array[index], index, array)) {
         return isIndex ? index : array[index];
@@ -9,7 +9,7 @@ export function createFindArray(isIndex, isFromLast) {
     return isIndex ? -1 : undefined;
   }
 
-  function findArrayLast(array, fn) {
+  function findArrayLast(fn, array) {
     for (let index = array.length - 1; index >= 0; index--) {
       if (fn(array[index], index, array)) {
         return isIndex ? index : array[index];
@@ -23,7 +23,7 @@ export function createFindArray(isIndex, isFromLast) {
 }
 
 export function createFindObject(isKey, isFromLast) {
-  function findObject(object, fn) {
+  function findObject(fn, object) {
     const keys = Object.keys(object);
 
     let key;
@@ -37,7 +37,7 @@ export function createFindObject(isKey, isFromLast) {
     }
   }
 
-  function findObjectLast(object, fn) {
+  function findObjectLast(fn, object) {
     const keys = Object.keys(object);
 
     let key;

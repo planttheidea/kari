@@ -21,13 +21,18 @@ export default curry(function pluck(path, collection) {
   const getFromPath = get(path);
   const hasAtPath = has(path);
 
-  const handler = reduce((pluckedItems, item) => {
-    if (hasAtPath(item)) {
-      pluckedItems.push(getFromPath(item));
-    }
+  const handler = (normalized) =>
+    reduce(
+      (pluckedItems, item) => {
+        if (hasAtPath(item)) {
+          pluckedItems.push(getFromPath(item));
+        }
 
-    return pluckedItems;
-  }, []);
+        return pluckedItems;
+      },
+      [],
+      normalized
+    );
 
-  return getNormalizedResult(collection, (normalized) => handler(normalized), (normalized) => handler(normalized));
+  return getNormalizedResult(collection, handler, handler);
 });

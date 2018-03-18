@@ -2,7 +2,7 @@
 import identity from './identity';
 
 // utils
-import {reduce} from './_internal/reduce';
+import {reduceArray} from './_internal/reduce';
 
 /**
  * @function compose
@@ -11,7 +11,7 @@ import {reduce} from './_internal/reduce';
  * @returns {function(...Array<*>): *} the composed methods as a single method
  */
 export default function compose(...fns) {
-  return reduce(
+  return reduceArray(
     function(f, g) {
       return function() {
         return f(g.apply(this, arguments));

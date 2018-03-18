@@ -3,22 +3,19 @@ import curry from './curry';
 
 // utils
 import {getNormalizedResult} from './_internal/normalize';
-import {reduceObject} from './_internal/reduce';
+import {reduceArray, reduceObject} from './_internal/reduce';
 
 export default curry(function forEach(fn, object) {
+  const handler = function(ignored, value, key, object) {
+    fn(value, key, object);
+
+    return ignored;
+  };
+
   getNormalizedResult(
     object,
-    (normalized) => normalized.forEach(fn),
-    (normalized) =>
-      reduceObject(
-        normalized,
-        function forEachObjectValue(ignored, value, key, object) {
-          fn(value, key, object);
-
-          return ignored;
-        },
-        null
-      )
+    (normalized) => reduceArray(handler, null, normalized),
+    (normalized) => reduceObject(handler, null, normalized)
   );
 
   return object;

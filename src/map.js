@@ -3,21 +3,30 @@ import curry from './curry';
 
 // utils
 import {getNormalizedResult} from './_internal/normalize';
-import {reduceObject} from './_internal/reduce';
+import {reduceArray, reduceObject} from './_internal/reduce';
 
-export default curry(function map(fn, object) {
+export default curry(function map(fn, collection) {
   return getNormalizedResult(
-    object,
-    (normalized) => normalized.map(fn),
+    collection,
+    (normalized) =>
+      reduceArray(
+        function(mappedArray, value, key, array) {
+          mappedArray.push(fn(value, key, array));
+
+          return mappedArray;
+        },
+        [],
+        normalized
+      ),
     (normalized) =>
       reduceObject(
-        normalized,
-        function(mappedObject, value, key, objectBeingMapped) {
-          mappedObject[key] = fn(objectBeingMapped[key], key, objectBeingMapped);
+        function(mappedObject, value, key, object) {
+          mappedObject[key] = fn(value, key, object);
 
           return mappedObject;
         },
-        {}
+        {},
+        normalized
       )
   );
 });

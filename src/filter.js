@@ -3,23 +3,34 @@ import curry from './curry';
 
 // utils
 import {getNormalizedResult} from './_internal/normalize';
-import {reduceObject} from './_internal/reduce';
+import {reduceArray, reduceObject} from './_internal/reduce';
 
-export default curry(function filter(fn, object) {
+export default curry(function filter(fn, collection) {
   return getNormalizedResult(
-    object,
-    (normalized) => normalized.filter(fn),
+    collection,
     (normalized) =>
-      reduceObject(
-        normalized,
-        function(mappedObject, value, key, objectBeingMapped) {
-          if (fn(objectBeingMapped[key], key, objectBeingMapped)) {
-            mappedObject[key] = objectBeingMapped[key];
+      reduceArray(
+        function(filteredArray, value, key, array) {
+          if (fn(value, key, array)) {
+            filteredArray.push(value);
           }
 
-          return mappedObject;
+          return filteredArray;
         },
-        {}
+        [],
+        normalized
+      ),
+    (normalized) =>
+      reduceObject(
+        function(filteredObject, value, key, object) {
+          if (fn(value, key, object)) {
+            filteredObject[key] = value;
+          }
+
+          return filteredObject;
+        },
+        {},
+        normalized
       )
   );
 });
