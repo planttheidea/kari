@@ -1,3 +1,6 @@
+// methods
+import pair from './pair';
+
 // utils
 import {reduce} from './_internal/reduce';
 
@@ -18,7 +21,7 @@ function getEntriesFromIterable(collection) {
   let entries = [];
 
   collection.forEach((value, key) => {
-    entries.push([key, value]);
+    entries.push(pair(key, value));
   });
 
   return entries;
@@ -42,7 +45,7 @@ export default function entries(collection) {
     ? getEntriesFromIterable(collection)
     : reduce(
       (entries, value, key) => {
-        entries.push([key, value]);
+        entries.push(pair(key, value));
 
         return entries;
       },

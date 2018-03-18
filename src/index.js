@@ -49,6 +49,7 @@ import multiply from './multiply';
 import not from './not';
 import notBy from './notBy';
 import omit from './omit';
+import pair from './pair';
 import partial from './partial';
 import partialRight from './partialRight';
 import partition from './partition';
@@ -60,6 +61,7 @@ import reduce from './reduce';
 import reduceRight from './reduceRight';
 import reject from './reject';
 import remainder from './remainder';
+import reverse from './reverse';
 import rest from './rest';
 import set from './set';
 import some from './some';
@@ -125,6 +127,7 @@ export {
   not,
   notBy,
   omit,
+  pair,
   partial,
   partialRight,
   partition,
@@ -137,6 +140,7 @@ export {
   reject,
   remainder,
   rest,
+  reverse,
   set,
   some,
   sort,
