@@ -39,7 +39,7 @@ test('if forEach will do the same for objects as arrays', (t) => {
   t.is(result, items);
 });
 
-test('if forEach will return the original items as an array if not an object or array', (t) => {
+test('if forEach will return the original items if not an object or array', (t) => {
   const items = 'foo';
 
   const method = sinon.spy();
@@ -47,5 +47,5 @@ test('if forEach will return the original items as an array if not an object or 
   const result = forEach(method, items);
 
   t.is(method.callCount, 1);
-  t.deepEqual(result, [items]);
+  t.deepEqual(result, items);
 });

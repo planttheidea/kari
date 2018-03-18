@@ -2,7 +2,7 @@
 import curry from './curry';
 
 // utils
-import {normalizeObject} from './_internal/normalize';
+import {getNormalizedResult} from './_internal/normalize';
 
 /**
  * @function restObject
@@ -41,9 +41,9 @@ function restObject(size, object) {
  * @return {Array<*>|Object} the last n number of items in the collection
  */
 export default curry(function rest(size, collection) {
-  const normalizedCollection = normalizeObject(collection);
-
-  return Array.isArray(normalizedCollection)
-    ? size > 0 ? normalizedCollection.slice(normalizedCollection.length - size) : []
-    : restObject(size, normalizedCollection);
+  return getNormalizedResult(
+    collection,
+    (normalized) => (size > 0 ? normalized.slice(normalized.length - size) : []),
+    (normalized) => restObject(size, normalized)
+  );
 });

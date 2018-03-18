@@ -2,7 +2,7 @@
 import curry from './curry';
 
 // utils
-import {assign, normalizeObject} from './_internal/normalize';
+import {assign, getNormalizedCollection} from './_internal/normalize';
 
 /**
  * @function mergeArrays
@@ -43,10 +43,9 @@ function mergeObjects(object1, object2) {
  * @returns {Array<*>|Object} the merged collections
  */
 export default curry(function merge(collection1, collection2) {
-  const normalizedCollection1 = normalizeObject(collection1);
-  const normalizedCollection2 = normalizeObject(collection2);
-  const mergeMethod =
-    Array.isArray(normalizedCollection1) && Array.isArray(normalizedCollection2) ? mergeArrays : mergeObjects;
+  const normalized1 = getNormalizedCollection(collection1);
+  const normalized2 = getNormalizedCollection(collection2);
+  const mergeMethod = Array.isArray(normalized1) && Array.isArray(normalized2) ? mergeArrays : mergeObjects;
 
-  return mergeMethod(normalizedCollection1, normalizedCollection2);
+  return mergeMethod(normalized1, normalized2);
 });

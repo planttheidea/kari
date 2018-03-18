@@ -12,7 +12,9 @@
     "ecmaVersion": 2017,
     "sourceType": "module"
   },
-  "rules":{
-    "prefer-arrow-callback": 0
+  "rules": {
+    "arrow-body-style": [2, "as-needed"],
+    "prefer-arrow-callback": 0,
+    "no-confusing-arrow": [2, {"allowParens": true}]
   }
 }

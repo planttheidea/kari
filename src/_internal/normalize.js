@@ -20,14 +20,31 @@ export function assignFallback(...objects) {
 
 export const assign = Object.assign || assignFallback;
 
-export const normalizeObject = (object) => {
+/**
+ * @function identity
+ *
+ * @description
+ * function that allows straightforward passthrough of the first argument passed
+ *
+ * @param {*} value the value passed
+ * @returns {*} the first argument passed
+ */
+export const identity = (value) => value;
+
+export const getNormalizedResult = (object, onArray, onObject) => {
   if (Array.isArray(object)) {
-    return object;
+    return onArray(object);
   }
 
   if (isPrimitive(object)) {
-    return [object];
+    return onArray([object]);
   }
 
-  return isArrayLike(object) ? Array.prototype.slice.call(object, 0) : Object(object);
+  if (isArrayLike(object)) {
+    return onArray(Array.prototype.slice.call(object, 0));
+  }
+
+  return onObject(Object(object));
 };
+
+export const getNormalizedCollection = (object) => getNormalizedResult(object, identity, identity);

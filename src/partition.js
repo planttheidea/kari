@@ -2,7 +2,7 @@
 import curry from './curry';
 
 // utils
-import {normalizeObject} from './_internal/normalize';
+import {getNormalizedResult} from './_internal/normalize';
 import {reduce} from './_internal/reduce';
 
 /**
@@ -17,26 +17,14 @@ import {reduce} from './_internal/reduce';
  * @param {boolean} isArray is the collection an array
  * @returns {Array<*>|Object} either the truthy or falsy partition
  */
-function getCorrectPartition(partitions, result, isArray) {
-  return result ? (isArray ? partitions[0] : partitions.truthy) : isArray ? partitions[1] : partitions.falsy;
-}
+const getCorrectPartition = (partitions, result, isArray) =>
+  (result ? (isArray ? partitions[0] : partitions.truthy) : isArray ? partitions[1] : partitions.falsy);
 
-function addToArrayPartition(partition, value) {
-  partition.push(value);
-}
+const addToArrayPartition = (partition, value) => partition.push(value);
 
-function addToObjectPartition(partition, value, key) {
-  partition[key] = value;
-}
+const addToObjectPartition = (partition, value, key) => (partition[key] = value);
 
-function createInitialValue(isArray) {
-  return isArray
-    ? [[], []]
-    : {
-      falsy: {},
-      truthy: {}
-    };
-}
+const createInitialValue = (isArray) => (isArray ? [[], []] : {falsy: {}, truthy: {}});
 
 /**
  * @function partition
@@ -50,17 +38,27 @@ function createInitialValue(isArray) {
  * @returns {Array<Array<*>>|Object} the partitioned collection
  */
 export default curry(function partition(fn, collection) {
-  const normalizedCollection = normalizeObject(collection);
-  const isCollectionArray = Array.isArray(normalizedCollection);
-  const addToPartition = isCollectionArray ? addToArrayPartition : addToObjectPartition;
+  return getNormalizedResult(
+    collection,
+    (normalized) =>
+      reduce(
+        function getObjectPartitions(partitions, value, key, object) {
+          addToArrayPartition(getCorrectPartition(partitions, fn(value, key, object), true), value);
 
-  return reduce(
-    function getObjectPartitions(partitions, value, key, object) {
-      addToPartition(getCorrectPartition(partitions, fn(value, key, object), isCollectionArray), value, key);
+          return partitions;
+        },
+        createInitialValue(true),
+        normalized
+      ),
+    (normalized) =>
+      reduce(
+        function getObjectPartitions(partitions, value, key, object) {
+          addToObjectPartition(getCorrectPartition(partitions, fn(value, key, object), false), value, key);
 
-      return partitions;
-    },
-    createInitialValue(isCollectionArray),
-    normalizedCollection
+          return partitions;
+        },
+        createInitialValue(false),
+        normalized
+      )
   );
 });

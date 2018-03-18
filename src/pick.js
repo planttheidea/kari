@@ -5,25 +5,23 @@ import curry from './curry';
 import {isComplexObject} from './_internal/is';
 import {reduce} from './_internal/reduce';
 
-function createPickArray(indices) {
-  return function(newArray, value, index) {
+const createPickArray = (indices) =>
+  function(newArray, value, index) {
     if (~indices.indexOf(index)) {
       newArray.push(value);
     }
 
     return newArray;
   };
-}
 
-function createPickObject(object) {
-  return function pickObject(newObject, key) {
+const createPickObject = (object) =>
+  function pickObject(newObject, key) {
     if (object.hasOwnProperty(key)) {
       newObject[key] = object[key];
     }
 
     return newObject;
   };
-}
 
 /**
  * @function pick

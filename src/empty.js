@@ -15,11 +15,11 @@ export default function empty(value) {
     return [];
   }
 
-  if (typeof value === 'string') {
-    return '';
-  }
-
   if (value && !isPrimitive(value) && !(value instanceof RegExp || value instanceof Date)) {
     return new value.constructor();
+  }
+
+  if (typeof value === 'string') {
+    return '';
   }
 }

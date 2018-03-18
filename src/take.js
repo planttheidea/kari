@@ -2,7 +2,7 @@
 import curry from './curry';
 
 // utils
-import {normalizeObject} from './_internal/normalize';
+import {getNormalizedResult} from './_internal/normalize';
 
 /**
  * @function takeObject
@@ -40,9 +40,9 @@ function takeObject(size, object) {
  * @return {Array<*>|Object} the first n number of items
  */
 export default curry(function take(size, collection) {
-  const normalizedCollection = normalizeObject(collection);
-
-  return Array.isArray(normalizedCollection)
-    ? size > 0 ? normalizedCollection.slice(0, size) : []
-    : takeObject(size, normalizedCollection);
+  return getNormalizedResult(
+    collection,
+    (normalized) => (size > 0 ? normalized.slice(0, size) : []),
+    (normalized) => takeObject(size, normalized)
+  );
 });

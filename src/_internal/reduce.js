@@ -1,5 +1,5 @@
 // utils
-import {normalizeObject} from './normalize';
+import {getNormalizedResult} from './normalize';
 
 export function reduceObject(object, fn, initialValue) {
   let keys = Object.keys(object),
@@ -40,17 +40,17 @@ export function reduceRightObject(object, fn, initialValue) {
 }
 
 export function reduce(fn, initialValue, object) {
-  const normalizedObject = normalizeObject(object);
-
-  return Array.isArray(normalizedObject)
-    ? normalizedObject.reduce(fn, initialValue)
-    : reduceObject(normalizedObject, fn, initialValue);
+  return getNormalizedResult(
+    object,
+    (normalized) => normalized.reduce(fn, initialValue),
+    (normalized) => reduceObject(normalized, fn, initialValue)
+  );
 }
 
-export function reduceRight(fn, initialValue, object) {
-  const normalizedObject = normalizeObject(object);
-
-  return Array.isArray(normalizedObject)
-    ? normalizedObject.reduceRight(fn, initialValue)
-    : reduceRightObject(normalizedObject, fn, initialValue);
+export function reduceRight(fn, initialValue, collection) {
+  return getNormalizedResult(
+    collection,
+    (normalized) => normalized.reduceRight(fn, initialValue),
+    (normalized) => reduceRightObject(normalized, fn, initialValue)
+  );
 }

@@ -2,7 +2,7 @@
 import curry from './curry';
 
 // utils
-import {assign, normalizeObject} from './_internal/normalize';
+import {assign, getNormalizedResult} from './_internal/normalize';
 
 /**
  * @function insert
@@ -16,15 +16,9 @@ import {assign, normalizeObject} from './_internal/normalize';
  * @returns {Array<*>} the collection with the new items inserted
  */
 export default curry(function insert(key, newItems, collection) {
-  const normalizedCollection = normalizeObject(collection);
-  const normalizedNewItems = normalizeObject(newItems);
-
-  return Array.isArray(normalizedCollection)
-    ? normalizedCollection
-      .slice(0, key)
-      .concat(
-        Array.isArray(normalizedNewItems) ? normalizedNewItems : [normalizedNewItems],
-        normalizedCollection.slice(key)
-      )
-    : assign({}, collection, {[key]: newItems});
+  return getNormalizedResult(
+    collection,
+    (normalized) => normalized.slice(0, key).concat(newItems, normalized.slice(key)),
+    (normalized) => assign({}, normalized, {[key]: newItems})
+  );
 });

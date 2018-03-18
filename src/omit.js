@@ -1,5 +1,6 @@
 // external dependencies
 import {parse} from 'pathington';
+import {remove} from 'unchanged';
 
 // methods
 import curry from './curry';
@@ -9,7 +10,7 @@ import reduceCurried from './reduce';
 import set from './set';
 
 // utils
-import {normalizeObject} from './_internal/normalize';
+import {getNormalizedResult} from './_internal/normalize';
 import {reduce} from './_internal/reduce';
 
 /**
@@ -23,9 +24,7 @@ import {reduce} from './_internal/reduce';
  * @returns {number} the index of the existing path
  */
 function getExistingPath(path, existingPaths) {
-  return findIndex((existingPath) => {
-    return equals(existingPath.slice(0, -1), path.slice(0, -1));
-  }, existingPaths);
+  return findIndex((existingPath) => equals(existingPath.slice(0, -1), path.slice(0, -1)), existingPaths);
 }
 
 /**
@@ -77,9 +76,7 @@ const getConsolidatedPaths = reduceCurried((consolidatedPaths, key) => {
  * @returns {Object} a shallow clone of the object passed, minus the key
  */
 function removeKeyFromObject(key, object) {
-  const {[key]: keyIgnored, ...newObject} = object;
-
-  return newObject;
+  return remove(key, object);
 }
 
 /**
@@ -172,14 +169,14 @@ function omitFromArray(array, paths) {
   let indicesToRemove = [];
 
   const newCollection = reduce(
-    (deeplyNestedOmittedCollection, path) => {
+    (omittedCollection, path) => {
       if (path.length > 1) {
-        return omitNested(path, deeplyNestedOmittedCollection, true);
+        return omitNested(path, omittedCollection, true);
       }
 
       indicesToRemove = indicesToRemove.concat(path[0]);
 
-      return deeplyNestedOmittedCollection;
+      return omittedCollection;
     },
     array,
     paths
@@ -199,9 +196,7 @@ function omitFromArray(array, paths) {
  * @returns {Object} the omitted object
  */
 
-const omitFromObject = reduceCurried((newCollection, path) => {
-  return omitNested(path, newCollection, true);
-});
+const omitFromObject = reduceCurried((newCollection, path) => omitNested(path, newCollection, true));
 
 /**
  * @function omit
@@ -214,16 +209,10 @@ const omitFromObject = reduceCurried((newCollection, path) => {
  * @returns {Array<*>|Object} the original object with the keys passed omitted
  */
 export default curry(function omit(keys, collection) {
-  const normalizedCollection = normalizeObject(collection);
-  const isCollectionArray = Array.isArray(normalizedCollection);
-
-  if (isCollectionArray && normalizedCollection !== collection) {
-    return normalizedCollection;
-  }
-
-  const paths = getConsolidatedPaths([], keys);
-
-  return isCollectionArray
-    ? normalizedCollection === collection ? omitFromArray(normalizedCollection, paths) : collection
-    : omitFromObject(normalizedCollection, paths);
+  return getNormalizedResult(
+    collection,
+    (normalized) =>
+      (normalized !== collection ? normalized : omitFromArray(normalized, getConsolidatedPaths([], keys))),
+    (normalized) => omitFromObject(normalized, getConsolidatedPaths([], keys))
+  );
 });

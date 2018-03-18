@@ -10,7 +10,7 @@ import {reduce} from './_internal/reduce';
  * @param {Map|Set} collection the collection to get the entries of
  * @returns {Array<Array<*>>} the entries of the collection
  */
-export function getEntriesFromIterable(collection) {
+function getEntriesFromIterable(collection) {
   if (typeof Array.from === 'function') {
     return Array.from(collection.entries());
   }
@@ -34,17 +34,19 @@ export function getEntriesFromIterable(collection) {
  * @returns {Array<Array<*>>} the entries of the collection
  */
 export default function entries(collection) {
-  return collection
-    ? typeof collection.entries === 'function'
-      ? getEntriesFromIterable(collection)
-      : reduce(
-        (entries, value, key) => {
-          entries.push([key, value]);
+  if (!collection) {
+    return [];
+  }
 
-          return entries;
-        },
-        [],
-        collection
-      )
-    : [];
+  return typeof collection.entries === 'function'
+    ? getEntriesFromIterable(collection)
+    : reduce(
+      (entries, value, key) => {
+        entries.push([key, value]);
+
+        return entries;
+      },
+      [],
+      collection
+    );
 }

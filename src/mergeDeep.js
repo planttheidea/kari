@@ -3,7 +3,7 @@ import curry from './curry';
 
 // utils
 import {isComplexObject} from './_internal/is';
-import {normalizeObject} from './_internal/normalize';
+import {getNormalizedCollection} from './_internal/normalize';
 
 /**
  * @function getDeeplyMergedValues
@@ -104,5 +104,5 @@ function mergeDeepObjects(object1, object2) {
 export default curry(function mergeDeep(collection1, collection2) {
   const mergeMethod = Array.isArray(collection1) ? mergeDeepArrays : mergeDeepObjects;
 
-  return mergeMethod(collection1, normalizeObject(collection2));
+  return mergeMethod(collection1, getNormalizedCollection(collection2));
 });

@@ -3,14 +3,15 @@ import curry from './curry';
 
 // utils
 import {createFindArray, createFindObject} from './_internal/find';
-import {normalizeObject} from './_internal/normalize';
+import {getNormalizedResult} from './_internal/normalize';
 
-export const findArray = createFindArray(false, false);
-export const findObject = createFindObject(false, false);
+const findArray = createFindArray(false, false);
+const findObject = createFindObject(false, false);
 
 export default curry(function find(fn, object) {
-  const normalizedObject = normalizeObject(object);
-  const findMethod = Array.isArray(normalizedObject) ? findArray : findObject;
-
-  return findMethod(normalizedObject, fn);
+  return getNormalizedResult(
+    object,
+    (normalized) => findArray(normalized, fn),
+    (normalized) => findObject(normalized, fn)
+  );
 });
