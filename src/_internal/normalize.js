@@ -2,6 +2,25 @@
 import {isArrayLike, isPrimitive} from './is';
 
 /**
+ * @function copyArray
+ *
+ * @description
+ * shallowly copy all items in an array to a new array
+ *
+ * @param {Array<any>} array tbe array to copy
+ * @param {number} [length=array.length] the length to copy from the array
+ * @returns {Array<any>} the copied array
+ */
+export const copyArray = (array, length = array.length) => {
+  const newArray = new Array(length);
+
+  for (let index = 0; index < length; index++) {
+    newArray[index] = array[index];
+  }
+
+  return newArray;
+};
+/**
  * @function assignFallback
  *
  * @description
@@ -10,7 +29,9 @@ import {isArrayLike, isPrimitive} from './is';
  * @param {...Array<Object>} objects the objects to merge
  * @returns {Object} the merged object
  */
-export function assignFallback(...objects) {
+export function assignFallback() {
+  const objects = copyArray(arguments);
+
   let finalObject = objects.shift(),
       object;
 
@@ -70,7 +91,7 @@ export const getNormalizedResult = (value, onArray, onObject) => {
   }
 
   if (isArrayLike(value)) {
-    return onArray(Array.prototype.slice.call(value, 0));
+    return onArray(copyArray(value));
   }
 
   return onObject(Object(value));

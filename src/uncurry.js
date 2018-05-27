@@ -1,6 +1,9 @@
 // methods
 import curry from './curry';
 
+// utils
+import {copyArray} from './_internal/normalize';
+
 /**
  * @function subtract
  *
@@ -12,7 +15,9 @@ import curry from './curry';
  * @returns {number} the division of second from first
  */
 export default curry(function uncurry(arity, fn) {
-  return function(...args) {
+  return function() {
+    const args = copyArray(arguments);
+
     let index = 0,
         value = fn(args[index]);
 

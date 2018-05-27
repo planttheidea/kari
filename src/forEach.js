@@ -6,6 +6,22 @@ import {getNormalizedResult} from './_internal/normalize';
 import {reduceArray, reduceObject} from './_internal/reduce';
 
 /**
+ * @function createHandler
+ *
+ * @description
+ * create the handler for the normalized result
+ *
+ * @param {function} fn the function called with each iteration
+ * @returns {function} the function used to reduce the function
+ */
+const createHandler = (fn) =>
+  function(normalized, value, key, object) {
+    fn(value, key, object);
+
+    return normalized;
+  };
+
+/**
  * @function forEach
  *
  * @description
@@ -16,11 +32,7 @@ import {reduceArray, reduceObject} from './_internal/reduce';
  * @returns {<T>} the original collection
  */
 export default curry(function forEach(fn, collection) {
-  const handler = function(normalized, value, key, object) {
-    fn(value, key, object);
-
-    return normalized;
-  };
+  const handler = createHandler(fn);
 
   return getNormalizedResult(
     collection,

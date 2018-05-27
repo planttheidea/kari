@@ -12,8 +12,9 @@ import filter from './filter';
  * @returns {Array<*>|Object} the filtered collection
  */
 export default curry(function uniqueBy(fn, collection) {
-  let values = [],
-      value;
+  const values = [];
+
+  let value;
 
   return filter((item, key) => {
     value = fn(item, key, collection);

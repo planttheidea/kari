@@ -1,3 +1,6 @@
+// utils
+import {copyArray} from './_internal/normalize';
+
 /**
  * @function partial
  *
@@ -7,6 +10,6 @@
  */
 export default function partial(fn, ...outerArgs) {
   return function() {
-    return fn.apply(this, Array.prototype.slice.call(arguments, 0).concat(outerArgs));
+    return fn.apply(this, copyArray(arguments).concat(outerArgs));
   };
 }

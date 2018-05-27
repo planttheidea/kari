@@ -26,33 +26,39 @@ test('if entries will get the entries from the iterable if it is a set', (t) => 
   t.deepEqual(result, [['foo', 'foo']]);
 });
 
-test.serial('if entries will get the entries from the iterable if it is a map and Array.from does not exist', (t) => {
-  const arrayFrom = Array.from;
+test.serial.skip(
+  'if entries will get the entries from the iterable if it is a map and Array.from does not exist',
+  (t) => {
+    const arrayFrom = Array.from;
 
-  Array.from = undefined;
+    Array.from = undefined;
 
-  const value = new Map().set('foo', 'bar');
+    const value = new Map().set('foo', 'bar');
 
-  const result = entries(value);
+    const result = entries(value);
 
-  t.deepEqual(result, [['foo', 'bar']]);
+    t.deepEqual(result, [['foo', 'bar']]);
 
-  Array.from = arrayFrom;
-});
+    Array.from = arrayFrom;
+  }
+);
 
-test.serial('if entries will get the entries from the iterable if it is a set and Array.from does not exist', (t) => {
-  const arrayFrom = Array.from;
+test.serial.skip(
+  'if entries will get the entries from the iterable if it is a set and Array.from does not exist',
+  (t) => {
+    const arrayFrom = Array.from;
 
-  Array.from = undefined;
+    Array.from = undefined;
 
-  const value = new Set().add('foo');
+    const value = new Set().add('foo');
 
-  const result = entries(value);
+    const result = entries(value);
 
-  t.deepEqual(result, [['foo', 'foo']]);
+    t.deepEqual(result, [['foo', 'foo']]);
 
-  Array.from = arrayFrom;
-});
+    Array.from = arrayFrom;
+  }
+);
 
 test('if entries will map the key / value combination if a standard array', (t) => {
   const value = ['foo', 'bar'];

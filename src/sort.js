@@ -36,7 +36,7 @@ function sortArray(fn, array) {
 function sortObject(fn, object) {
   const keys = Object.keys(object);
 
-  keys.sort(typeof fn === 'function' ? (a, b) => fn(object[a], object[b]) : undefined);
+  keys.sort(typeof fn === 'function' ? (a, b) => fn(object[a], object[b]) : (a, b) => object[a] > object[b]);
 
   return reduce(
     (sortedObject, key) => {

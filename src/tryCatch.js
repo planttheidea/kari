@@ -1,6 +1,9 @@
 // methods
 import curry from './curry';
 
+// utils
+import {copyArray} from './_internal/normalize';
+
 /**
  * @function tryCatch
  *
@@ -16,7 +19,7 @@ export default curry(function tryCatch(tryFn, catchFn) {
     try {
       return tryFn.apply(this, arguments);
     } catch (error) {
-      return catchFn.apply(this, [error].concat(Array.prototype.slice.call(arguments, 0)));
+      return catchFn.apply(this, [error].concat(copyArray(arguments)));
     }
   };
 });

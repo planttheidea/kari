@@ -14,4 +14,4 @@ import curry from './curry';
  * @param {any} object2 the second object to compare
  * @returns {boolean} are the two objects deeply equal
  */
-export default curry(deepEqual);
+export default curry(deepEqual, 2);

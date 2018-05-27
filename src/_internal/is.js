@@ -3,9 +3,13 @@ import {curry} from 'curriable';
 import {sameValueZeroEqual} from 'fast-equals';
 
 /**
- * @constant {Array<string>} PRIMITIVE_TYPES primitive results of typeof
+ * @constant {Object} PRIMITIVE_TYPES primitive results of typeof
  */
-export const PRIMITIVES_TYPES = ['boolean', 'number', 'string', 'symbol', 'undefined'];
+export const PRIMITIVES_TYPES = ['boolean', 'number', 'string', 'symbol', 'undefined'].reduce((map, primitive) => {
+  map[primitive] = true;
+
+  return map;
+}, {});
 
 /**
  * @function isNaN
@@ -38,7 +42,7 @@ export const isInteger = (value) => typeof value === 'number' && ~~value === val
  * @param {any} value the value to test
  * @returns {boolean} is the value a primitive value
  */
-export const isPrimitive = (value) => value === null || !!~PRIMITIVES_TYPES.indexOf(typeof value);
+export const isPrimitive = (value) => value === null || !!PRIMITIVES_TYPES[typeof value];
 
 /**
  * @function isComplexObject
@@ -60,7 +64,7 @@ export const isComplexObject = (value) => !isPrimitive(value) && !(value instanc
  * @param {any} value the value to test
  * @returns {boolean} is the value a valid length property value
  */
-export const isValidLength = (value) => typeof value === 'number' && ~~value === value;
+export const isValidLength = (value) => isInteger(value) && value >= 0;
 
 /**
  * @function isArrayLike

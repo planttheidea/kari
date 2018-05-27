@@ -5,29 +5,6 @@ import pair from './pair';
 import {reduce} from './_internal/reduce';
 
 /**
- * @function getEntriesFromIterable
- *
- * @description
- * get the pairs of [key, value] for the items in the iterable collection
- *
- * @param {Map|Set} collection the collection to get the entries of
- * @returns {Array<Array<*>>} the entries of the collection
- */
-function getEntriesFromIterable(collection) {
-  if (typeof Array.from === 'function') {
-    return Array.from(collection.entries());
-  }
-
-  let entries = [];
-
-  collection.forEach((value, key) => {
-    entries.push(pair(key, value));
-  });
-
-  return entries;
-}
-
-/**
  * @function entries
  *
  * @description
@@ -37,19 +14,17 @@ function getEntriesFromIterable(collection) {
  * @returns {Array<Array<*>>} the entries of the collection
  */
 export default function entries(collection) {
-  if (!collection) {
-    return [];
-  }
+  return collection
+    ? typeof collection.entries === 'function' && typeof Array.from === 'function'
+      ? Array.from(collection.entries())
+      : reduce(
+        (entries, value, key) => {
+          entries.push(pair(key, value));
 
-  return typeof collection.entries === 'function'
-    ? getEntriesFromIterable(collection)
-    : reduce(
-      (entries, value, key) => {
-        entries.push(pair(key, value));
-
-        return entries;
-      },
-      [],
-      collection
-    );
+          return entries;
+        },
+        [],
+        collection
+      )
+    : [];
 }

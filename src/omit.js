@@ -10,7 +10,7 @@ import reduceCurried from './reduce';
 import set from './set';
 
 // utils
-import {getNormalizedResult} from './_internal/normalize';
+import {assign, copyArray, getNormalizedResult} from './_internal/normalize';
 import {reduce} from './_internal/reduce';
 
 /**
@@ -122,7 +122,7 @@ function removeIndicesFromArray(indices, array) {
  * @returns {Array<*>|Object} a shallow clone of the collection
  */
 function getCleanCollection(collection, isCollectionObject) {
-  return isCollectionObject ? {...collection} : [...collection];
+  return isCollectionObject ? assign({}, collection) : copyArray(collection);
 }
 
 /**

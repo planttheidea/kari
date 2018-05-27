@@ -11,15 +11,11 @@ import {isPrimitive} from './_internal/is';
  * @returns {*} the empty version of value
  */
 export default function empty(value) {
-  if (Array.isArray(value)) {
-    return [];
-  }
-
-  if (value && !isPrimitive(value) && !(value instanceof RegExp || value instanceof Date)) {
-    return new value.constructor();
-  }
-
-  if (typeof value === 'string') {
-    return '';
-  }
+  return Array.isArray(value)
+    ? []
+    : value && !isPrimitive(value) && !(value instanceof RegExp || value instanceof Date)
+      ? new value.constructor()
+      : typeof value === 'string'
+        ? ''
+        : void 0;
 }

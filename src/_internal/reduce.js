@@ -41,7 +41,7 @@ export function reduceRightArray(fn, initialValue, array) {
   let value = initialValue;
 
   if (initialValue === void 0) {
-    value = array.pop();
+    value = array.shift();
   }
 
   for (let index = array.length - 1; index >= 0; index--) {
@@ -98,7 +98,7 @@ export function reduceRightObject(fn, initialValue, object) {
       key;
 
   if (initialValue === void 0) {
-    key = keys.pop();
+    key = keys.shift();
     value = object[key];
   }
 
