@@ -76,89 +76,15 @@ import uncurry from './uncurry';
 import unique from './unique';
 import uniqueBy from './uniqueBy';
 
-export {__};
-export {add};
-export {always};
-export {append};
-export {apply};
-export {arity};
-export {ascend};
-export {bind};
-export {compose};
-export {curry};
-export {descend};
-export {divide};
-export {empty};
-export {endsWith};
-export {entries};
-export {equals};
-export {equalsBy};
-export {every};
-export {filter};
-export {find};
-export {findIndex};
-export {findKey};
-export {findLast};
-export {findLastIndex};
-export {findLastKey};
-export {flatten};
-export {forEach};
-export {get};
-export {gt};
-export {gte};
-export {has};
-export {identity};
-export {includes};
-export {insert};
-export {instanceOf};
-export {is};
-export {lt};
-export {lte};
-export {map};
-export {max};
-export {merge};
-export {mergeDeep};
-export {min};
-export {modulo};
-export {multiply};
-export {not};
-export {notBy};
-export {omit};
-export {partial};
-export {partialRight};
-export {partition};
-export {pick};
-export {pipe};
-export {pluck};
-export {prepend};
-export {reduce};
-export {reduceRight};
-export {reject};
-export {remainder};
-export {rest};
-export {set};
-export {some};
-export {sort};
-export {sortBy};
-export {sortWith};
-export {startsWith};
-export {subtract};
-export {take};
-export {tap};
-export {tryCatch};
-export {typeOf};
-export {uncurry};
-export {unique};
-export {uniqueBy};
-
-export default {
+export {
+  // eslint-disable-next-line
   __,
   add,
   always,
   append,
+  apply,
   arity,
   ascend,
-  apply,
   bind,
   compose,
   curry,
@@ -225,5 +151,83 @@ export default {
   typeOf,
   uncurry,
   unique,
-  uniqueBy
+  uniqueBy,
+};
+
+export default {
+  // eslint-disable-next-line
+  __,
+  add,
+  always,
+  append,
+  apply,
+  arity,
+  ascend,
+  bind,
+  compose,
+  curry,
+  descend,
+  divide,
+  empty,
+  endsWith,
+  entries,
+  equals,
+  equalsBy,
+  every,
+  filter,
+  find,
+  findIndex,
+  findKey,
+  findLast,
+  findLastIndex,
+  findLastKey,
+  flatten,
+  forEach,
+  get,
+  gt,
+  gte,
+  has,
+  identity,
+  includes,
+  insert,
+  instanceOf,
+  is,
+  lt,
+  lte,
+  map,
+  max,
+  merge,
+  mergeDeep,
+  min,
+  modulo,
+  multiply,
+  not,
+  notBy,
+  omit,
+  partial,
+  partialRight,
+  partition,
+  pick,
+  pipe,
+  pluck,
+  prepend,
+  reduce,
+  reduceRight,
+  reject,
+  remainder,
+  rest,
+  set,
+  some,
+  sort,
+  sortBy,
+  sortWith,
+  startsWith,
+  subtract,
+  take,
+  tap,
+  tryCatch,
+  typeOf,
+  uncurry,
+  unique,
+  uniqueBy,
 };

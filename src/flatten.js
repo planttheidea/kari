@@ -16,9 +16,9 @@ import isObject from './_utils/isObject';
  * @param {Array<*>} array the array to flatten
  * @returns {Array<*>} the flattened array
  */
-const flattenArray = reduce((array, value) => {
-  return !isArray(value) ? [...array, value] : [...array, ...flattenArray([], value)];
-});
+const flattenArray = reduce((array, value) =>
+  !isArray(value) ? [...array, value] : [...array, ...flattenArray([], value)]
+);
 
 /**
  * @function flattenObject
@@ -30,14 +30,17 @@ const flattenArray = reduce((array, value) => {
  * @param {Object} object the object to flatten
  * @returns {Object} the flattened object
  */
-const flattenObject = reduce((object, value, key) => {
-  return !isObject(value)
-    ? {...object, [key]: value}
+const flattenObject = reduce((object, value, key) =>
+  !isObject(value)
+    ? {
+      ...object,
+      [key]: value,
+    }
     : {
       ...object,
-      ...flattenObject({}, value)
-    };
-});
+      ...flattenObject({}, value),
+    }
+);
 
 /**
  * @function flatten

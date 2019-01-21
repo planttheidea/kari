@@ -14,7 +14,7 @@ import coalesceToArray from './_utils/coalesceToArray';
 export default curry(function sortBy(fn, array) {
   let firstValue, secondValue;
 
-  return [...coalesceToArray(array)].sort(function(first, second) {
+  return [...coalesceToArray(array)].sort((first, second) => {
     firstValue = fn(first);
     secondValue = fn(second);
 

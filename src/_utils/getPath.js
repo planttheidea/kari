@@ -3,6 +3,8 @@ import getKey from './getKey';
 import isArray from './isArray';
 import isString from './isString';
 
+const QUOTES_REGEXP = /['|"|`]/;
+
 /**
  * @function getDotSeparatedPath
  *
@@ -13,9 +15,7 @@ import isString from './isString';
  * @returns {Array<number|string>} the parsed string path as an array path
  */
 function getDotSeparatedPath(path) {
-  return path.split('.').reduce((splitPath, pathItem) => {
-    return !pathItem ? splitPath : [...splitPath, getKey(pathItem)];
-  }, []);
+  return path.split('.').reduce((splitPath, pathItem) => !pathItem ? splitPath : [...splitPath, getKey(pathItem)], []);
 }
 
 /**
@@ -28,7 +28,7 @@ function getDotSeparatedPath(path) {
  * @returns {boolean} is the key a quoted key
  */
 function isQuotedKey(key) {
-  return /['|"|`]/.test(key[0]) && key[0] === key[key.length - 1];
+  return QUOTES_REGEXP.test(key[0]) && key[0] === key[key.length - 1];
 }
 
 /**
