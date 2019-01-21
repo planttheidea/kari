@@ -9,9 +9,7 @@ const ROOT = path.join(__dirname, '..');
 module.exports = {
   devtool: '#source-map',
 
-  entry: [
-    path.join(ROOT, 'src', 'index.js')
-  ],
+  entry: [path.join(ROOT, 'src', 'index.js')],
 
   mode: 'development',
 
@@ -19,53 +17,47 @@ module.exports = {
     rules: [
       {
         enforce: 'pre',
-        include: [
-          path.join(ROOT, 'src')
-        ],
+        include: [path.join(ROOT, 'src')],
         loader: 'eslint-loader',
         options: {
           configFile: '.eslintrc',
           failOnError: true,
           failOnWarning: false,
-          formatter: eslintFriendlyFormatter
+          formatter: eslintFriendlyFormatter,
         },
-        test: /\.js$/
-      }, {
-        include: [
-          path.join(ROOT, 'src')
-        ],
+        test: /\.js$/,
+      },
+      {
+        include: [path.join(ROOT, 'src')],
         loader: 'babel-loader',
         options: {
           babelrc: false,
           presets: [
-            ['env', {
-              loose: true,
-              modules: false,
-              targets: {
-                browsers: [
-                  'last 2 versions',
-                  'ie 11'
-                ]
-              }
-            }],
-            'stage-2'
-          ]
+            [
+              'env',
+              {
+                loose: true,
+                modules: false,
+                targets: {
+                  browsers: ['last 2 versions', 'ie 11'],
+                },
+              },
+            ],
+            'stage-2',
+          ],
         },
-        test: /\.js$/
-      }
-    ]
+        test: /\.js$/,
+      },
+    ],
   },
 
   output: {
     filename: 'kari.js',
     library: 'kari',
+    libraryTarget: 'umd',
     path: path.join(ROOT, 'dist'),
-    umdNamedDefine: true
+    umdNamedDefine: true,
   },
 
-  plugins: [
-    new webpack.EnvironmentPlugin([
-      'NODE_ENV'
-    ])
-  ]
+  plugins: [new webpack.EnvironmentPlugin(['NODE_ENV'])],
 };
