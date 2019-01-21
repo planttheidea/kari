@@ -16,10 +16,10 @@ export default function empty(value) {
   }
 
   if (
-    is(Array, value) ||
-    is(Object, value) ||
-    (typeof Map === 'function' && is(Map, value)) ||
-    (typeof Set === 'function' && is(Set, value))
+    is(Array, value)
+    || is(Object, value)
+    || (typeof Map === 'function' && is(Map, value))
+    || (typeof Set === 'function' && is(Set, value))
   ) {
     return new value.constructor();
   }

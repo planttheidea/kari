@@ -32,7 +32,7 @@ function mergeArrays(array1, array2) {
 function mergeObjects(object1, object2) {
   return {
     ...object1,
-    ...object2
+    ...object2,
   };
 }
 

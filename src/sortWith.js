@@ -12,7 +12,7 @@ import coalesceToArray from './_utils/coalesceToArray';
  * @returns {Array<*>} the sorted array
  */
 export default curry(function sortBy(fns, array) {
-  return [...coalesceToArray(array)].sort(function(first, second) {
+  return [...coalesceToArray(array)].sort((first, second) => {
     let result = 0,
         index = -1;
 

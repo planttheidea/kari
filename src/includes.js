@@ -18,7 +18,5 @@ import isFunction from './_utils/isFunction';
 export default curry(function includes(value, collection) {
   return isFunction(collection.indexOf)
     ? !!~collection.indexOf(value)
-    : some(function(valueToCompare) {
-      return valueToCompare === value;
-    }, collection);
+    : some((valueToCompare) => valueToCompare === value, collection);
 });

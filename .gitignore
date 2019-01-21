@@ -3,4 +3,6 @@
 coverage
 lib
 dist
+es
 node_modules
+*.log

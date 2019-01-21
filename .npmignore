@@ -1,6 +1,7 @@
 .git
 .idea
 .nyc_output
+coverage
 DEV_ONLY
 node_modules
 src
@@ -10,7 +11,5 @@ webpack
 .eslintrc
 .gitignore
 .npmignore
-webpack.config.js
-webpack.config.minified.js
-webpack.config.dev.js
+*.log
 yarn.lock

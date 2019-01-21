@@ -43,11 +43,5 @@ export default function entries(collection) {
 
   return isFunction(collection.entries)
     ? getEntriesFromIterable(collection)
-    : reduce(
-      (entries, value, key) => {
-        return [...entries, [key, value]];
-      },
-      [],
-      collection
-    );
+    : reduce((entries, value, key) => [...entries, [key, value]], [], collection);
 }

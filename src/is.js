@@ -23,9 +23,9 @@ export default curry(function is(Constructor, value) {
   if (isFunction(Constructor)) {
     /* eslint-disable eqeqeq */
     return (
-      value != null &&
+      value != null
       /* eslint-enable */
-      (value === Constructor || value.constructor === Constructor)
+      && (value === Constructor || value.constructor === Constructor)
     );
   }
 

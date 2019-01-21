@@ -18,9 +18,7 @@ import isObject from './_utils/isObject';
  * @returns {Array<*>} the array with the picked values
  */
 function pickArray(indices, array) {
-  return filter(function(ignored, index) {
-    return ~indices.indexOf(index);
-  }, array);
+  return filter((ignored, index) => ~indices.indexOf(index), array);
 }
 
 /**
@@ -35,7 +33,7 @@ function pickArray(indices, array) {
  */
 function pickObject(keys, object) {
   return reduce(
-    function(newObject, key) {
+    (newObject, key) => {
       if (object.hasOwnProperty(key)) {
         newObject[key] = object[key];
       }

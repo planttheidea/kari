@@ -20,7 +20,7 @@ export default curry(function insert(key, newItems, collection) {
   if (isObject(collection)) {
     return {
       ...collection,
-      [key]: newItems
+      [key]: newItems,
     };
   }
 

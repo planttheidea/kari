@@ -22,9 +22,7 @@ import isObject from './_utils/isObject';
  * @returns {number} the index of the existing path
  */
 function getExistingPath(path, existingPaths) {
-  return findIndex((existingPath) => {
-    return equals(existingPath.slice(0, -1), path.slice(0, -1));
-  }, existingPaths);
+  return findIndex((existingPath) => equals(existingPath.slice(0, -1), path.slice(0, -1)), existingPaths);
 }
 
 /**
@@ -55,7 +53,7 @@ const getConsolidatedPaths = reduce((consolidatedPaths, key) => {
       return [
         ...consolidatedPaths.slice(0, matchingIndex),
         newLastPathItem,
-        ...consolidatedPaths.slice(matchingIndex + 1)
+        ...consolidatedPaths.slice(matchingIndex + 1),
       ];
     }
 
@@ -200,9 +198,7 @@ function omitFromArray(array, paths) {
  * @returns {Object} the omitted object
  */
 
-const omitFromObject = reduce((newCollection, path) => {
-  return omitNested(path, newCollection, true);
-});
+const omitFromObject = reduce((newCollection, path) => omitNested(path, newCollection, true));
 
 /**
  * @function omit
